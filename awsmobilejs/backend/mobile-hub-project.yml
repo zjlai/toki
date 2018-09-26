@@ -1,0 +1,62 @@
+--- !com.amazonaws.mobilehub.v0.Project 
+features:
+  cloudlogic: !com.amazonaws.mobilehub.v0.CloudLogic 
+    components:
+      sampleCloudApi: !com.amazonaws.mobilehub.v0.API 
+        attributes:
+          name: sampleCloudApi
+          requires-signin: false
+          sdk-generation-stage-name: Development
+        paths:
+          /items: !com.amazonaws.mobilehub.v0.Function 
+            codeFilename: uploads/sampleLambda-20180927015701.zip
+            description: 'Handler for calls to resource path : /items/{proxy+}'
+            enableCORS: true
+            environment: {}
+            handler: lambda.handler
+            hashcode: /KLzmWOOTPd/FNmBm50swZobBnC70hfa3QVROvHrYvs=
+            memorySize: '128'
+            modified: '2018-09-26T17:59:05.623+0000'
+            name: sampleLambda
+            runtime: nodejs6.10
+            timeout: '3'
+            version: iaq_zCjabqjd_3d1wg8_8mUzMldSyW90
+          '/items/{proxy+}': !com.amazonaws.mobilehub.v0.Function 
+            codeFilename: uploads/sampleLambda-20180927015701.zip
+            description: 'Handler for calls to resource path : /items/{proxy+}'
+            enableCORS: true
+            environment: {}
+            handler: lambda.handler
+            hashcode: /KLzmWOOTPd/FNmBm50swZobBnC70hfa3QVROvHrYvs=
+            memorySize: '128'
+            modified: '2018-09-26T17:59:05.623+0000'
+            name: sampleLambda
+            runtime: nodejs6.10
+            timeout: '3'
+            version: NM5QyY.Y0mAOG7FL6c0OdVJa5f0VSlQG
+  content-delivery: !com.amazonaws.mobilehub.v0.ContentDelivery 
+    attributes:
+      enabled: true
+      visibility: public-global
+    components:
+      release: !com.amazonaws.mobilehub.v0.Bucket {}
+  sign-in: !com.amazonaws.mobilehub.v0.SignIn 
+    attributes:
+      enabled: true
+      optional-sign-in: true
+    components:
+      sign-in-user-pools: !com.amazonaws.mobilehub.v0.UserPoolsIdentityProvider 
+        attributes:
+          alias-attributes:
+            - email
+            - phone_number
+          mfa-configuration: ON
+          name: userpool
+          password-policy: !com.amazonaws.mobilehub.ConvertibleMap 
+            min-length: '8'
+            require-lower-case: true
+            require-numbers: true
+            require-symbols: true
+            require-upper-case: true
+name: Tokido-V1
+region: ap-southeast-1

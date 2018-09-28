@@ -44,6 +44,7 @@ module.exports = function (ctx) {
       components: [
         'QLayout',
         'QLayoutHeader',
+        'QLayoutFooter',
         'QLayoutDrawer',
         'QPageContainer',
         'QPage',
@@ -55,7 +56,15 @@ module.exports = function (ctx) {
         'QListHeader',
         'QItem',
         'QItemMain',
-        'QItemSide'
+        'QItemSide',
+        'QCard',
+        'QCardMain',
+        'QCarousel',
+        'QCarouselSlide',
+        'QCarouselControl',
+        'QField',
+        'QInput',
+        'QCheckbox'
       ],
       directives: [
         'Ripple'

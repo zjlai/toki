@@ -1,10 +1,17 @@
 
 const routes = [
   {
-    path: '/',
+    path: '/user',
     component: () => import('layouts/AuthBase.vue'),
     children: [
-      { path: '', component: () => import('pages/signin.vue') }
+      {
+        name: 'auth',
+        path: '',
+        component: () => import('pages/user.vue'),
+        children: [
+          { name: 'signin', path: 'signin', component: () => import('components/user/signin.vue') }
+        ]
+      }
     ]
   }
 ]

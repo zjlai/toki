@@ -1,6 +1,7 @@
 <template>
   <q-carousel
     no-swipe
+    quick-nav
     v-model="section"
     height="100%">
     <q-carousel-slide>
@@ -8,11 +9,12 @@
         <div class="col-2"></div>
         <div class="col-8">
           <div class="text-secondary q-headline text-bold q-my-lg">
-            SIGN IN
+            SIGN UP
           </div>
           <div class="q-my-sm">
             <div class="text-black q-subheading text-bold">
               EMAIL
+              <i class="material-icons req-icon text-primary">lens</i>
             </div>
             <q-field
               :error="emailError"
@@ -23,25 +25,25 @@
           <div class="q-my-md">
             <div class="text-black q-subheading text-bold">
               PASSWORD
+              <i class="material-icons req-icon text-primary">lens</i>
             </div>
             <q-field>
               <q-input v-model="password" placeholder="********" class="font-secondary" />
             </q-field>
           </div>
           <div class="q-my-lg">
-            <q-checkbox v-model="rememberme" label="Remember Me" class="font-secondary q-caption" />
+            <q-checkbox v-model="agreetc"  class="font-secondary q-caption" />
+            <span class="font-secondary q-caption">
+              I Agree with the <span class="text-bold">Terms & Conditions</span>
+            </span>
           </div>
           <div class="row q-my-lg">
             <div class="col">
-              <q-btn rounded label="Sign In" color="primary" class="full-width" @click="section = 1" />
+              <q-btn rounded label="Sign Up" color="primary" class="full-width" @click="section = 1"/>
             </div>
             <div class="col justify-center font-secondary">
-              <q-btn flat rounded no-caps label="New around here?" size="12px" class="full-width font-secondary" />
+              <q-btn flat rounded no-caps label="Already Signed Up?" size="11px" class="full-width font-secondary" />
             </div>
-          </div>
-          <div class="flex q-my-lg"></div>
-          <div class="col text-center items-end content-end justify-end q-my-lg">
-            Forgot your password?
           </div>
         </div>
       </div>
@@ -82,28 +84,52 @@
         </div>
       </div>
     </q-carousel-slide>
+    <q-btn
+      slot="quick-nav"
+      slot-scope="props"
+      color="secondary"
+      flat
+      dense
+      :class="{inactive: !props.current}"
+    >
+      <i class="material-icons nav-icon text-secondary">lens</i>
+    </q-btn>
   </q-carousel>
 </template>
 
 <script>
 export default {
-  name: 'SignIn',
+  name: 'SignUp',
   data () {
     return {
       email: '',
       password: '',
-      rememberme: false,
-      section: 1
+      agreetc: true,
+      verification_code: '',
+      section: 0
     }
   }
 }
 </script>
 
 <style>
-i.req-icons {
-  font-size: 8px;
+i.req-icon {
+  font-size: 6px;
   top: 2px;
   vertical-align: top;
+}
+
+.q-carousel-quick-nav {
+  background: transparent;
+}
+
+button i.nav-icon {
+  font-size: 14px;
+}
+
+button.inactive i.nav-icon {
+  font-size: 12px;
+  color: grey !important;
 }
 .signin-btn {
   width: 100%;

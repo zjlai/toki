@@ -48,8 +48,10 @@ module.exports = function (ctx) {
         'QLayoutDrawer',
         'QPageContainer',
         'QPage',
+        'QPageSticky',
         'QToolbar',
         'QToolbarTitle',
+        'QScrollArea',
         'QBtn',
         'QIcon',
         'QList',
@@ -58,13 +60,19 @@ module.exports = function (ctx) {
         'QItemMain',
         'QItemSide',
         'QCard',
+        'QCardTitle',
         'QCardMain',
+        'QCardActions',
         'QCarousel',
         'QCarouselSlide',
         'QCarouselControl',
         'QField',
         'QInput',
-        'QCheckbox'
+        'QCheckbox',
+        'QOptionGroup',
+        'QKnob',
+        'QAutocomplete',
+        'QSearch'
       ],
       directives: [
         'Ripple'

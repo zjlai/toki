@@ -15,6 +15,17 @@ const routes = [
         ]
       }
     ]
+  },
+  {
+    path: '/courses',
+    component: () => import('layouts/StudentBase.vue'),
+    children: [
+      {
+        name: 'courses',
+        path: '',
+        component: () => import('pages/courses.vue')
+      }
+    ]
   }
 ]
 

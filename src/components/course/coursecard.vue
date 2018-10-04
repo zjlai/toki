@@ -33,7 +33,7 @@
         </div>
       </div>
     </q-card-main>
-    <q-card-actions align="center">
+    <q-card-actions align="center" v-if="details === 'true'">
       <q-btn flat no-caps icon-right="arrow_forward" class="font-secondary q-caption" :class="underlineColor">
         More Details
       </q-btn>
@@ -44,7 +44,7 @@
 <script>
 export default {
   name: 'CourseCard',
-  props: ['course', 'color'],
+  props: ['course', 'color', 'details'],
   data () {
     return {}
   },
@@ -72,12 +72,6 @@ export default {
   border-radius: 10px;
   margin-right: 24px;
   margin-bottom: 24px;
-}
-.border-left {
-  border-left: 1px solid grey;
-}
-.border-top {
-  border-top: 1px solid grey;
 }
 .underline-primary {
   border-bottom: 1px solid #2F66E9;

@@ -1,5 +1,5 @@
 <template>
-  <q-card class="bg-white container tmain shadow-8">
+  <q-card class="bg-white container rounded shadow-8">
     <q-card-main class="col q-pt-none">
       <q-toolbar color="white">
         <q-toolbar-title class="text-primary text-bold">
@@ -40,7 +40,8 @@
           v-for="(course, index) in courses"
           :key="course.code"
           :course="course"
-          :color="index % 2 === 0 ? 'primary': 'secondary'" />
+          :color="index % 2 === 0 ? 'primary': 'secondary'"
+          details="true" />
       </div>
     </q-card-main>
   </q-card>
@@ -104,14 +105,6 @@ export default {
 </script>
 
 <style>
-.container {
-  min-height: calc(100vh - 150px);
-  height: 100%;
-  width: 100%;
-}
-.tmain {
-  border-radius: 20px;
-}
 .round-search {
   border-radius: 19px;
   padding-left: 19px;

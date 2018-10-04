@@ -1,123 +1,20 @@
 <template>
   <q-page class="q-pr-xl q-py-xl">
     <div class="col full-height">
-      <q-card class="bg-white container tmain shadow-8">
-        <q-card-main class="col q-pt-none">
-          <q-toolbar color="white">
-            <q-toolbar-title class="text-primary text-bold">
-              COURSE SIGN UP
-            </q-toolbar-title>
-          </q-toolbar>
-          <div id="search-filter" class="q-px-lg">
-            <q-search v-model="terms" hide-underline class="round-search inset-shadow q-py-md">
-              <q-autocomplete
-                separator
-                @search="search"
-                @selected="selected"
-              />
-            </q-search>
-            <div class="font-secondary row">
-              <q-field
-                label="Filter:"
-                label-width="1"
-                class="full-width text-bold"
-              >
-                <q-option-group
-                  inline
-                  type="radio"
-                  v-model="category"
-                  :options="[
-                    { label: 'Course Code', value: 'code' },
-                    { label: 'Course Title', value: 'title' },
-                    { label: 'Course Teacher', value: 'teacher'}
-                  ]"
-                  class="text-weight-regular"
-                />
-              </q-field>
-            </div>
-          </div>
-          <!-- List of courses -->
-          <div class="q-pa-lg">
-            <course-card
-              v-for="(course, index) in courses"
-              :key="course.code"
-              :course="course"
-              :color="index % 2 === 0 ? 'primary': 'secondary'" />
-          </div>
-        </q-card-main>
-      </q-card>
+      <router-view />
     </div>
   </q-page>
 </template>
 
 <script>
-import CourseCard from '../components/course/coursecard'
 export default {
-  name: 'CourseSignup',
-  components: {
-    CourseCard
-  },
+  name: 'CoursesBase',
   data () {
     return {
-      terms: '',
-      category: 'code',
-      courses: [
-        {
-          title: 'PBEP Level 1',
-          code: 'PBEP01-0818',
-          status: 'Enrolling',
-          description: 'Professional Business English Program Level 1'
-        },
-        {
-          title: 'PBEP Level 2',
-          code: 'PBEP02-0818',
-          status: 'Enrolling',
-          description: 'Professional Business English Program Level 2'
-        },
-        {
-          title: 'PBEP Level 3',
-          code: 'PBEP03-0818',
-          status: 'Enrolling',
-          description: 'Professional Business English Program Level 3'
-        },
-        {
-          title: 'PBEP Level 4',
-          code: 'PBEP04-0818',
-          status: 'Closed',
-          description: 'Professional Business English Program Level 4'
-        },
-        {
-          title: 'PBEP Level 5',
-          code: 'PBEP05-0818',
-          status: 'Closed',
-          description: 'Professional Business English Program Level 5'
-        }
-      ]
-    }
-  },
-  methods: {
-    search (terms, done) {
-      console.log(terms)
-      done([])
-    },
-    selected (select) {
-      console.log(select)
     }
   }
 }
 </script>
 
 <style>
-.container {
-  min-height: calc(100vh - 150px);
-  height: 100%;
-  width: 100%;
-}
-.tmain {
-  border-radius: 20px;
-}
-.round-search {
-  border-radius: 19px;
-  padding-left: 19px;
-}
 </style>

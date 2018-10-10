@@ -21,13 +21,23 @@ const routes = [
     component: () => import('layouts/StudentBase.vue'),
     children: [
       {
-        name: 'courses',
         path: '',
         component: () => import('pages/courses.vue'),
         children: [
           { name: 'courseselect', path: '', component: () => import('components/course/selectcourse.vue') },
-          { name: 'courseselect', path: 'signup', component: () => import('components/course/coursesignup.vue') }
+          { name: 'coursignup', path: 'signup', component: () => import('components/course/coursesignup.vue') }
         ]
+      }
+    ]
+  },
+  {
+    path: '/learn',
+    component: () => import('layouts/StudentBase.vue'),
+    children: [
+      {
+        name: 'learn',
+        path: '',
+        component: () => import('pages/learn.vue')
       }
     ]
   }

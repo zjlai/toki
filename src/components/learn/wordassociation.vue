@@ -22,7 +22,7 @@
             <timer
               :min="0"
               :max="180"
-              :duration="180"
+              :duration="160"
             />
           </q-card-main>
         </q-card>

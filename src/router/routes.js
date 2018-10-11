@@ -40,6 +40,18 @@ const routes = [
         component: () => import('pages/learn.vue')
       }
     ]
+  },
+  {
+    path: '/test',
+    component: () => import('layouts/StudentBase.vue'),
+    children: [
+      { path: '',
+        component: () => import('pages/test.vue'),
+        children: [
+          { name: 'instructions', path: '', component: () => import('components/test/instructions.vue') }
+        ]
+      }
+    ]
   }
 ]
 

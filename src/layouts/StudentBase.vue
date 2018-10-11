@@ -65,6 +65,9 @@
           <q-item-main label="LEARN" class="font-secondary q-caption text-center text-bold text-grey" />
         </q-item>
         <q-item>
+          <q-item-main label="TESTS" class="font-secondary q-caption text-center text-bold text-grey" />
+        </q-item>
+        <q-item>
           <q-item-main label="WORDBANK" class="font-secondary q-caption text-center text-bold text-grey" />
         </q-item>
         <q-item>

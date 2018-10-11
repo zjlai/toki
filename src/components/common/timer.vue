@@ -10,8 +10,13 @@
       line-width="6px"
       size="150px"
       class="countdown"
+      :disabled="disabled"
     >
-     <span class="text-black font-secondary">{{converttotime(duration)}}</span>
+      <span v-if="range==='mins'" class="text-black font-secondary">{{rangeMins(duration)}}</span>
+      <div v-else-if="range==='days'" class="text-black text-center font-secondary">
+        <div class="q-display-1 text-weight-bolder">{{rangeDays(duration)}}</div>
+        <div class="text-primary text-weight-medium q-subheading">{{units}}</div>
+      </div>
     </q-knob>
   </div>
 </template>
@@ -19,9 +24,24 @@
 <script>
 export default {
   name: 'CountdownTimer',
-  props: ['min', 'max', 'duration'],
+  props: {
+    min: Number,
+    max: Number,
+    duration: Number, // seconds
+    range: {
+      type: String,
+      default: 'mins'
+    },
+    disabled: Boolean
+  },
   data () {
     return {
+      units: ''
+    }
+  },
+  computed: {
+    timer () {
+      return this.max - this.duration
     }
   },
   methods: {
@@ -31,12 +51,34 @@ export default {
     },
     resetTimer () {
     },
-    converttotime (timer) {
-      let mins = Math.floor(timer / 60)
+    rangeMins (duration) {
+      let mins = Math.floor(duration / 60)
       let strmins = mins.toString().padStart(2, '0')
-      let secs = timer % 60
+      let secs = duration % 60
       let strsecs = secs.toString().padStart(2, '0')
       return `${strmins}:${strsecs}`
+    },
+    rangeDays (duration) {
+      let days = Math.floor(duration / 86400)
+      if (days) {
+        if (days === 1) this.units = 'Day'
+        else this.units = 'Days'
+        return days
+      }
+      let timeleft = new Date(null)
+      timeleft.setSeconds(duration)
+      let timestring = ''
+      if (duration <= 60) {
+        timestring = timeleft.toISOString().substr(14, 5)
+        this.units = 'SECS'
+      } else if (duration > 60 && duration < 3600) {
+        timestring = timeleft.toISOString().substr(14, 5)
+        this.units = 'MINS'
+      } else {
+        timestring = timeleft.toISOString().substr(11, 5)
+        this.units = 'HOURS'
+      }
+      return timestring
     }
   }
 }
@@ -46,5 +88,8 @@ export default {
 .countdown {
   font-size: 24px;
   font-weight: bold;
+}
+div.q-knob[disabled] path {
+  color: #BDBDBD !important;
 }
 </style>

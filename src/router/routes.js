@@ -48,7 +48,8 @@ const routes = [
       { path: '',
         component: () => import('pages/test.vue'),
         children: [
-          { name: 'instructions', path: '', component: () => import('components/test/instructions.vue') }
+          { name: 'instructions', path: '', component: () => import('components/test/instructions.vue') },
+          { name: 'instructions', path: 'testing', component: () => import('components/test/test.vue') }
         ]
       }
     ]

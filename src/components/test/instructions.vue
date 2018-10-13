@@ -109,6 +109,7 @@
           <q-btn
             color="primary"
             rounded
+            to="/test/testing"
           >
             <span class="q-px-lg q-py-sm q-title">
               BEGIN TEST

@@ -54,6 +54,16 @@ const routes = [
         ]
       }
     ]
+  },
+  {
+    path: '/wordbank',
+    component: () => import('layouts/StudentBase.vue'),
+    children: [
+      {
+        path: '',
+        component: () => import('pages/wordbank.vue')
+      }
+    ]
   }
 ]
 

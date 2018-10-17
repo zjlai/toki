@@ -24,7 +24,8 @@ const routes = [
         path: '',
         component: () => import('pages/courses.vue'),
         children: [
-          { name: 'courseselect', path: '', component: () => import('components/course/selectcourse.vue') },
+          { name: 'mycourses', path: '', component: () => import('components/course/mycourses.vue') },
+          { name: 'courseselect', path: 'selectcourse', component: () => import('components/course/selectcourse.vue') },
           { name: 'coursignup', path: 'signup', component: () => import('components/course/coursesignup.vue') }
         ]
       }

@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import routes from './routes'
+import routes, { AuthFilter } from './routes'
 
 Vue.use(VueRouter)
 
@@ -21,5 +21,6 @@ export default function (/* { store, ssrContext } */) {
     base: process.env.VUE_ROUTER_BASE
   })
 
+  Router.beforeEach(AuthFilter)
   return Router
 }

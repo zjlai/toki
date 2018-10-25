@@ -1,3 +1,30 @@
+import { Auth } from 'aws-amplify'
+
+const AuthFilter = (to, from, next) => {
+  console.log('before routing ', to, from)
+  // const store = Store
+  Auth.currentAuthenticatedUser()
+    .then(user => {
+      console.log('...has user', user)
+      // store.commit('UserStore/setUser', user)
+      Auth.currentCredentials()
+        .then(credentials => {
+          // store.commit('UserStore/setUserId', credentials.identityId)
+          console.log(credentials)
+        })
+        .catch(err => console.log('get current credentials err', err))
+      next()
+    })
+    .catch(err => {
+      console.log('...no user', err)
+      // store.commit('UserStore/setUser', null)
+      if (!to.name.startsWith('user')) {
+        next('/user/signin')
+      } else {
+        next()
+      }
+    })
+}
 
 const routes = [
   {
@@ -9,9 +36,9 @@ const routes = [
         path: '',
         component: () => import('pages/user.vue'),
         children: [
-          { name: 'signin', path: 'signin', component: () => import('components/user/signin.vue') },
-          { name: 'signup', path: 'signup', component: () => import('components/user/signup.vue') },
-          { name: 'forgotPassword', path: 'forgotpassword', component: () => import('components/user/forgotpassword.vue') }
+          { name: 'user.signin', path: 'signin', component: () => import('components/user/signin.vue') },
+          { name: 'user.signup', path: 'signup', component: () => import('components/user/signup.vue') },
+          { name: 'user.forgotPassword', path: 'forgotpassword', component: () => import('components/user/forgotpassword.vue') }
         ]
       }
     ]
@@ -61,8 +88,20 @@ const routes = [
     component: () => import('layouts/StudentBase.vue'),
     children: [
       {
+        name: 'wordbank',
         path: '',
         component: () => import('pages/wordbank.vue')
+      }
+    ]
+  },
+  {
+    path: '/dashboard',
+    component: () => import('layouts/StudentBase.vue'),
+    children: [
+      {
+        name: 'dashboard',
+        path: '',
+        component: () => import('pages/dashboard.vue')
       }
     ]
   }
@@ -77,3 +116,4 @@ if (process.env.MODE !== 'ssr') {
 }
 
 export default routes
+export { AuthFilter }

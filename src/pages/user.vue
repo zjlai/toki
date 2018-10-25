@@ -18,7 +18,14 @@
             </div>
           </div>
           <div class="col bg-white no-margin ">
-            <router-view />
+            <transition
+              appear
+              mode="out-in"
+              enter-active-class="animated fadeInLeft"
+              leave-active-class="animated fadeOutRight"
+            >
+              <router-view />
+            </transition>
           </div>
         </div>
       </q-card-main>

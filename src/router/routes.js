@@ -104,6 +104,14 @@ const routes = [
         component: () => import('pages/dashboard.vue')
       }
     ]
+  },
+  {
+    path: '/firsttimeuser',
+    component: () => import('layouts/blue.vue'),
+    children: [
+      { name: 'walkthrough', path: '', component: () => import('pages/walkthrough') }
+    ]
+
   }
 ]
 

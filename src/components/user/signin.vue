@@ -201,6 +201,13 @@ export default {
         .then(data => {
           if (data === 'SUCCESS') {
             this.section = 0
+            this.$q.notify({
+              message: `Email Verified. Please sign in again.`,
+              color: 'secondary',
+              textColor: 'black',
+              timeout: 5000,
+              position: 'top'
+            })
           }
         })
         .catch(err => {

@@ -2,7 +2,7 @@
   <q-layout view="hHh lpr fFf" class="bg-primary">
 
     <q-layout-header class="no-shadow auth-header">
-      <div class="flex text-weight-bold text-white items-end justify-center">
+      <div class="flex text-weight-bold text-secondary items-end justify-center">
         TOK<span class="font-secondary text-weight-medium">I</span>DO
       </div>
     </q-layout-header>

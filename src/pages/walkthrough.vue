@@ -120,12 +120,40 @@
                     </q-btn>
                   </div>
                 </div>
-                <div class="row items-center q-my-lg">
+                <div class="row items-center q-my-lg offsetbot">
                   <div class="col-3 q-mr-md">
                     <span class="text-weight-bold q-title">Date of Birth</span>
                   </div>
                   <div class="col-auto">
-                    <q-datetime-picker v-model="dob" type="date" format="DD-MM-YYYY" format-model="date" class="text-weight-bold"/>
+                    <q-field
+                      :error="$v.dob.$error"
+                      error-label="Required Field"
+                    >
+                      <q-datetime-picker
+                        v-model="dob"
+                        type="date" format="DD-MM-YYYY"
+                        format-model="string"
+                        class="text-weight-bold"
+                        @blur="$v.contact.$touch"
+                      />
+                    </q-field>
+                  </div>
+                </div>
+                <div class="row items-center q-mt-lg">
+                  <div class="col-3 q-mr-md">
+                    <span class="text-weight-bold q-title">Contact Number</span>
+                  </div>
+                  <div class="col-auto">
+                    <q-field
+                      :error="$v.contact.$error"
+                      error-label="Required Field"
+                    >
+                      <q-input
+                        v-model="contact"
+                        class="text-weight-bold q-title"
+                        @blur="$v.contact.$touch"
+                      />
+                    </q-field>
                   </div>
                 </div>
                 <div class="row items-center q-my-lg">
@@ -181,6 +209,19 @@
               We are almost done! Let's set up our languages and we are good to go :)
             </p>
             <div class="row justify-center q-mt-xl" v-if="languages.length > 0">
+              <div class="col">
+                <div class="row justify-start">
+                  <q-btn
+                    rounded
+                    color="secondary"
+                    class="text-weight-bold z-top"
+                    @click.native="page=2"
+                  >
+                    <i class="material-icons q-title text-black text-weight-bold">arrow_back</i>
+                    <span class="q-pl-sm q-pr-sm q-py-sm q-title text-black">Back</span>
+                  </q-btn>
+                </div>
+              </div>
               <q-btn
                 rounded
                 color="secondary"
@@ -217,7 +258,7 @@
                           Listening
                         </div>
                         <div class="col-auto">
-                          <q-input type="number" decimals="1" v-model="ieltsScore.listening" suffix="/ 9.0"  class="q-py-none" />
+                          <q-input type="number" :decimals="1" v-model="ieltsScore.listening" suffix="/ 9.0"  class="q-py-none" />
                         </div>
                       </div>
                       <div class="row items-center q-mb-sm">
@@ -225,7 +266,7 @@
                           Reading
                         </div>
                         <div class="col-auto">
-                          <q-input type="number" decimals="1" v-model="ieltsScore.reading" suffix="/ 9.0"  class="q-py-none" />
+                          <q-input type="number" :decimals="1" v-model="ieltsScore.reading" suffix="/ 9.0"  class="q-py-none" />
                         </div>
                       </div>
                       <div class="row items-center q-mb-sm">
@@ -233,7 +274,7 @@
                           Writing
                         </div>
                         <div class="col-auto">
-                          <q-input type="number" decimals="1" v-model="ieltsScore.writing" suffix="/ 9.0"  class="q-py-none" />
+                          <q-input type="number" :decimals="1" v-model="ieltsScore.writing" suffix="/ 9.0"  class="q-py-none" />
                         </div>
                       </div>
                       <div class="row items-center q-mb-sm">
@@ -241,7 +282,7 @@
                           Speaking
                         </div>
                         <div class="col-auto">
-                          <q-input type="number" decimals="1" v-model="ieltsScore.speaking" suffix="/ 9.0"  class="q-py-none" />
+                          <q-input type="number" :decimals="1" v-model="ieltsScore.speaking" suffix="/ 9.0"  class="q-py-none" />
                         </div>
                       </div>
                       <div class="row items-center q-mb-sm">
@@ -249,7 +290,7 @@
                           Average
                         </div>
                         <div class="col-auto">
-                          <q-input type="number" decimals="1" v-model="ieltsScore.average" suffix="/ 9.0"  class="q-py-none" />
+                          <q-input type="number" :decimals="1" v-model="ieltsScore.average" suffix="/ 9.0"  class="q-py-none" />
                         </div>
                       </div>
                     </div>
@@ -264,7 +305,7 @@
                           Listening
                         </div>
                         <div class="col-auto">
-                          <q-input type="number" decimals="0" v-model="toeflScore.listening" suffix="/ 30"  class="q-py-none" />
+                          <q-input type="number" :decimals="0" v-model="toeflScore.listening" suffix="/ 30"  class="q-py-none" />
                         </div>
                       </div>
                       <div class="row items-center q-mb-sm">
@@ -272,7 +313,7 @@
                           Reading
                         </div>
                         <div class="col-auto">
-                          <q-input type="number" decimals="0" v-model="toeflScore.reading" suffix="/ 30"  class="q-py-none" />
+                          <q-input type="number" :decimals="0" v-model="toeflScore.reading" suffix="/ 30"  class="q-py-none" />
                         </div>
                       </div>
                       <div class="row items-center q-mb-sm">
@@ -280,7 +321,7 @@
                           Writing
                         </div>
                         <div class="col-auto">
-                          <q-input type="number" decimals="0" v-model="toeflScore.writing" suffix="/ 30"  class="q-py-none" />
+                          <q-input type="number" :decimals="0" v-model="toeflScore.writing" suffix="/ 30"  class="q-py-none" />
                         </div>
                       </div>
                       <div class="row items-center q-mb-sm">
@@ -288,7 +329,7 @@
                           Speaking
                         </div>
                         <div class="col-auto">
-                          <q-input type="number" decimals="0" v-model="toeflScore.speaking" suffix="/ 30"  class="q-py-none" />
+                          <q-input type="number" :decimals="0" v-model="toeflScore.speaking" suffix="/ 30"  class="q-py-none" />
                         </div>
                       </div>
                       <div class="row items-center q-mb-sm">
@@ -296,7 +337,7 @@
                           Average
                         </div>
                         <div class="col-auto">
-                          <q-input type="number" decimals="0" v-model="toeflScore.total" suffix="/ 120"  class="q-py-none" />
+                          <q-input type="number" :decimals="0" v-model="toeflScore.total" suffix="/ 120"  class="q-py-none" />
                         </div>
                       </div>
                     </div>
@@ -316,6 +357,10 @@ import countries from '../assets/countries.json'
 import languages from '../assets/languages.json'
 import { required } from 'vuelidate/lib/validators'
 import { QSpinnerFacebook } from 'quasar'
+import { API } from 'aws-amplify'
+
+const API_PATH = '/students'
+const API_NAME = 'students'
 
 function parseCountries () {
   return countries.map(country => {
@@ -339,7 +384,7 @@ export default {
   data () {
     return {
       name: '',
-      email: 'test@gmail.com',
+      email: '',
       page: 1,
       gender: 'male',
       genderoptions: [
@@ -348,8 +393,8 @@ export default {
       ],
       dob: '',
       race: '',
-      nationality: '',
       country: '',
+      contact: '',
       countries: parseCountries(),
       languagesList: parseLanguages(),
       languages: [],
@@ -360,8 +405,19 @@ export default {
     }
   },
   validations: {
+    dob: { required },
+    contact: { required },
     race: { required },
     country: { required }
+  },
+  mounted () {
+    this.$auth.currentAuthenticatedUser()
+      .then(user => {
+        console.log(user)
+        this.user = user
+        this.email = user.attributes.email
+      })
+      .catch(err => console.log(err))
   },
   methods: {
     search (terms, done) {
@@ -371,17 +427,30 @@ export default {
     selected (item) {
       console.log(item)
     },
-    createProfile () {
-      console.log('creating')
+    async createProfile () {
+      const profile = {
+        body: {
+          email: this.email,
+          ethnicity: this.race.toLowerCase(),
+          nationality: this.country,
+          gender: this.gender,
+          dob: this.dob,
+          contact_num: this.contact,
+          ielts: JSON.stringify(this.ieltsScore),
+          toefl: JSON.stringify(this.toeflScore),
+          languages: JSON.stringify(this.languages)
+        }
+      }
+      console.log(profile)
       this.$q.loading.show({
         spinner: QSpinnerFacebook,
         spinnerColor: 'secondary',
         message: 'Creating Profile...',
         messageColor: 'secondary'
       })
-      setTimeout(() => {
-        this.$q.loading.hide()
-      }, 3000)
+      let res = await API.post(API_NAME, API_PATH, profile)
+      console.log(res)
+      this.$q.loading.hide()
     }
   }
 }
@@ -421,4 +490,6 @@ export default {
 .pushed
   background $secondary
   color $primary !important
+.offsetbot
+  margin-bottom -20px
 </style>

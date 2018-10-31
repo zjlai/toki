@@ -2,38 +2,54 @@
 features:
   cloudlogic: !com.amazonaws.mobilehub.v0.CloudLogic 
     components:
-      sampleCloudApi: !com.amazonaws.mobilehub.v0.API 
+      students: !com.amazonaws.mobilehub.v0.API 
         attributes:
-          name: sampleCloudApi
-          requires-signin: false
+          name: students
+          requires-signin: true
           sdk-generation-stage-name: Development
         paths:
-          /items: !com.amazonaws.mobilehub.v0.Function 
-            codeFilename: uploads/sampleLambda-20180927015701.zip
-            description: 'Handler for calls to resource path : /items/{proxy+}'
+          /students: !com.amazonaws.mobilehub.v0.Function 
+            codeFilename: uploads/students-20181031185346.zip
+            description: 'Handler for calls to resource path : /students/{proxy+}'
             enableCORS: true
-            environment: {}
+            environment:
+              RDS_DB_NAME: kaplan
+              RDS_HOST: rdsopen.ccoav2iagdoo.ap-southeast-1.rds.amazonaws.com
+              RDS_PASSWORD: tsctsc12
+              RDS_PORT: '5432'
+              RDS_USERNAME: traqxion
             handler: lambda.handler
-            hashcode: /KLzmWOOTPd/FNmBm50swZobBnC70hfa3QVROvHrYvs=
+            hashcode: tCfoPKuhNUo05SJe+9H6413DJLRqum1DzjS78h8wW/E=
             memorySize: '128'
-            modified: '2018-09-26T17:59:05.623+0000'
-            name: sampleLambda
-            runtime: nodejs6.10
+            modified: '2018-10-31T10:54:50.978+0000'
+            name: students
+            runtime: nodejs8.10
+            securityGroups: sg-36748d4f
+            subnetIds: 'subnet-a1a2c3e8,subnet-77595f31,subnet-dc83f2bb'
             timeout: '3'
-            version: iaq_zCjabqjd_3d1wg8_8mUzMldSyW90
-          '/items/{proxy+}': !com.amazonaws.mobilehub.v0.Function 
-            codeFilename: uploads/sampleLambda-20180927015701.zip
-            description: 'Handler for calls to resource path : /items/{proxy+}'
+            version: NAQI.Eq5pPl857Ibw2AqhXN7UdszKxFg
+            vpcId: vpc-a69439c1
+          '/students/{proxy+}': !com.amazonaws.mobilehub.v0.Function 
+            codeFilename: uploads/students-20181031185346.zip
+            description: 'Handler for calls to resource path : /students/{proxy+}'
             enableCORS: true
-            environment: {}
+            environment:
+              RDS_DB_NAME: kaplan
+              RDS_HOST: rdsopen.ccoav2iagdoo.ap-southeast-1.rds.amazonaws.com
+              RDS_PASSWORD: tsctsc12
+              RDS_PORT: '5432'
+              RDS_USERNAME: traqxion
             handler: lambda.handler
-            hashcode: /KLzmWOOTPd/FNmBm50swZobBnC70hfa3QVROvHrYvs=
+            hashcode: tCfoPKuhNUo05SJe+9H6413DJLRqum1DzjS78h8wW/E=
             memorySize: '128'
-            modified: '2018-09-26T17:59:05.623+0000'
-            name: sampleLambda
-            runtime: nodejs6.10
+            modified: '2018-10-31T10:54:50.978+0000'
+            name: students
+            runtime: nodejs8.10
+            securityGroups: sg-36748d4f
+            subnetIds: 'subnet-a1a2c3e8,subnet-77595f31,subnet-dc83f2bb'
             timeout: '3'
-            version: NM5QyY.Y0mAOG7FL6c0OdVJa5f0VSlQG
+            version: 7OOpTqeDLJjz66wlziNEKOEdQ3n96o0t
+            vpcId: vpc-a69439c1
   content-delivery: !com.amazonaws.mobilehub.v0.ContentDelivery 
     attributes:
       enabled: true

@@ -12,8 +12,8 @@
       class="countdown"
       :disabled="disabled"
     >
-      <span v-if="range==='mins'" class="text-black font-secondary">{{rangeMins(duration)}}</span>
-      <div v-else-if="range==='days'" class="text-black text-center font-secondary">
+      <span v-if="range==='mins'" class="text-black">{{rangeMins(duration)}}</span>
+      <div v-else-if="range==='days'" class="text-black text-center">
         <div class="q-display-1 text-weight-bolder">{{rangeDays(duration)}}</div>
         <div class="text-primary text-weight-medium q-subheading">{{units}}</div>
       </div>

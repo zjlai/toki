@@ -1,26 +1,18 @@
 <template>
   <div class="col">
-    <q-card>
-      <q-card-title class="bg-grey-4 text-grey-9 text-center">
-        <span class="text-weight-bold q-caption">
-          WORD PROFILE
-        </span>
+    <q-card class="tk-container-sub collapse">
+      <q-card-title class="title-bar-grey text-center">
+        <h4>WORD PROFILE</h4>
       </q-card-title>
-      <q-card-main>
-        <div class="col q-pa-md">
-          <div class="col q-py-sm">
-            <div class="text-primary q-caption text-weight-bold q-pb-sm">
-              WORD
-            </div>
-            <div class="text-black font-secondary q-title text-weight-bold">
-              Deteriorate
-            </div>
+      <q-card-main class="col tk-container-sub-inner">
+        <div class="col">
+          <div class="col">
+            <h6 class="sub-title-blue q-pb-sm">WORD</h6>
+            <p class="primary-font text-bold q-display-1 text-black">Deteriorate</p>
           </div>
-          <div class="col q-py-sm">
-            <div class="text-primary q-caption text-weight-bold q-pb-sm">
-              MEANING
-            </div>
-            <div class="text-black font-secondary q-subheading text-weight-bold">
+          <div class="col">
+            <h6 class="sub-title-blue q-pb-sm">MEANING</h6>
+            <div class="primary-font text-bold text-black">
               <p>
                 1. to make or become worse or inferior in character, quality, value, etc.
               </p>
@@ -29,12 +21,10 @@
               </p>
             </div>
           </div>
-          <div class="row q-py-sm">
+          <div class="row">
             <div class="col">
-              <div class="text-primary q-caption text-weight-bold q-pb-sm">
-                SYNONYMS
-              </div>
-              <div class="text-black font-secondary q-subheading text-weight-bold">
+              <h6 class="sub-title-blue q-pb-sm">SYNONYMS</h6>
+              <div class="primary-font text-bold text-black">
                 <p>
                   abase, cheapen, corrupt, debase,debauch, degrade, demean, demoralize, deprave,
                   lessen, pervet, poision, profane, prostitute, subvert, vitiate, warp
@@ -42,10 +32,8 @@
               </div>
             </div>
             <div class="col">
-              <div class="text-primary q-caption text-weight-bold q-pb-sm">
-                ANTONYMS
-              </div>
-              <div class="text-black font-secondary q-subheading text-weight-bold">
+              <h6 class="sub-title-blue q-pb-sm">ANTONYMS</h6>
+              <div class="primary-font text-bold text-black">
                 <p>
                   elevate, ennoble, uplift
                 </p>
@@ -55,14 +43,12 @@
         </div>
       </q-card-main>
     </q-card>
-    <q-card>
-      <q-card-title class="bg-grey-4 text-grey-9 text-center">
-        <span class="text-weight-bold q-caption">
-          WORD ASSOCIATION MAP
-        </span>
+    <q-card class="tk-container-sub collapse">
+      <q-card-title class="title-bar-grey text-center">
+        <h4>WORD MAP</h4>
       </q-card-title>
-      <q-card-main>
-        <div class="col q-pa-md">
+      <q-card-main class="col tk-container-sub-inner">
+        <div class="col">
           WORD MAP
         </div>
       </q-card-main>

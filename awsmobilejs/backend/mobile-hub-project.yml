@@ -8,8 +8,8 @@ features:
           requires-signin: true
           sdk-generation-stage-name: Development
         paths:
-          /students: !com.amazonaws.mobilehub.v0.Function 
-            codeFilename: uploads/students-20181031185346.zip
+          /courses: !com.amazonaws.mobilehub.v0.Function 
+            codeFilename: uploads/students-20181121102611.zip
             description: 'Handler for calls to resource path : /students/{proxy+}'
             enableCORS: true
             environment:
@@ -19,18 +19,60 @@ features:
               RDS_PORT: '5432'
               RDS_USERNAME: traqxion
             handler: lambda.handler
-            hashcode: tCfoPKuhNUo05SJe+9H6413DJLRqum1DzjS78h8wW/E=
+            hashcode: mJNvSChU+Lt9xAm1rj2QziZnvHINm/jc2MTh3wY9PU4=
             memorySize: '128'
-            modified: '2018-10-31T10:54:50.978+0000'
+            modified: '2018-11-21T02:27:24.771+0000'
             name: students
             runtime: nodejs8.10
             securityGroups: sg-36748d4f
             subnetIds: 'subnet-a1a2c3e8,subnet-77595f31,subnet-dc83f2bb'
-            timeout: '3'
-            version: NAQI.Eq5pPl857Ibw2AqhXN7UdszKxFg
+            timeout: '10'
+            version: gKYGdtdDkDqxpXFJKVm3uKN9vgS0U3T4
+            vpcId: vpc-a69439c1
+          '/courses/{proxy+}': !com.amazonaws.mobilehub.v0.Function 
+            codeFilename: uploads/students-20181121102611.zip
+            description: 'Handler for calls to resource path : /students/{proxy+}'
+            enableCORS: true
+            environment:
+              RDS_DB_NAME: kaplan
+              RDS_HOST: rdsopen.ccoav2iagdoo.ap-southeast-1.rds.amazonaws.com
+              RDS_PASSWORD: tsctsc12
+              RDS_PORT: '5432'
+              RDS_USERNAME: traqxion
+            handler: lambda.handler
+            hashcode: mJNvSChU+Lt9xAm1rj2QziZnvHINm/jc2MTh3wY9PU4=
+            memorySize: '128'
+            modified: '2018-11-21T02:27:24.771+0000'
+            name: students
+            runtime: nodejs8.10
+            securityGroups: sg-36748d4f
+            subnetIds: 'subnet-a1a2c3e8,subnet-77595f31,subnet-dc83f2bb'
+            timeout: '10'
+            version: PGaJSf7m1wqvRg3lDEgtX4lPHK3MPViR
+            vpcId: vpc-a69439c1
+          /students: !com.amazonaws.mobilehub.v0.Function 
+            codeFilename: uploads/students-20181121102611.zip
+            description: 'Handler for calls to resource path : /students/{proxy+}'
+            enableCORS: true
+            environment:
+              RDS_DB_NAME: kaplan
+              RDS_HOST: rdsopen.ccoav2iagdoo.ap-southeast-1.rds.amazonaws.com
+              RDS_PASSWORD: tsctsc12
+              RDS_PORT: '5432'
+              RDS_USERNAME: traqxion
+            handler: lambda.handler
+            hashcode: mJNvSChU+Lt9xAm1rj2QziZnvHINm/jc2MTh3wY9PU4=
+            memorySize: '128'
+            modified: '2018-11-21T02:27:24.771+0000'
+            name: students
+            runtime: nodejs8.10
+            securityGroups: sg-36748d4f
+            subnetIds: 'subnet-a1a2c3e8,subnet-77595f31,subnet-dc83f2bb'
+            timeout: '10'
+            version: Tb2rzdep.9t15vIGHFfCwH0E.wdRk23q
             vpcId: vpc-a69439c1
           '/students/{proxy+}': !com.amazonaws.mobilehub.v0.Function 
-            codeFilename: uploads/students-20181031185346.zip
+            codeFilename: uploads/students-20181121102611.zip
             description: 'Handler for calls to resource path : /students/{proxy+}'
             enableCORS: true
             environment:
@@ -40,15 +82,15 @@ features:
               RDS_PORT: '5432'
               RDS_USERNAME: traqxion
             handler: lambda.handler
-            hashcode: tCfoPKuhNUo05SJe+9H6413DJLRqum1DzjS78h8wW/E=
+            hashcode: mJNvSChU+Lt9xAm1rj2QziZnvHINm/jc2MTh3wY9PU4=
             memorySize: '128'
-            modified: '2018-10-31T10:54:50.978+0000'
+            modified: '2018-11-21T02:27:24.771+0000'
             name: students
             runtime: nodejs8.10
             securityGroups: sg-36748d4f
             subnetIds: 'subnet-a1a2c3e8,subnet-77595f31,subnet-dc83f2bb'
-            timeout: '3'
-            version: 7OOpTqeDLJjz66wlziNEKOEdQ3n96o0t
+            timeout: '10'
+            version: PoncCsn5XmHeXb06fvPvEpreGR8s100f
             vpcId: vpc-a69439c1
   content-delivery: !com.amazonaws.mobilehub.v0.ContentDelivery 
     attributes:

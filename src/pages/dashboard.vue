@@ -1,24 +1,51 @@
 <template>
-  <q-page class="q-pr-xl q-py-xl">
-    <div class="col full-height">
-      <q-card class="bg-white container rounded shadow-8">
-        <q-card-main class="col q-pt-none">
-          <q-toolbar color="white">
-            <q-toolbar-title class="text-primary text-bold">
-              COURSE DASHBOARD
-            </q-toolbar-title>
-          </q-toolbar>
-          <div class="col bg-secondary rounded-sm">
-            <div class="row">
-              <div class="col-10 q-pa-lg">
+  <q-page class="container">
+    <div class="full-height">
+      <q-card class="tk-container-sub collapse full-height">
+        <q-card-title class="title-bar">
+          <h1>COURSE DASHBOARD</h1>
+        </q-card-title>
+        <q-card-main class="col tk-container-sub-inner bg-yellow">
+          <div class="col">
+            <div class="row items-start">
+              <div class="col-10">
                 <toki-message />
               </div>
-              <div class="col-2 q-pa-lg">
-                <course-overview-small />
+              <div class="col-2">
+                <q-card class="tk-container-sub collapse" style="margin-top:0;">
+                  <q-card-title class="title-bar-blue">
+                    <h4>
+                      COURSE OVERVIEW
+                    </h4>
+                  </q-card-title>
+                  <q-card-main class="tk-container-sub-inner">
+                    <div class="col">
+                      <h6 class="sub-title-blue">TITLE</h6>
+                      <h5 class="font-primary">College Vocab</h5>
+                    </div>
+                    <hr>
+                    <div class="col">
+                      <h6 class="sub-title-blue">COURSE CODE</h6>
+                      <h5 class="font-primary">TKDEMO1235</h5>
+                    </div>
+                    <hr>
+                    <div class="col">
+                      <h6 class="sub-title-blue">TEACHER IN CHARGE</h6>
+                      <h5 class="font-primary">MS ASHLEY LEE</h5>
+                    </div>
+                  </q-card-main>
+                </q-card>
               </div>
             </div>
           </div>
-          <div class="col q-mt-lg">
+        </q-card-main>
+      </q-card>
+      <q-card class="tk-container-sub collapse full-height">
+        <q-card-title class="title-bar-blue">
+          <h1>COURSE DETAILS</h1>
+        </q-card-title>
+        <q-card-main class="col tk-container-sub-inner">
+          <div class="col">
             <course-details />
           </div>
         </q-card-main>
@@ -41,20 +68,17 @@ export default {
   },
   data () {
     return {}
+  },
+  mounted () {
+    console.log(this.$route)
   }
 }
 </script>
 
 <style>
 .container {
-  min-height: calc(100vh - 150px);
-  // height: 100%;
+  min-height: calc(100vh - 95px) !important;
+  height: 100%;
   width: 100%;
-}
-.rounded {
-  border-radius: 20px;
-}
-.rounded-sm {
-  border-radius: 10px;
 }
 </style>

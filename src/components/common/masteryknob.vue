@@ -12,7 +12,7 @@
       class="mastery-knob"
       :disabled="disabled"
     >
-      <div class="text-black text-center font-secondary">
+      <div class="text-black text-center">
         <div class="q-display-1 text-weight-bolder">{{mastery}}</div>
         <div class="text-primary text-weight-medium q-subheading">ACHIEVED</div>
       </div>

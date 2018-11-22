@@ -1,38 +1,34 @@
 <template>
   <q-carousel
     no-swipe
-    quick-nav
     v-model="section"
     height="100%">
     <q-carousel-slide>
-      <div class="row full-height">
-        <div class="col-2"></div>
-        <div class="col-8">
-          <div class="text-secondary q-headline text-bold q-my-lg">
+      <div class="row full-height q-pa-lg">
+        <div class="col full-height q-pa-lg">
+          <h1 class="text-secondary q-pb-lg">
             SIGN UP
-          </div>
-          <div class="q-my-sm">
-            <div class="text-black q-subheading text-bold">
+          </h1>
+          <div>
+            <h4 class="text-black label" required>
               EMAIL
-              <i class="material-icons req-icon text-primary">lens</i>
-            </div>
+            </h4>
             <q-field
               :error="$v.email.$error"
               error-label="Enter a valid email">
               <q-input
                 v-model.trim="email"
                 placeholder="Enter your Email"
-                class="font-secondary"
+                class="text-bold"
                 type="email"
                 @blur="$v.email.$touch"
               />
             </q-field>
           </div>
           <div class="q-my-md">
-            <div class="text-black q-subheading text-bold">
+            <h4 class="text-black label" required>
               PASSWORD
-              <i class="material-icons req-icon text-primary">lens</i>
-            </div>
+            </h4>
             <q-field
               :error="$v.password.$error"
               error-label="Enter a password of min 8 characters"
@@ -40,13 +36,16 @@
               <q-input
                 v-model.trim="password"
                 placeholder="********"
-                class="font-secondary"
+                class="text-bold"
                 type="password"
                 @blur="$v.password.$touch"/>
             </q-field>
           </div>
-          <div class="q-my-lg">
-            <q-checkbox v-model="agreetc"  class="font-secondary q-caption" />
+          <div>
+            <q-checkbox
+              v-model="agreetc"
+              class="q-caption"
+            />
             <span class="font-secondary q-caption">
               I Agree with the <span class="text-bold">Terms & Conditions</span>
             </span>
@@ -57,7 +56,7 @@
                 rounded
                 label="Sign Up"
                 color="primary"
-                class="full-width"
+                class="full-width font-secondary text-bold"
                 @click.native="signUp()"
                 :disabled="!agreetc || $v.$anyError"
               />
@@ -68,7 +67,7 @@
                 no-caps
                 label="Already Signed Up?"
                 size="11px"
-                class="full-width font-secondary"
+                class="full-width text-bold"
                 to="/user/signin" />
             </div>
           </div>
@@ -76,30 +75,33 @@
       </div>
     </q-carousel-slide>
     <q-carousel-slide>
-      <div class="row full-height">
-        <div class="col-2"></div>
-        <div class="col-8">
-          <div class="text-secondary q-headline text-bold q-my-lg">
+      <div class="row full-height q-pa-lg">
+        <div class="col full-height q-pa-lg">
+          <h1 class="text-secondary q-pb-lg">
             VERIFY
-          </div>
-          <p class="info-text">
+          </h1>
+          <p class="info-text text-bold">
             A verification code has been sent to your email address: <br>
             {{this.email}}
           </p>
-          <div class="q-my-md">
-            <div class="text-black q-subheading text-bold">
+          <div class="q-mb-lg">
+            <h3 class="text-black">
               ENTER VERFICATION CODE
-            </div>
+            </h3>
             <q-field>
-              <q-input v-model.trim="verification_code" placeholder="01234567" class="font-secondary" />
+              <q-input
+                v-model.trim="verification_code"
+                placeholder="01234567"
+                class="text-bold"
+              />
             </q-field>
           </div>
-          <div class="q-my-md text-primary font-secondary">
+          <div class="q-mb-lg text-primary">
             <q-btn
               flat
               no-caps
               text-color="primary"
-              class="q-pa-none"
+              class="q-pa-none text-bold"
               @click.native="resendCode()"
             >
               Didn't receive a code?
@@ -110,7 +112,7 @@
               <q-btn
                 align="left"
                 flat
-                class="full-width font-secondary"
+                class="full-width text-bold"
                 @click.native="section = 0"
               >
                 <i class="material-icons" style="font-size:24px;">arrow_back</i>
@@ -122,23 +124,13 @@
                 rounded
                 label="Proceed"
                 color="primary"
-                class="full-width"
+                class="full-width font-secondary text-bold"
                 @click.native="verifyEmail" />
             </div>
           </div>
         </div>
       </div>
     </q-carousel-slide>
-    <q-btn
-      slot="quick-nav"
-      slot-scope="props"
-      color="secondary"
-      flat
-      dense
-      :class="{inactive: !props.current}"
-    >
-      <i class="material-icons nav-icon text-secondary">lens</i>
-    </q-btn>
   </q-carousel>
 </template>
 

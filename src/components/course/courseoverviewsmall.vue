@@ -1,11 +1,11 @@
 <template>
-  <q-card>
-    <q-card-title class="bg-primary text-center">
-      <span class="text-white text-weight-bold q-subheading">
+  <q-card class="tk-container-sub collapse">
+    <q-card-title class="title-bar-blue">
+      <h4>
         COURSE OVERVIEW
-      </span>
+      </h4>
     </q-card-title>
-    <q-card-main class="q-pa-md bg-white">
+    <q-card-main class="tk-container-sub-inner">
       <q-list
         separator
         no-border

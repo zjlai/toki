@@ -1,14 +1,12 @@
 <template>
-  <q-page class="q-pr-xl q-py-xl">
-    <div class="col full-height">
-      <q-card class="bg-white container rounded shadow-8">
-        <q-card-main class="col q-pt-none">
-          <q-toolbar color="white q-mb-md">
-            <q-toolbar-title class="text-primary text-bold">
-              WORD BANK
-            </q-toolbar-title>
-          </q-toolbar>
-          <div class="q-px-lg">
+  <q-page class="container">
+    <div class="full-height">
+      <q-card class="tk-container-sub collapse full-height">
+        <q-card-title class="title-bar">
+          <h1>WORD BANK</h1>
+        </q-card-title>
+        <q-card-main class="col tk-container-sub-inner">
+          <div class="q-px-md">
             <q-search v-model="terms" hide-underline class="round-search inset-shadow q-py-md">
               <q-autocomplete
                 separator
@@ -17,7 +15,7 @@
               />
             </q-search>
           </div>
-          <div class="q-mt-md">
+          <div class="">
             <wordlist />
           </div>
         </q-card-main>

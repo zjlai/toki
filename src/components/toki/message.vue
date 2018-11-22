@@ -1,26 +1,27 @@
 <template>
   <div class="row items-end">
-    <img alt="Quasar logo" src="~assets/quasar-logo-full.svg" class="small q-mr-xl">
-    <div class="triangle">
+    <div class="col-1">
+      <img svg-inline src="../../assets/tokido.svg" class="toki-bot logo-blue" />
     </div>
-    <div class="bg-white col q-pa-md rounded-sm">
-      <div class="row justify-between text-grey-8 q-caption text-weight-bold">
-        <div>
+    <div class="col toki-speech">
+      <div class="row justify-between">
+        <h6>
           {{longdate}}, {{day}}
-        </div>
-        <div>
+        </h6>
+        <h6>
           {{time}}
-        </div>
+        </h6>
       </div>
-      <div class="col font-secondary">
-        <p class="text-primary caps q-my-md q-subheading text-weight-bold">
+      <br>
+      <div class="col">
+        <h5>
           GOOD DAY {{name}},
-        </p>
-        <p class="text-grey-9 q-title text-weight-bold">
+        </h5>
+        <h1>
           {{message}}
-        </p>
+        </h1>
       </div>
-      <div class="q-my-md">
+      <!--<div class="q-my-md">
         <q-btn
           flat
           color="white"
@@ -30,7 +31,7 @@
           TAKE ME TO MY LESSON
           <i class="material-icons">arrow_forward</i>
         </q-btn>
-      </div>
+      </div>-->
     </div>
   </div>
 </template>
@@ -56,7 +57,13 @@ export default {
 }
 </script>
 
-<style>
+<style lang="stylus">
+@import '~variables'
+
+.logo-blue
+  height: 100%;
+  fill $primary
+
 .caps {
   text-transform: uppercase;
 }

@@ -6,28 +6,25 @@
       appear
       enter-active-class="animated fadeInLeft"
       leave-active-class="animated fadeOutRight"
-      class="row q-ma-lg"
+      class="row"
     >
-      <div class="col-4 q-px-sm" key="mastered" v-if="Object.keys(selected).length == 0 || selectedCat == 'mastered'">
-        <q-card>
-          <q-card-title class="bg-primary text-white text-center">
-            <span class="text-weight-bold q-caption">
-              MASTERED
-            </span>
+      <div class="col-4" key="mastered" v-if="Object.keys(selected).length == 0 || selectedCat == 'mastered'">
+        <q-card class="tk-container-sub collapse">
+          <q-card-title class="title-bar-blue text-center">
+            <h4>MASTERED</h4>
           </q-card-title>
-          <q-card-main>
+          <q-card-main class="col tk-container-sub-inner">
             <q-list
               separator
               link
               no-border
-              class="font-secondary"
             >
               <q-item v-for="word in mastered" :key="word.word" @click.native="select(word)" >
-                <q-item-main class="q-title text-weight-medium caps">
-                  {{word.word}}
+                <q-item-main>
+                  <h3 class="font-primary">{{word.word}}</h3>
                 </q-item-main>
                 <q-item-side right>
-                  <i class="material-icons text-secondary text-weight-bold q-display-1">
+                  <i class="material-icons text-secondary q-display-1">
                     add
                   </i>
                 </q-item-side>
@@ -36,25 +33,23 @@
           </q-card-main>
         </q-card>
       </div>
-      <div class="col-4 q-px-sm" key="progress" v-if="Object.keys(selected).length == 0">
-        <q-card>
-          <q-card-title class="bg-secondary text-black text-center">
-            <span class="text-weight-bold q-caption">
-              IN PROGRESS
-            </span>
+      <div class="col-4" key="progress" v-if="Object.keys(selected).length == 0 || selectedCat == 'progress'">
+        <q-card class="tk-container-sub collapse">
+          <q-card-title class="title-bar-yellow text-center">
+            <h4>In Progress</h4>
           </q-card-title>
-          <q-card-main>
+          <q-card-main class="col tk-container-sub-inner">
             <q-list
               separator
+              link
               no-border
-              class="font-secondary"
             >
-              <q-item v-for="word in progress" :key="word.word" >
-                <q-item-main class="q-title text-weight-medium caps">
-                  {{word.word}}
+              <q-item v-for="word in progress" :key="word.word"  @click.native="select(word)">
+                <q-item-main>
+                  <h3 class="font-primary">{{word.word}}</h3>
                 </q-item-main>
                 <q-item-side right>
-                  <i class="material-icons text-secondary text-weight-bold q-display-1">
+                  <i class="material-icons text-secondary q-display-1">
                     add
                   </i>
                 </q-item-side>
@@ -63,22 +58,20 @@
           </q-card-main>
         </q-card>
       </div>
-      <div class="col-4 q-px-sm" key="learning" v-if="Object.keys(selected).length == 0">
-        <q-card>
-          <q-card-title class="bg-grey-4 text-grey-9 text-center">
-            <span class="text-weight-bold q-caption">
-              TO LEARN
-            </span>
+      <div class="col-4" key="learning" v-if="Object.keys(selected).length == 0">
+        <q-card class="tk-container-sub collapse">
+          <q-card-title class="title-bar-grey text-center">
+            <h4>To Learn</h4>
           </q-card-title>
-          <q-card-main>
+          <q-card-main class="col tk-container-sub-inner">
             <q-list
               separator
+              link
               no-border
-              class="font-secondary"
             >
               <q-item v-for="word in learning" :key="word.word" >
-                <q-item-main class="q-title text-grey-5 text-weight-medium caps">
-                  {{word.word}}
+                <q-item-main class="row">
+                  <h3 class="font-primary text-grey-5">{{word.word}}</h3>
                   <i class="material-icons text-grey-5 text-weight-bold q-title">
                     arrow_forward
                   </i>
@@ -180,15 +173,15 @@ export default {
         }
       ],
       progress: [
-        { word: 'crumble' },
-        { word: 'decline' },
-        { word: 'degrade' },
-        { word: 'deteriorate' },
-        { word: 'disintegrate' },
-        { word: 'ebb' },
-        { word: 'fade' },
-        { word: 'fail' },
-        { word: 'fall apart' }
+        { word: 'crumble', status: 'progress' },
+        { word: 'decline', status: 'progress' },
+        { word: 'degrade', status: 'progress' },
+        { word: 'deteriorate', status: 'progress' },
+        { word: 'disintegrate', status: 'progress' },
+        { word: 'ebb', status: 'progress' },
+        { word: 'fade', status: 'progress' },
+        { word: 'fail', status: 'progress' },
+        { word: 'fall apart', status: 'progress' }
       ],
       learning: [
         { word: 'siesta' },

@@ -5,73 +5,75 @@
     height="100%">
     <q-carousel-slide>
       <div class="row full-height">
-        <div class="col-2"></div>
-        <div class="col-8">
-          <div class="text-secondary q-headline text-bold q-my-lg">
-            SIGN IN
-          </div>
-          <div class="q-my-sm">
-            <div class="text-black q-subheading text-bold">
-              EMAIL
-            </div>
-            <q-field
-              :error="$v.email.$error"
-              error-label="Enter a valid email">
-              <q-input
-                v-model.trim="email"
-                placeholder="Enter your Email"
-                class="font-secondary"
-                type="email"
-                @blur="$v.email.$touch"
-              />
-            </q-field>
-          </div>
-          <div class="q-my-md">
-            <div class="text-black q-subheading text-bold">
-              PASSWORD
-            </div>
-            <q-field>
-              <q-input
-                v-model.trim="password"
-                placeholder="********"
-                class="font-secondary"
-                type="password"
-              />
-            </q-field>
-          </div>
-          <div class="q-my-lg">
-            <q-checkbox v-model="rememberme" label="Remember Me" class="font-secondary q-caption" />
-          </div>
-          <div class="row q-my-lg">
+        <div class="col full-height q-pa-lg">
+          <div class="row h80 q-pa-lg">
             <div class="col">
-              <q-btn
-                rounded
-                label="Sign In"
-                color="primary"
-                class="full-width"
-                @click.native="signIn()"
-                :disabled="$v.$anyError || !$v.$anyDirty"
-              />
-            </div>
-            <div class="col justify-center font-secondary">
-              <q-btn
-                flat
-                no-caps
-                label="New around here?"
-                size="12px"
-                class="full-width font-secondary"
-                to="/user/signup"
-              />
+              <h1 class="text-secondary q-pb-lg">
+                SIGN IN
+              </h1>
+              <div>
+                <h4 class="text-black label" required>
+                  EMAIL
+                </h4>
+                <q-field
+                  :error="$v.email.$error"
+                  error-label="Enter a valid email">
+                  <q-input
+                    v-model.trim="email"
+                    placeholder="Enter your Email"
+                    type="email"
+                    class="text-bold"
+                    @blur="$v.email.$touch"
+                  />
+                </q-field>
+              </div>
+              <div>
+                <h4 class="text-black label" required>
+                  PASSWORD
+                </h4>
+                <q-field>
+                  <q-input
+                    v-model.trim="password"
+                    placeholder="********"
+                    class="text-bold"
+                    type="password"
+                  />
+                </q-field>
+              </div>
+            <!--  <div class="q-my-lg">
+                <q-checkbox v-model="rememberme" label="Remember Me" class="font-secondary q-caption" />
+              </div>-->
+              <div class="row q-my-lg">
+                <div class="col">
+                  <q-btn
+                    rounded
+                    label="Sign In"
+                    color="primary"
+                    class="full-width font-secondary"
+                    @click.native="signIn()"
+                    :disabled="$v.$anyError || !$v.$anyDirty"
+                  />
+                </div>
+                <div class="col justify-center">
+                  <q-btn
+                    flat
+                    no-caps
+                    label="New around here?"
+                    size="12px"
+                    class="full-width text-bold"
+                    to="/user/signup"
+                  />
+                </div>
+              </div>
             </div>
           </div>
-          <div class="flex q-my-lg"></div>
-          <div class="col text-center items-end content-end justify-end q-my-lg" to="/user/forgotpassword">
+          <div class="row h20 items-end">
             <q-btn
               flat
               no-caps
-              label="Forgot your password?"
+              label="Forgot password?"
               size="12px"
-              class="full-width font-secondary"
+              class="full-width text-bold"
               to="/user/forgotpassword"
             />
           </div>
@@ -79,30 +81,33 @@
       </div>
     </q-carousel-slide>
     <q-carousel-slide>
-      <div class="row full-height">
-        <div class="col-2"></div>
-        <div class="col-8">
-          <div class="text-secondary q-headline text-bold q-my-lg">
+      <div class="row full-height q-pa-lg">
+        <div class="col full-height q-pa-lg">
+          <h1 class="text-secondary q-pb-lg">
             VERIFY
-          </div>
-          <p class="info-text">
+          </h1>
+          <p class="info-text text-bold">
             A verification code has been sent to your email address: <br>
             {{this.email}}
           </p>
-          <div class="q-my-md">
-            <div class="text-black q-subheading text-bold">
+          <div class="q-mb-lg">
+            <h3 class="text-black">
               ENTER VERFICATION CODE
-            </div>
+            </h3>
             <q-field>
-              <q-input v-model.trim="verification_code" placeholder="01234567" class="font-secondary" />
+              <q-input
+                v-model.trim="verification_code"
+                placeholder="01234567"
+                class="text-bold"
+              />
             </q-field>
           </div>
-          <div class="q-my-md text-primary font-secondary">
+          <div class="q-mb-lg text-primary">
             <q-btn
               flat
               no-caps
               text-color="primary"
-              class="q-pa-none"
+              class="q-pa-none text-bold"
               @click.native="resendCode()"
             >
               Didn't receive a code?
@@ -113,7 +118,7 @@
               <q-btn
                 align="left"
                 flat
-                class="full-width font-secondary"
+                class="full-width text-bold"
                 @click.native="section = 0"
               >
                 <i class="material-icons" style="font-size:24px;">arrow_back</i>
@@ -125,7 +130,7 @@
                 rounded
                 label="Proceed"
                 color="primary"
-                class="full-width"
+                class="full-width font-secondary text-bold"
                 @click.native="verifyEmail" />
             </div>
           </div>
@@ -137,6 +142,11 @@
 
 <script>
 import { required, email } from 'vuelidate/lib/validators'
+import { API } from 'aws-amplify'
+import { QSpinnerFacebook } from 'quasar'
+
+const API_PATH = '/students'
+const API_NAME = 'students'
 
 export default {
   name: 'SignIn',
@@ -186,11 +196,23 @@ export default {
       const user = this.user
       if (!user) { return }
       this.$auth.verifiedContact(user)
-        .then(data => {
+        .then(async data => {
           console.log('verify result', data)
 
           if (data.verified) {
-            this.$router.push('/')
+            this.$q.loading.show({
+              spinner: QSpinnerFacebook,
+              spinnerColor: 'secondary',
+              message: 'Checking Profile...',
+              messageColor: 'secondary'
+            })
+            const firsttime = await API.get(API_NAME, API_PATH)
+            this.$q.loading.hide()
+            if (firsttime.length === 0) {
+              this.$router.push('/firsttimeuser')
+            } else {
+              this.$router.push('/')
+            }
           } else {
             this.$router.push('/user/signin')
           }

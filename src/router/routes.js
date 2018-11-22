@@ -1,6 +1,12 @@
-import { Auth } from 'aws-amplify'
+import { Auth, API } from 'aws-amplify'
+const API_PATH = '/students'
+const API_NAME = 'students'
 
-const AuthFilter = (to, from, next) => {
+const checkFirstTime = async () => {
+  const firsttime = await API.get(API_NAME, API_PATH)
+  return firsttime
+}
+const AuthFilter = async (to, from, next) => {
   console.log('before routing ', to, from)
   // const store = Store
   Auth.currentAuthenticatedUser()
@@ -10,10 +16,18 @@ const AuthFilter = (to, from, next) => {
       Auth.currentCredentials()
         .then(credentials => {
           // store.commit('UserStore/setUserId', credentials.identityId)
-          console.log(credentials)
+          // console.log(credentials)
         })
         .catch(err => console.log('get current credentials err', err))
-      next()
+
+      checkFirstTime()
+        .then(firsttime => {
+          if (firsttime.length === 0 && !to.name.startsWith('walkthrough')) {
+            next('/firsttimeuser')
+          } else {
+            next()
+          }
+        })
     })
     .catch(err => {
       console.log('...no user', err)
@@ -53,7 +67,7 @@ const routes = [
         children: [
           { name: 'mycourses', path: '', component: () => import('components/course/mycourses.vue') },
           { name: 'courseselect', path: 'selectcourse', component: () => import('components/course/selectcourse.vue') },
-          { name: 'coursignup', path: 'signup', component: () => import('components/course/coursesignup.vue') }
+          { name: 'coursesignup', path: 'signup', component: () => import('components/course/coursesignup.vue') }
         ]
       }
     ]
@@ -100,18 +114,22 @@ const routes = [
     children: [
       {
         name: 'dashboard',
-        path: '',
+        path: '/dashboard/:courseId',
         component: () => import('pages/dashboard.vue')
       }
     ]
   },
   {
+    name: 'firsttimeuser',
     path: '/firsttimeuser',
     component: () => import('layouts/blue.vue'),
     children: [
       { name: 'walkthrough', path: '', component: () => import('pages/walkthrough') }
     ]
-
+  },
+  {
+    path: '/',
+    redirect: {name: 'user.signin'}
   }
 ]
 

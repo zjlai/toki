@@ -4,23 +4,22 @@
     v-model="section"
     height="100%">
     <q-carousel-slide>
-      <div class="row full-height">
-        <div class="col-2"></div>
-        <div class="col-8">
-          <div class="text-secondary q-headline text-bold q-my-lg">
+      <div class="row full-height q-pa-lg">
+        <div class="col full-height q-pa-lg">
+          <h1 class="text-secondary q-pb-lg">
             FORGOT PASSWORD
-          </div>
-          <div class="q-my-sm">
-            <div class="text-black q-subheading text-bold">
+          </h1>
+          <div>
+            <h3 class="text-black">
               REGISTERED EMAIL
-            </div>
+            </h3>
             <q-field
               :error="$v.email.$error"
               error-label="Enter a valid email">
               <q-input
                 v-model.trim="email"
                 placeholder="Enter your Email"
-                class="font-secondary"
+                class="text-bold"
                 type="email"
                 @blur="$v.email.$touch"
               />
@@ -32,7 +31,7 @@
                 flat
                 no-caps
                 align="left"
-                class="full-width font-secondary"
+                class="full-width text-bold"
                 to="/user/signin"
               >
                 <i class="material-icons" style="font-size:24px;">arrow_back</i>
@@ -44,7 +43,7 @@
                 rounded
                 label="RESET"
                 color="primary"
-                class="full-width"
+                class="full-width text-bold font-secondary"
                 @click="resetPassword()"
                 :disabled="$v.email.$error || !$v.email.$dirty"
               />
@@ -54,20 +53,19 @@
       </div>
     </q-carousel-slide>
     <q-carousel-slide>
-      <div class="row full-height">
-        <div class="col-2"></div>
-        <div class="col-8">
-          <div class="text-secondary q-headline text-bold q-my-lg">
+      <div class="row full-height q-pa-lg">
+        <div class="col full-height q-pa-lg">
+          <h1 class="text-secondary q-pb-lg">
             FORGOT PASSWORD
-          </div>
-          <p class="info-text">
+          </h1>
+          <p class="info-text text-bold">
             A verification code has been sent to your email address: <br>
-            {{email}}
+            {{this.email}}
           </p>
-          <div class="q-my-sm">
-            <div class="text-black q-subheading text-bold">
+          <div>
+            <h3 class="text-black">
               NEW PASSWORD
-            </div>
+            </h3>
             <q-field
               :error="$v.password.$error"
               error-label="Enter a password of min 8 characters"
@@ -75,15 +73,15 @@
               <q-input
                 v-model.trim="password"
                 placeholder="********"
-                class="font-secondary"
+                class="text-bold"
                 type="password"
                 @blur="$v.password.$touch"/>
             </q-field>
           </div>
           <div class="q-my-sm">
-            <div class="text-black q-subheading text-bold">
+            <h3 class="text-black">
               RE-ENTER NEW PASSWORD
-            </div>
+            </h3>
             <q-field
               :error="$v.repeatPassword.$error"
               error-label="Password is not the same"
@@ -91,28 +89,32 @@
               <q-input
                 v-model.trim="repeatPassword"
                 placeholder="********"
-                class="font-secondary"
+                class="text-bold"
                 type="password"
                 @blur="$v.repeatPassword.$touch"/>
             </q-field>
           </div>
           <div class="q-mb-none">
-            <div class="text-black q-subheading text-bold">
-              ENTER VERFICATION CODE
-            </div>
+            <h3 class="text-black">
+              ENTER VERIFICATION CODE
+            </h3>
             <q-field
               :error="$v.verificationCode.$error"
               error-label="Enter verification code"
             >
-              <q-input v-model.trim="verification_code" placeholder="01234567" class="font-secondary" />
+              <q-input
+                v-model.trim="verification_code"
+                placeholder="01234567"
+                class="text-bold"
+              />
             </q-field>
           </div>
-          <div class="q-mt-none text-primary font-secondary">
+          <div class="q-mt-none text-primary">
             <q-btn
               flat
               no-caps
               text-color="primary"
-              class="q-pa-none"
+              class="q-pa-none text-bold font-secondary"
               @click.native="resetPassword()"
             >
               Didn't receive a code?
@@ -120,17 +122,22 @@
           </div>
           <div class="row q-my-lg">
             <div class="col justify-center font-secondary">
-              <p class="full-width font-secondary">
+              <q-btn
+                align="left"
+                flat
+                class="full-width text-bold"
+                @click.native="section = 0"
+              >
                 <i class="material-icons" style="font-size:24px;">arrow_back</i>
                 Back
-              </p>
+              </q-btn>
             </div>
             <div class="col">
               <q-btn
                 rounded
                 label="Reset"
                 color="primary"
-                class="full-width"
+                class="full-width text-bold font-secondary"
                 @click.native="submitNewPassword()"
                 :disabled="$v.password.$Error || $v.repeatPassword.$error || $v.verificationCode.$error"
               />

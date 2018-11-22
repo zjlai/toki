@@ -42,13 +42,16 @@ router.post('/', asyncHandler(async (req, res) => {
     ielts: queryData.ielts,
     toefl: queryData.toefl,
     languages: queryData.languages,
-    gender: queryData.gender
+    gender: queryData.gender,
+    ctnum: queryData.ctnum,
+    classcode: queryData.classcode,
+    name: queryData.name
   }
 
   const query = {
     text: `INSERT INTO public.students(
-          student_id, email, date_registered, ethnicity, nationality, dob, contact_num, ielts, toefl, languages, gender)
-          VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`,
+          student_id, email, date_registered, ethnicity, nationality, dob, contact_num, ielts, toefl, languages, gender, ctnum, classcode, name)
+          VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)`,
     values: Object.values(student)
   }
 

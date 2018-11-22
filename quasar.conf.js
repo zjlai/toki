@@ -34,6 +34,10 @@ module.exports = function (ctx) {
           loader: 'eslint-loader',
           exclude: /node_modules/
         })
+        cfg.module.rules.push({
+          test: /\.vue$/,
+          loader: "vue-svg-inline-loader"
+        })
       }
     },
     devServer: {
@@ -87,7 +91,8 @@ module.exports = function (ctx) {
         'QSelect',
         'QToggle',
         'QSpinner',
-        'QSpinnerFacebook'
+        'QSpinnerFacebook',
+        'QUploader'
       ],
       directives: [
         'Ripple'

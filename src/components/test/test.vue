@@ -1,11 +1,9 @@
 <template>
-  <q-card class="bg-white container rounded shadow-8">
-    <q-card-main class="col q-pt-none">
-      <q-toolbar color="white">
-        <q-toolbar-title class="text-primary text-bold">
-          TOKI TEST
-        </q-toolbar-title>
-      </q-toolbar>
+  <q-card class="tk-container-sub collapse full-height">
+    <q-card-title class="title-bar">
+      <h1>TOKITEST</h1>
+    </q-card-title>
+    <q-card-main class="col tk-container-sub-inner">
       <div class="col">
         <div class="row">
           <div class="col-3">

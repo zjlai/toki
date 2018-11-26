@@ -1,6 +1,6 @@
 <template>
-  <q-page class="q-pr-xl q-py-xl">
-    <div class="col full-height">
+  <q-page class="container">
+    <div class="full-height">
       <router-view />
     </div>
   </q-page>
@@ -19,11 +19,6 @@ export default {
 </script>
 
 <style>
-.container {
-  min-height: calc(100vh - 150px);
-  height: 100%;
-  width: 100%;
-}
 .rounded {
   border-radius: 20px;
 }

@@ -76,9 +76,4 @@ export default {
 </script>
 
 <style>
-.container {
-  min-height: calc(100vh - 95px) !important;
-  height: 100%;
-  width: 100%;
-}
 </style>

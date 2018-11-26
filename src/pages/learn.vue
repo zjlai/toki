@@ -1,14 +1,13 @@
 <template>
-  <q-page class="q-pr-xl q-py-xl">
-    <div class="col full-height">
-      <q-card class="bg-white container rounded shadow-8">
-        <q-card-main class="col q-pt-none">
-          <q-toolbar color="white">
-            <q-toolbar-title class="text-primary text-bold">
-              TOKILEARN
-            </q-toolbar-title>
-          </q-toolbar>
+  <q-page class="container">
+    <div class="full-height">
+      <q-card class="tk-container-sub collapse full-height">
+        <q-card-title class="title-bar">
+          <h1>TOKILEARN</h1>
+        </q-card-title>
+        <q-card-main class="col tk-container-sub-inner">
           <div>
+            <img :src="images[0]" />
             <q-stepper
               v-model="currentStep"
               alternative-labels
@@ -101,6 +100,7 @@ import WordBasic from '../components/learn/wordbasic'
 import WordMeaning from '../components/learn/wordmeaning'
 import WordAssociation from '../components/learn/wordassociation'
 import WordReference from '../components/learn/wordreference'
+import { Storage } from 'aws-amplify'
 
 export default {
   name: 'LearnBase',
@@ -131,8 +131,16 @@ export default {
         antonyms: 'elevate, ennoble, uplift'
       },
       timer: 128,
-      words: ['ABASE', 'Cheapen']
+      words: ['ABASE', 'Cheapen'],
+      images: []
     }
+  },
+  mounted () {
+    Storage.get('Yellow.svg', { level: 'public' })
+      .then(result => {
+        this.images.push(result)
+        console.log(this.images)
+      })
   },
   computed: {
   },
@@ -142,11 +150,6 @@ export default {
 </script>
 
 <style>
-.container {
-  min-height: calc(100vh - 150px);
-  height: 100%;
-  width: 100%;
-}
 .rounded {
   border-radius: 20px;
 }

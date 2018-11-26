@@ -50,11 +50,6 @@ export default {
 </script>
 
 <style>
-.container {
-  min-height: calc(100vh - 150px);
-  height: 100%;
-  width: 100%;
-}
 .rounded {
   border-radius: 20px;
 }

@@ -157,6 +157,11 @@ export default {
   margin: 10px;
   fill: white;
 }
+.container {
+  min-height: calc(100vh - 95px) !important;
+  height: 100%;
+  width: 100%;
+}
 .avatar {
   min-height: 100px;
   min-width: 100px;

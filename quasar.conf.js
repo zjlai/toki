@@ -7,7 +7,8 @@ module.exports = function (ctx) {
       'i18n',
       'axios',
       'authentication',
-      'vuelidate'
+      'vuelidate',
+      'speech'
     ],
     css: [
       'app.styl'
@@ -92,7 +93,8 @@ module.exports = function (ctx) {
         'QToggle',
         'QSpinner',
         'QSpinnerFacebook',
-        'QUploader'
+        'QUploader',
+        'QProgress'
       ],
       directives: [
         'Ripple'

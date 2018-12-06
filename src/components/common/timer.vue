@@ -27,7 +27,6 @@ export default {
   props: {
     min: Number,
     max: Number,
-    duration: Number, // seconds
     range: {
       type: String,
       default: 'mins'
@@ -36,8 +35,13 @@ export default {
   },
   data () {
     return {
-      units: ''
+      units: '',
+      cdtimer: '',
+      duration: 0
     }
+  },
+  mounted () {
+    this.duration = this.max
   },
   computed: {
     timer () {
@@ -46,10 +50,23 @@ export default {
   },
   methods: {
     startTimer () {
+      this.cdtimer = setInterval(() => {
+        this.duration -= 1
+        this.$emit('progress', this.duration)
+        if (this.duration === 0) {
+          clearInterval(this.cdtimer)
+          this.$emit('timesup')
+        }
+      }, 1000)
     },
     stopTimer () {
+      clearInterval(this.cdtimer)
+      this.$emit('progress', this.duration)
     },
     resetTimer () {
+      clearInterval(this.cdtimer)
+      this.duration = this.max
+      this.$emit('progress', this.duration)
     },
     rangeMins (duration) {
       let mins = Math.floor(duration / 60)

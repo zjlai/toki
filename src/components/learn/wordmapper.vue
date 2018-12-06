@@ -1,35 +1,39 @@
 <template>
-  <q-card class="rounded-sm no-shadow full-height">
-    <q-card-title class="bg-primary text-white text-center">
-      <span class="text-weight-bold q-subheading">
-        WORD ASSOCIATION
-      </span>
+  <q-card class="tk-container-sub collapse">
+    <q-card-title class="title-bar-blue text-center">
+      <h4>WORD ASSOCIATION</h4>
     </q-card-title>
-    <q-card-main class="q-ma-none bg-grey-2">
+    <q-card-main class="tk-container-sub-inner">
       <div class="col">
-        <div class="font-secondary text-primary text-weight-medium q-py-lg q-display-2 text-center">
+        <h1 class="font-primary q-display-3 text-primary text-bold text-center q-py-md">
           {{word}}
-        </div>
-        <div class="font-secondary q-pb-lg">
+        </h1>
+        <div class="font-primary q-py-md">
           <q-input
             v-model.trim="text"
             upper-case
             align="center"
             hide-underline
+            :disable="disabled"
             autofocus
-            class="bg-white text-black text-weight-medium q-display-2 map-input q-py-md q-mx-md" />
+            :class="{'disabled-map': disabled}"
+            ref="input"
+            @keyup.enter="addWord"
+            class="text-bold q-display-2 map-input q-py-md q-mx-md" />
         </div>
-        <div class="q-ma-lg border-bot"></div>
-        <div class="text-weight-bold q-subheading font-secondary text-grey-6 q-ma-md text-center">
+        <hr class="q-my-md" />
+        <h5 class="text-grey text-center">
           WORDS ENTERED ({{wordCount}})
-        </div>
+        </h5>
         <div class="q-ma-lg">
-          <q-chip v-for="assoc in mapped" :key="assoc"
+          <q-chip v-for="assoc in mapped" :key="assoc.association"
             color="secondary"
             text-color="black"
-            class="mapped-chip caps text-weight-bold q-mr-sm q-px-lg"
+            closable
+            @hide="deleteWord(assoc)"
+            class="mapped-chip caps text-bold q-mr-sm q-px-lg q-mb-md"
           >
-            {{assoc}}
+            {{assoc.association}}
           </q-chip>
         </div>
       </div>
@@ -38,33 +42,70 @@
 </template>
 
 <script>
+// import { date } from 'quasar'
+
+function chkRepeat (element, index, array) {
+  return element.association === this.text
+}
 export default {
   name: 'WordMapperComponent',
-  props: ['word'],
+  props: ['word', 'disabled'],
   data () {
     return {
       text: '',
-      mapped: ['ABASE', 'Cheapen']
+      mapped: [],
+      time: 0
     }
+  },
+  mounted () {
+    this.time = Date.now()
   },
   computed: {
     wordCount () {
       return this.mapped.length
     }
+  },
+  methods: {
+    addWord () {
+      const isRepeated = this.mapped.findIndex(chkRepeat, { text: this.text })
+      if (isRepeated >= 0) {
+        this.$q.notify('Word already entered')
+        this.text = ''
+        return
+      }
+      const currTime = Date.now()
+      let duration = currTime - this.time
+      this.time = currTime
+      this.mapped.push({ association: this.text, duration: duration })
+      this.$emit('counter', this.mapped.length)
+      this.text = ''
+    },
+    deleteWord (word) {
+      const idx = this.mapped.indexOf(word)
+      this.mapped.splice(idx, 1)
+      this.$emit('counter', this.mapped.length)
+      console.log(this.$refs)
+      this.$refs.input.focus()
+    },
+    getWords () {
+      return this.mapped
+    }
   }
 }
 </script>
 
-<style>
-.border-bot {
-  border-top: 1px solid #bdbdbd;
-}
+<style lang="stylus">
+@import '~variables'
+
 .map-input input{
   height: 54px;
 }
 .caps {
   text-transform: uppercase;
 }
+.disabled-map
+  background $tk-grey-1
+
 .mapped-chip {
 }
 </style>

@@ -1,16 +1,18 @@
 <template>
   <div class="col">
-    <q-card class="rounded-sm no-shadow">
-      <q-card-title class="bg-primary text-white q-pa-sm">
-        <span class="text-bold q-body-2">
-          WORD
-        </span>
+    <q-card class="tk-container-sub collapse">
+      <q-card-title class="title-bar-blue text-center">
+        <h4>
+          Next Question
+        </h4>
       </q-card-title>
       <q-card-main class="q-mt-xl">
-        <div class="row justify-center q-pt-xl" v-if="nextqn">
+        <div class="row justify-center q-my-md" v-if="nextqn">
           <q-btn
             color="secondary"
             rounded
+            class="font-secondary button"
+            @click.native="nextStep"
           >
             <span class="q-px-lg q-py-sm q-title">
               NEXT
@@ -18,13 +20,15 @@
             </span>
           </q-btn>
         </div>
-        <div class="row justify-center q-pt-xl" v-if="!nextqn">
+        <div class="row justify-center q-my-md" v-if="!nextqn">
           <q-btn
             color="secondary"
             rounded
+            class="font-secondary button"
+            @click.native="nextStep"
           >
             <span class="q-px-lg q-py-sm q-title">
-              Submit
+              SUBMIT
               <i class="material-icons">arrow_forward</i>
             </span>
           </q-btn>

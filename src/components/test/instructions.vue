@@ -1,19 +1,20 @@
 <template>
-  <q-card class="bg-white container rounded shadow-8">
-    <q-card-main class="col q-pt-none">
-      <q-toolbar color="white">
-        <q-toolbar-title class="text-primary text-bold">
-          TOKI TEST
-        </q-toolbar-title>
-      </q-toolbar>
+  <q-card class="tk-container-sub collapse full-height">
+    <q-card-title class="title-bar">
+      <div class="row justify-between">
+        <h1>TOKI TEST</h1>
+        <course-select @changecourse="changeCourse" :course="course" />
+      </div>
+    </q-card-title>
+    <q-card-main class="col tk-container-sub-inner">
       <div class="col">
         <div class="row">
           <div class="col-2">
-            <q-card class="rounded-sm no-shadow">
-              <q-card-title class="bg-grey-4 text-grey-8 text-center">
-                <span class="text-weight-bold q-caption">NEXT TEST</span>
+            <q-card class="tk-container-sub collapse">
+              <q-card-title class="title-bar-grey text-center">
+                <h4>NEXT TEST</h4>
               </q-card-title>
-              <q-card-main>
+              <q-card-main class="tk-container-sub-inner">
                 <timer
                   :min="0"
                   :max="259200"
@@ -25,13 +26,13 @@
             </q-card>
           </div>
           <div class="col-10">
-            <q-card class="rounded-sm no-shadow q-ml-md">
-              <q-card-title class="bg-secondary text-black text-center">
-                <span class="text-weight-bold q-caption">TEST INSTRUCTIONS</span>
+            <q-card class="tk-container-sub collapse">
+              <q-card-title class="title-bar-yellow text-center">
+                <h4>TEST INSTRUCTIONS</h4>
               </q-card-title>
-              <q-card-main>
-                <div class="col font-secondary text-black text-weight-medium q-title">
-                  <div class="row q-my-lg items-center q-pt-md">
+              <q-card-main class="tk-container-sub-inner">
+                <div class="col text-black q-title">
+                  <div class="row q-my-lg items-center">
                     <div class="col-auto">
                       <q-btn
                         color="primary"
@@ -105,11 +106,12 @@
             </q-card>
           </div>
         </div>
-        <div class="row justify-center q-mt-xl">
+        <div class="row justify-center q-my-md">
           <q-btn
             color="primary"
             rounded
-            to="/test/testing"
+            class="font-secondary button"
+            @click.native="beginTest"
           >
             <span class="q-px-lg q-py-sm q-title">
               BEGIN TEST
@@ -124,14 +126,51 @@
 
 <script>
 import Timer from '../common/timer'
+import CourseSelect from '../common/selectcourse'
+import { API } from 'aws-amplify'
+
+const API_PATH_TOKI = '/toki'
+const API_NAME_TOKI = 'toki'
+const API_PATH_COURSES = '/courses'
+const API_NAME_STUDENT = 'students'
 
 export default {
   name: 'TestInstructionComponent',
   components: {
-    Timer
+    Timer,
+    CourseSelect
   },
   data () {
-    return {}
+    return {
+      course: {}
+    }
+  },
+  async mounted () {
+    if (this.$route.query.hasOwnProperty('course')) {
+      this.getCourse()
+    } else {
+      const courses = await API.get(API_NAME_STUDENT, API_PATH_COURSES + '/mycourses', { queryStringParameters: { course: '' } })
+      this.$router.replace({ query: { course: courses[0].course_id } })
+      this.getCourse()
+    }
+  },
+  methods: {
+    changeCourse (courseId) {
+      console.log('Change Course', courseId)
+    },
+    async getCourse () {
+      const init = {
+        queryStringParameters: {
+          course: this.$route.query.course
+        }
+      }
+      const res = await API.get(API_NAME_STUDENT, API_PATH_COURSES + '/mycourses', init)
+      this.course = res[0]
+      this.words = await API.get(API_NAME_TOKI, API_PATH_TOKI + '/getnewwords', { queryStringParameters: { course_id: this.course.course_id } })
+    },
+    beginTest () {
+      this.$router.push({ path: 'test/testing', query: { course: this.course.course_id } })
+    }
   }
 }
 </script>

@@ -1,56 +1,54 @@
 <template>
-  <q-card class="bg-white container rounded shadow-8">
-    <q-card-main class="col q-pt-none">
-      <q-toolbar color="white">
-        <q-toolbar-title class="text-primary text-bold">
-          TOKI TEST
-        </q-toolbar-title>
-      </q-toolbar>
+  <q-card class="tk-container-sub collapse full-height">
+    <q-card-title class="title-bar">
+      <h1>TOKITEST</h1>
+    </q-card-title>
+    <q-card-main class="col tk-container-sub-inner">
       <div class="col">
         <div class="row">
-          <div class="col-10 q-pr-lg">
-            <q-card class="rounded-sm no-shadow">
-              <q-card-title class="bg-primary text-white text-center">
-                <span class="text-weight-bold q-subheading">TEST SUMMARY</span>
+          <div class="col-10">
+            <q-card class="tk-container-sub collapse">
+              <q-card-title class="title-bar-blue text-center">
+                <h4>TEST SUMMARY</h4>
               </q-card-title>
-              <q-card-main>
-                <div class="row q-ma-md">
-                  <div class="col q-my-md">
-                    <div class="text-primary text-weight-bold text-center q-subheading">
+              <q-card-main class="tk-container-sub-inner">
+                <div class="row items-center q-py-md">
+                  <div class="col text-center border-right">
+                    <h6 class="sub-title-blue q-subheading text-bold">
                       AVG TIME PER QUESTION
-                    </div>
-                    <div class="text-black text-weight-bold text-center q-display-1">
-                      {{test.avetime}}
-                    </div>
+                    </h6>
+                    <h5 class="primary-font q-display-1 text-bold">
+                      {{duration / words.length / 1000}} Secs
+                    </h5>
                   </div>
-                  <div class="col q-my-md">
-                    <div class="text-primary text-weight-bold text-center q-subheading">
+                  <div class="col text-center border-right">
+                    <h6 class="sub-title-blue q-subheading text-bold">
                       NO. OF WORDS TESTED
-                    </div>
-                    <div class="text-black text-weight-bold text-center q-display-1">
-                      {{test.wordcount}}
-                    </div>
+                    </h6>
+                    <h5 class="primary-font q-display-1 text-bold">
+                      {{words.length}}
+                    </h5>
                   </div>
-                  <div class="col q-my-md">
-                    <div class="text-primary text-weight-bold text-center q-subheading">
+                  <div class="col text-center">
+                    <h6 class="sub-title-blue q-subheading text-bold">
                       TOTAL TIME
-                    </div>
-                    <div class="text-black text-weight-bold text-center q-display-1">
-                      {{test.totaltime}}
-                    </div>
+                    </h6>
+                    <h5 class="primary-font q-display-1 text-bold">
+                      {{duration / 1000}} Secs
+                    </h5>
                   </div>
                 </div>
-                <div class="col q-my-lg">
-                  <div class="text-primary text-weight-bold text-center q-subheading">
+                <div class="col q-py-md">
+                  <h6 class="sub-title-blue q-subheading text-bold text-center">
                     WORDS TESTED
-                  </div>
+                  </h6>
                   <div class="q-ma-lg">
-                    <q-chip v-for="words in test.results" :key="words.word"
+                    <q-chip v-for="word in words" :key="word.word"
                       color="secondary"
                       text-color="black"
-                      class="mapped-chip caps text-weight-bold q-mr-sm q-px-lg"
+                      class="mapped-chip caps text-bold q-mr-sm q-px-lg q-mb-md"
                     >
-                      {{words.word}}
+                      {{word.word}}
                     </q-chip>
                   </div>
                 </div>
@@ -58,11 +56,11 @@
             </q-card>
           </div>
           <div class="col-2">
-            <q-card class="rounded-sm no-shadow">
-              <q-card-title class="bg-primary text-white text-center">
-                <span class="text-weight-bold q-caption">NEXT TEST</span>
+            <q-card class="tk-container-sub collapse">
+              <q-card-title class="title-bar-blue text-center">
+                <h4>NEXT TEST</h4>
               </q-card-title>
-              <q-card-main>
+              <q-card-main class="tk-container-sub-inner">
                 <timer
                   :min="0"
                   :max="259200"
@@ -75,23 +73,25 @@
         </div>
       </div>
     </q-card-main>
-    <q-card-actions align="center">
-      <q-btn
+    <q-card-actions align="center" class="q-pb-lg">
+    <!--  <q-btn
         flat
         no-caps
-        class="font-secondary text-grey-5"
+        class="text-grey-5"
       >
         <span class="q-px-lg q-py-sm q-subheading text-weight-bold">
           <i class="material-icons">arrow_back</i>
           Back to Dashboard
         </span>
-      </q-btn>
+      </q-btn> -->
       <q-btn
         color="primary"
         rounded
+        class="font-secondary button"
+        @click.native="backToDash"
       >
         <span class="q-px-lg q-py-sm q-title">
-          LEARN
+          Back to Dashboard
           <i class="material-icons">arrow_forward</i>
         </span>
       </q-btn>
@@ -107,23 +107,20 @@ export default {
   components: {
     Timer
   },
+  mounted () {
+    console.log(this.$route)
+    this.words = this.$route.params.words
+    this.duration = this.$route.params.duration
+  },
   data () {
     return {
-      test: {
-        avetime: '0:15 min',
-        wordcount: 20,
-        totaltime: '5:21 min',
-        results: [
-          { word: 'abase', bracket: 'mastered' },
-          { word: 'cheapen', bracket: 'mastered' },
-          { word: 'corrupt', bracket: 'progress' },
-          { word: 'debase', bracket: 'progress' },
-          { word: 'debauch', bracket: 'progress' },
-          { word: 'crumble', bracket: 'progress' },
-          { word: 'disintegratee', bracket: 'revisit' },
-          { word: 'ebb', bracket: 'revisit' }
-        ]
-      }
+      words: [],
+      duration: 0
+    }
+  },
+  methods: {
+    backToDash () {
+      this.$router.push({ path: 'dashboard', query: { course: this.course_id } })
     }
   }
 }

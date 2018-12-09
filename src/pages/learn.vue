@@ -160,7 +160,7 @@ export default {
     async record () {
       const params = {
         body: {
-          course: 'b077af3f-8904-56d5-1ba8-865f81084c44',
+          course: this.course.course_id,
           word: this.words[this.current].word,
           word_id: this.words[this.current].word_id,
           duration: this.studyDuration,
@@ -219,9 +219,6 @@ export default {
 
 <style lang="stylus">
 @import '~variables'
-
-.rounded-sm
-  border-radius 10px
 
 .stepper-button
   background-color $grey-4

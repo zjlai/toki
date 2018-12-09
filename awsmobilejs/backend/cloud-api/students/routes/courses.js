@@ -15,10 +15,23 @@ router.get('/', asyncHandler(async (req, res) => {
 
 router.get('/mycourses', asyncHandler(async (req, res) => {
   const id = req.apiGateway.event.requestContext.identity.cognitoIdentityId
-  const query = `SELECT course.course_id, course.code, sub.classcode, ctnum, course.name, description, end_date, wordcount, teacher.first_name, teacher.last_name
-	               FROM public.subscriptions sub INNER JOIN public.students stud on sub.student = stud.student_id OR sub.classcode = stud.classcode
-	               INNER JOIN public.courses course on sub.course = course.course_id
-	               INNER JOIN public.teachers teacher on course.teacher_id = teacher.teacher_id`
+  const course = req.apiGateway.event.queryStringParameters.course
+  let query = ''
+  if ( course === '' ) {
+    query = `SELECT course.course_id, course.code, sub.classcode, ctnum, course.name, description, end_date, wordcount, teacher.first_name, teacher.last_name, next_cycle
+                  FROM public.subscriptions sub INNER JOIN public.students stud on sub.student = stud.student_id OR sub.classcode = stud.classcode
+                  INNER JOIN public.courses course on sub.course = course.course_id
+                  INNER JOIN public.teachers teacher on course.teacher_id = teacher.teacher_id
+                  INNER JOIN public.student_stats stats on stud.student_id = stats.student AND course.course_id = stats.course
+                  ORDER BY next_cycle DESC NULLS FIRST`
+  } else {
+    query = `SELECT course.course_id, course.code, sub.classcode, ctnum, course.name, description, end_date, wordcount, teacher.first_name, teacher.last_name, next_cycle
+                  FROM public.subscriptions sub INNER JOIN public.students stud on sub.student = stud.student_id OR sub.classcode = stud.classcode
+                  INNER JOIN public.courses course on sub.course = course.course_id
+                  INNER JOIN public.teachers teacher on course.teacher_id = teacher.teacher_id
+                  INNER JOIN public.student_stats stats on stud.student_id = stats.student AND course.course_id = stats.course
+                  WHERE course.course_id='${course}'`
+  }
   const conn = await connectDB()
   const result = await queryDB(conn, query)
   res.json(result)

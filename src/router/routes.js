@@ -87,7 +87,9 @@ const routes = [
     path: '/test',
     component: () => import('layouts/StudentBase.vue'),
     children: [
-      { path: '',
+      {
+        name: 'test',
+        path: '',
         component: () => import('pages/test.vue'),
         children: [
           { name: 'instructions', path: '', component: () => import('components/test/instructions.vue') },

@@ -3,8 +3,9 @@
     <div class="full-height">
       <q-card class="tk-container-sub collapse full-height">
         <q-card-title class="title-bar">
-          <div class="col">
+          <div class="row justify-between">
             <h1>TOKILEARN</h1>
+            <course-select @changecourse="changeCourse" :course="course" />
           </div>
         </q-card-title>
         <q-progress
@@ -97,17 +98,21 @@ import WordAssociation from '../components/learn/wordassociation'
 import LearnOne from '../components/learn/learnBasicOne'
 import MeaningOne from '../components/learn/meaningBasicOne'
 import EndStudy from '../components/learn/endstudy'
+import CourseSelect from '../components/common/selectcourse'
 import { API } from 'aws-amplify'
 
-const API_PATH = '/toki'
-const API_NAME = 'toki'
+const API_PATH_TOKI = '/toki'
+const API_NAME_TOKI = 'toki'
+const API_PATH_COURSES = '/courses'
+const API_NAME_STUDENT = 'students'
 export default {
   name: 'LearnBase',
   components: {
     WordAssociation,
     LearnOne,
     MeaningOne,
-    EndStudy
+    EndStudy,
+    CourseSelect
   },
   data () {
     return {
@@ -123,12 +128,18 @@ export default {
       studyDuration: 0,
       studyRecords: [],
       wordMap: [],
-      end: false
+      end: false,
+      course: {}
     }
   },
   async mounted () {
-    this.words = await API.get(API_NAME, API_PATH + '/getnewwords', {queryStringParameters: { course_id: 'b077af3f-8904-56d5-1ba8-865f81084c44' }})
-    console.log(this.words)
+    if (this.$route.query.hasOwnProperty('course')) {
+      this.getCourse()
+    } else {
+      const courses = await API.get(API_NAME_STUDENT, API_PATH_COURSES + '/mycourses', { queryStringParameters: { course: '' } })
+      this.$router.replace({ query: { course: courses[0].course_id } })
+      this.getCourse()
+    }
   },
   computed: {
     progress () {
@@ -136,6 +147,16 @@ export default {
     }
   },
   methods: {
+    async getCourse () {
+      const init = {
+        queryStringParameters: {
+          course: this.$route.query.course
+        }
+      }
+      const res = await API.get(API_NAME_STUDENT, API_PATH_COURSES + '/mycourses', init)
+      this.course = res[0]
+      this.words = await API.get(API_NAME_TOKI, API_PATH_TOKI + '/getnewwords', { queryStringParameters: { course_id: this.course.course_id } })
+    },
     async record () {
       const params = {
         body: {
@@ -147,7 +168,7 @@ export default {
           records: this.studyRecords
         }
       }
-      const res = await API.post(API_NAME, API_PATH + '/wordbank', params)
+      const res = await API.post(API_NAME_TOKI, API_PATH_TOKI + '/wordbank', params)
       return res
     },
     nextStep (log) {
@@ -188,6 +209,9 @@ export default {
     },
     back () {
       console.log('go back to dash')
+    },
+    changeCourse (courseId) {
+      console.log('Change Course', courseId)
     }
   }
 }

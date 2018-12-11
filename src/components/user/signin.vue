@@ -211,7 +211,7 @@ export default {
             if (firsttime.length === 0) {
               this.$router.push('/firsttimeuser')
             } else {
-              this.$router.push('/')
+              this.$router.push('/dashboard')
             }
           } else {
             this.$router.push('/user/signin')

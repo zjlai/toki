@@ -1,6 +1,6 @@
 {
 	"SourceDir": "src",
-	"DistributionDir": "dist",
+	"DistributionDir": "dist/spa-mat",
 	"BuildCommand": "quasar.cmd build",
 	"StartCommand": "quasar.cmd dev"
 }

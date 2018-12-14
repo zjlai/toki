@@ -1,8 +1,8 @@
 <template>
-  <q-layout view="hHh lpr fFf" class="bg-primary">
+  <q-layout view="hhh lpr fff" class="bg-primary">
 
-    <q-layout-header class="no-shadow auth-header q-py-xl">
-      <div class="row justify-center items-center">
+    <q-layout-header class="no-shadow">
+      <div class="row justify-center items-center full-height auth-header">
         <svg id="tk-icon-layer" viewBox="0 0 76.37 76.37" class="logo">
           <circle id="tk-icon-layer-head" cx="38.18" cy="38.18" r="27" />
           <polygon id="tk-icon-layer-beak" points="64.52 44.11 76.37 38.18 64.52 32.26 64.52 44.11" />
@@ -18,8 +18,8 @@
       <router-view />
     </q-page-container>
 
-    <q-layout-footer class="no-shadow auth-footer">
-      <div class="flex q-caption text-white items-end justify-center">
+    <q-layout-footer class="no-shadow">
+      <div class="flex q-caption text-white items-center justify-center auth-footer">
         <span>Privacy Policy</span>
         <span class="break">.</span>
         <span>EULA</span>
@@ -55,7 +55,7 @@ export default {
 
 <style>
 .auth-header, .auth-footer {
-  height: 80px;
+   min-height: 80px;
 }
 .auth-footer div span {
   padding: 0px 8px;

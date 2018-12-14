@@ -116,7 +116,7 @@ const routes = [
     children: [
       {
         name: 'dashboard',
-        path: '/dashboard/:courseId',
+        path: '/dashboard',
         component: () => import('pages/dashboard.vue')
       }
     ]

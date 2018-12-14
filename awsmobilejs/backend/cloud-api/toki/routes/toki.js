@@ -8,7 +8,7 @@ const getPace = async (student, course) => {
 
   const DefaultPace = 20
   const paceQuery = `SELECT pace FROM public.student_stats
-                     WHERE student='  ${student}' AND course='${course}'`
+                     WHERE student='${student}' AND course='${course}'`
   const conn = await connectDB()
   const pace = await queryDB(conn, paceQuery)
   return  pace[0].pace
@@ -30,7 +30,7 @@ const getTestWords = async (student, course) => {
 
 const getNewWords = async (student, course, count) => {
   const newWordsQuery = `SELECT word, word_id, definition, examples, images, breakdown, phonetics, complexity, category FROM public.words
-                         WHERE course='b077af3f-8904-56d5-1ba8-865f81084c44'
+                         WHERE course='${course}'
                          EXCEPT
                             SELECT public.words.word, public.words.word_id, definition, examples, images,breakdown, phonetics, complexity, category
                             FROM public.words

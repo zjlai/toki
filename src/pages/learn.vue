@@ -5,7 +5,7 @@
         <q-card-title class="title-bar">
           <div class="row justify-between">
             <h1>TOKILEARN</h1>
-            <course-select @changecourse="changeCourse" :course="course" />
+            <course-select @changecourse="changeCourse" :course="course.course_id" />
           </div>
         </q-card-title>
         <q-progress

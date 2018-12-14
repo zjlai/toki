@@ -99,7 +99,7 @@ features:
           sdk-generation-stage-name: Development
         paths:
           /toki: !com.amazonaws.mobilehub.v0.Function 
-            codeFilename: uploads/toki-20181212185814.zip
+            codeFilename: uploads/toki-20181214144826.zip
             description: 'Handler for calls to resource path : /toki/{proxy+}'
             enableCORS: true
             environment:
@@ -109,18 +109,18 @@ features:
               RDS_PORT: '5432'
               RDS_USERNAME: traqxion
             handler: lambda.handler
-            hashcode: yzD9aSpksVMHEdhzlYcYITDXwTgXCotPYHXcSBbkt5I=
+            hashcode: +Y7Du7qyYMhXaxReLR8gdTvL6/znC6I9uixQ1iiP5PQ=
             memorySize: '128'
-            modified: '2018-12-12T11:00:11.850+0000'
+            modified: '2018-12-14T06:50:32.022+0000'
             name: toki
             runtime: nodejs8.10
             securityGroups: sg-36748d4f
             subnetIds: 'subnet-a1a2c3e8,subnet-77595f31,subnet-dc83f2bb'
             timeout: '3'
-            version: vrjTP_.b4VtJ3E6xPGz.pq625bcLYPyB
+            version: dLkIdIU.l4hQbJcfGZls0_xaFBwtUH_6
             vpcId: vpc-a69439c1
           '/toki/{proxy+}': !com.amazonaws.mobilehub.v0.Function 
-            codeFilename: uploads/toki-20181212185814.zip
+            codeFilename: uploads/toki-20181214144826.zip
             description: 'Handler for calls to resource path : /toki/{proxy+}'
             enableCORS: true
             environment:
@@ -130,15 +130,15 @@ features:
               RDS_PORT: '5432'
               RDS_USERNAME: traqxion
             handler: lambda.handler
-            hashcode: yzD9aSpksVMHEdhzlYcYITDXwTgXCotPYHXcSBbkt5I=
+            hashcode: +Y7Du7qyYMhXaxReLR8gdTvL6/znC6I9uixQ1iiP5PQ=
             memorySize: '128'
-            modified: '2018-12-12T11:00:11.850+0000'
+            modified: '2018-12-14T06:50:32.022+0000'
             name: toki
             runtime: nodejs8.10
             securityGroups: sg-36748d4f
             subnetIds: 'subnet-a1a2c3e8,subnet-77595f31,subnet-dc83f2bb'
             timeout: '3'
-            version: hpPsCJx04KXF_N9qaGm0lKSsmiA1okKN
+            version: nY3Z36V6NWaAeKFFLWlqKUXdzYN1d_Wx
             vpcId: vpc-a69439c1
   content-delivery: !com.amazonaws.mobilehub.v0.ContentDelivery 
     attributes:

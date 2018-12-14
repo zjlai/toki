@@ -24,26 +24,26 @@
         </q-card>
       </div>
       <div class="col-2">
-      <q-card class="tk-container-sub collapse full-height" style="margin-top:0;">
-        <q-card-title class="title-bar-yellow">
-          <h4>
-            NEW WORDS
-          </h4>
-        </q-card-title>
-        <q-card-main class="tk-container-sub-inner">
-          <div class="col">
-            <q-list
-              no-border
-            >
-              <q-item v-for="(word, index) in newwords" :key="word">
-                <h5 class="font-primary text-bold">
-                  {{index + 1}}.  {{word}}
-                </h5>
-              </q-item>
-            </q-list>
-          </div>
-        </q-card-main>
-      </q-card>
+        <q-card class="tk-container-sub collapse full-height" style="margin-top:0;">
+          <q-card-title class="title-bar-yellow">
+            <h4>
+              NEW WORDS
+            </h4>
+          </q-card-title>
+          <q-card-main class="tk-container-sub-inner">
+            <div class="col">
+              <q-list
+                no-border
+              >
+                <q-item v-for="(word, index) in newwords" :key="word">
+                  <h5 class="font-primary text-bold">
+                    {{index + 1}}.  {{word}}
+                  </h5>
+                </q-item>
+              </q-list>
+            </div>
+          </q-card-main>
+        </q-card>
       </div>
       <div class="col-8">
         <q-card class="tk-container-sub collapse full-height" style="margin-top:0;">

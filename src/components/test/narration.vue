@@ -7,7 +7,7 @@
             <h4>INSTRUCTIONS</h4>
           </q-card-title>
           <q-card-main class="tk-container-sub-inner bg-primary">
-            <h1 class="font-primary text-white text-bold q-py-lg">
+            <h1 class="font-primary text-white text-bold q-pa-lg">
               Listen to the word that is played and type out your answer below
             </h1>
           </q-card-main>
@@ -35,7 +35,7 @@
         </q-card-title>
         <q-card-main class="tk-container-sub-inner">
           <div class="col q-my-md">
-            <q-input v-model="ans" align="center" upper-case autofocus hide-underline class="biginput text-black text-bold q-display-3 q-my-xl" />
+            <q-input ref="input" v-model="ans" align="center" upper-case autofocus hide-underline class="biginput text-black text-bold q-display-3 q-my-xl" />
           </div>
         </q-card-main>
       </q-card>
@@ -72,15 +72,19 @@ export default {
     this.utterance.lang = 'en-GB'
     this.startTime = Date.now()
     this.speak()
+    this.$emit('mounted')
   },
   methods: {
     speak () {
       this.$tts.speak(this.utterance)
+      this.$refs.input.focus()
     },
     nextStep () {
       const currTime = Date.now()
       const sectionTime = currTime - this.startTime
       this.$tts.cancel()
+      const result = this.ans.toLowerCase() === this.word.toLowerCase()
+      this.$emit('ans', { answer: this.ans, result: result, duration: sectionTime, word: this.word, section: 'narration' })
       this.$emit('nextstep', { section: 'narration', duration: sectionTime })
     }
   }

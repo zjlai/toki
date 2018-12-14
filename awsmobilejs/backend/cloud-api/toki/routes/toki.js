@@ -8,7 +8,7 @@ const getPace = async (student, course) => {
 
   const DefaultPace = 20
   const paceQuery = `SELECT pace FROM public.student_stats
-                     WHERE student='${student}' AND course='${course}'`
+                     WHERE student='  ${student}' AND course='${course}'`
   const conn = await connectDB()
   const pace = await queryDB(conn, paceQuery)
   return  pace[0].pace
@@ -19,8 +19,8 @@ const getTestWords = async (student, course) => {
   //Get Test words that need to be tested and returns list of words and count
 
   //Get Words from student wordbank
-  const wordbankQuery = `SELECT word, word_id FROM public.wordbank
-                         WHERE student='${student}' AND course='${course}'
+  const wordbankQuery = `SELECT word, word_id, mastery FROM public.wordbank
+                         WHERE student='${student}' AND course='${course}' AND cycle=1
                          AND mastery < 75`
   const conn = await connectDB()
   const words = await queryDB(conn, wordbankQuery)
@@ -85,6 +85,26 @@ const insertStudyRecord = async (student, course, word, word_id, records) => {
   return res
 }
 
+const insertTestRecord = async (student, course, word, word_id, records) => {
+  const testRecord = {
+    student: student,
+    course: course,
+    date:new Date(),
+    records: JSON.stringify({'records': records}),
+    word: word,
+    word_id: word_id
+  }
+  const query = {
+    text: `INSERT INTO public.test_records(
+          student, course, date, records, word, word_id)
+          VALUES($1, $2, $3, $4, $5, $6)`,
+    values: Object.values(testRecord)
+  }
+  const conn = await connectDB()
+  const res = await queryDB(conn, query)
+  return res
+}
+
 router.get('/gettestwords', asyncHandler(async (req, res) => {
   const id = req.apiGateway.event.requestContext.identity.cognitoIdentityId
   const course_id = req.apiGateway.event.queryStringParameters.course_id
@@ -141,6 +161,35 @@ router.post('/wordbank', asyncHandler(async (req, res) => {
   const result = await queryDB(conn, query)
   const wordmap = await insertWordMap(id, queryData.course, queryData.word, queryData.word_id, queryData.wordmap)
   const record = await insertStudyRecord (id, queryData.course, queryData.word, queryData.word_id, queryData.records)
+  res.json(result)
+}));
+
+router.post('/testrecords', asyncHandler(async (req, res) => {
+  const id = req.apiGateway.event.requestContext.identity.cognitoIdentityId
+  const queryData = req.body
+  const record = {
+    student: id,
+    course : queryData.course,
+    date: new Date(),
+    word: queryData.word,
+    word_id: queryData.word_id,
+    answer: queryData.answer,
+    result: queryData.result,
+    duration: queryData.duration,
+    section: queryData.section
+    // records: queryData.records || '{}'
+  }
+  const query = {
+    text: `INSERT INTO public.test_records(
+          student, course, date, word, word_id, answer, result, duration, section)
+          VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9)`,
+    values: Object.values(record)
+  }
+
+  const conn = await connectDB()
+  const result = await queryDB(conn, query)
+//  const wordmap = await insertWordMap(id, queryData.course, queryData.word, queryData.word_id, queryData.wordmap)
+//  const record = await insertStudyRecord (id, queryData.course, queryData.word, queryData.word_id, queryData.records)
   res.json(result)
 }));
 module.exports = router

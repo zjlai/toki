@@ -3,7 +3,7 @@
     <q-card-title class="title-bar">
       <div class="row justify-between">
         <h1>TOKI TEST</h1>
-        <course-select @changecourse="changeCourse" :course="course" />
+        <course-select @changecourse="changeCourse" :course="course" :key="course" />
       </div>
     </q-card-title>
     <q-card-main class="col tk-container-sub-inner">

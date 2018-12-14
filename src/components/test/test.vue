@@ -5,12 +5,15 @@
     </q-card-title>
     <q-card-main class="col tk-container-sub-inner">
       <div class="col">
-        <div class="row q-mb-md">
+        <div class="row">
           <div class="col-3 border-right">
             <timer
               :min="0"
-              :max="180"
-              :duration="175"
+              :max="30"
+              :duration="30"
+              ref="timer"
+              @timesup="forceSubmit"
+              @progress="progress"
             />
           </div>
           <div class="col-6 row justify-center border-right">
@@ -57,13 +60,17 @@
               :word="words[current].word"
               :key="words[current].word"
               :end="lastWord"
+              @ans="recordAns"
               @nextstep="nextStep"
+              @mounted="startTimer"
+              ref="narration"
               v-if="steppers[currStep - 1].component === 'Spelling' && !end"
             />
             <mcq
               :word="words[current].word"
               :options="words[current].options"
               @nextstep="nextStep"
+              ref="mcq"
               v-if="steppers[currStep - 1].component === 'MCQ' && !end"
             />
             <next-qn
@@ -139,21 +146,26 @@ export default {
       const res = await API.get(API_NAME_STUDENT, API_PATH_COURSES + '/mycourses', init)
       this.course = res[0]
       this.words = await API.get(API_NAME_TOKI, API_PATH_TOKI + '/gettestwords', { queryStringParameters: { course_id: this.course.course_id } })
-      console.log(this.words[this.current].word)
+    },
+    async recordAns (data) {
+      console.log(data)
+      console.log(this.words[this.current])
+      const params = {
+        body: {
+          course: this.course.course_id,
+          word: this.words[this.current].word,
+          word_id: this.words[this.current].word_id,
+          answer: data.answer.toLowerCase(),
+          result: data.result,
+          duration: data.duration,
+          section: data.section
+        }
+      }
+      const res = await API.post(API_NAME_TOKI, API_PATH_TOKI + '/testrecords', params)
+      return res
     },
     async record () {
-      // const params = {
-      //  body: {
-      //    course: this.course.course_id,
-      //    word: this.words[this.current].word,
-      //    word_id: this.words[this.current].word_id,
-      //    duration: this.studyDuration,
-      //    wordmap: this.wordMap,
-      //    records: this.studyRecords
-      //  }
-      // }
-      //  const res = await API.post(API_NAME_TOKI, API_PATH_TOKI + '/wordbank', params)
-      // return res
+
     },
     nextStep (log) {
       if (this.currStep < this.steppers.length) {
@@ -172,7 +184,9 @@ export default {
     },
     reset () {
       this.testRecords = []
-      this.testDuration = 0
+      // this.testDuration = 0
+      console.log(this.testDuration)
+      this.$refs.timer.resetTimer()
     },
     async nextWord (log) {
       this.$q.loading.show()
@@ -190,6 +204,14 @@ export default {
       this.$q.loading.hide()
       this.current += 1
       this.currStep = 1
+    },
+    forceSubmit () {
+      this.$refs.narration.nextStep()
+    },
+    progress (progress) {
+    },
+    startTimer () {
+      this.$refs.timer.startTimer()
     }
   }
 }

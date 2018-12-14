@@ -1,5 +1,5 @@
 <template>
-  <div class="row justify-center q-pa-lg">
+  <div class="row justify-center">
     <q-knob
       v-model="timer"
       :min="min"

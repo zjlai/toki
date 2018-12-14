@@ -17,25 +17,25 @@
                     <h6 class="sub-title-blue q-subheading text-bold">
                       AVG TIME PER QUESTION
                     </h6>
-                    <h5 class="primary-font q-display-1 text-bold">
-                      {{duration / words.length / 1000}} Secs
-                    </h5>
+                    <p class="primary-font q-display-1 text-bold q-mb-none">
+                      {{(duration / words.length / 1000).toFixed(0)}} Secs
+                    </p>
                   </div>
                   <div class="col text-center border-right">
                     <h6 class="sub-title-blue q-subheading text-bold">
                       NO. OF WORDS TESTED
                     </h6>
-                    <h5 class="primary-font q-display-1 text-bold">
+                    <p class="primary-font q-display-1 text-bold q-mb-none">
                       {{words.length}}
-                    </h5>
+                    </p>
                   </div>
                   <div class="col text-center">
                     <h6 class="sub-title-blue q-subheading text-bold">
                       TOTAL TIME
                     </h6>
-                    <h5 class="primary-font q-display-1 text-bold">
-                      {{duration / 1000}} Secs
-                    </h5>
+                    <p class="primary-font q-display-1 text-bold q-mb-none">
+                      {{(duration / 1000).toFixed(0)}} Secs
+                    </p>
                   </div>
                 </div>
                 <div class="col q-py-md">

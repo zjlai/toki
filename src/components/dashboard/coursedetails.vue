@@ -2,7 +2,7 @@
   <div class="col">
     <div class="row">
       <div class="col-2">
-        <q-card class="tk-container-sub collapse full-height" style="margin-top:0;">
+        <q-card class="tk-container-sub collapse">
           <q-card-title class="title-bar-blue">
             <h4>
               NEXT TEST
@@ -24,7 +24,7 @@
         </q-card>
       </div>
       <div class="col-2">
-        <q-card class="tk-container-sub collapse full-height" style="margin-top:0;">
+        <q-card class="tk-container-sub collapse">
           <q-card-title class="title-bar-yellow">
             <h4>
               NEW WORDS
@@ -46,7 +46,7 @@
         </q-card>
       </div>
       <div class="col-8">
-        <q-card class="tk-container-sub collapse full-height" style="margin-top:0;">
+        <q-card class="tk-container-sub collapse">
           <q-card-title class="title-bar-grey">
             <h4 class="text-grey-full text-center">
               YOUR CURRENT PACE
@@ -58,9 +58,9 @@
         </q-card>
       </div>
     </div>
-    <div class="row q-mt-md">
+    <div class="row">
       <div class="col-2">
-        <q-card class="tk-container-sub collapse full-height" style="margin-top:0;">
+        <q-card class="tk-container-sub collapse">
           <q-card-title class="title-bar-grey">
             <h4 class="text-grey-full text-center">
               MASTERY LEVEL
@@ -72,7 +72,7 @@
         </q-card>
       </div>
       <div class="col-2">
-        <q-card class="tk-container-sub collapse full-height" style="margin-top:0;">
+        <q-card class="tk-container-sub collapse">
           <q-card-title class="title-bar-grey">
             <h4 class="text-grey-full text-center">
               MILESTONES
@@ -93,7 +93,7 @@
         </q-card>
       </div>
       <div class="col-8">
-        <q-card class="tk-container-sub collapse full-height" style="margin-top:0;">
+        <q-card class="tk-container-sub collapse">
           <q-card-title class="title-bar-grey">
             <h4 class="text-grey-full text-center">
               TOP COHORT PERFORMERS (PLACEHOLDER)
@@ -105,9 +105,9 @@
         </q-card>
       </div>
     </div>
-    <div class="row q-mt-md">
+    <div class="row">
       <div class="col-3">
-        <q-card class="tk-container-sub collapse full-height" style="margin-top:0;">
+        <q-card class="tk-container-sub collapse">
           <q-card-title class="title-bar-grey">
             <h4 class="text-grey-full text-center">
               3 HARDEST WORDS
@@ -127,7 +127,7 @@
         </q-card>
       </div>
       <div class="col-3">
-        <q-card class="tk-container-sub collapse full-height" style="margin-top:0;">
+        <q-card class="tk-container-sub collapse">
           <q-card-title class="title-bar-grey">
             <h4 class="text-grey-full text-center">
               3 EASIEST WORDS
@@ -162,7 +162,7 @@ export default {
   },
   data () {
     return {
-      newwords: ['Antartic', 'Deteriorate', 'Onomatopoeia'],
+      newwords: ['Antartic', 'Deteriorate', 'Onomatopoeia', 'long list', 'longer list'],
       hardestwords: ['Antartic', 'Deteriorate', 'Onomatopoeia'],
       easiestwords: ['Antartic', 'Deteriorate', 'Onomatopoeia'],
       mastery: 25

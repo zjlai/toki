@@ -3,7 +3,7 @@
     <div class="full-height">
       <q-card class="tk-container-sub collapse full-height">
         <q-card-title class="title-bar">
-          <div class="row justify-between">
+          <div class="row justify-between items-center">
             <h1>COURSE DASHBOARD</h1>
             <course-select @changecourse="changeCourse" :course="course" :key="course.course_id" />
           </div>
@@ -15,7 +15,7 @@
                 <toki-message />
               </div>
               <div class="col-2">
-                <q-card class="tk-container-sub collapse" style="margin-top:0;">
+                <q-card class="tk-container-sub collapse" style="margin-top:0; margin-bottom: 0;">
                   <q-card-title class="title-bar-blue">
                     <h4>
                       COURSE OVERVIEW

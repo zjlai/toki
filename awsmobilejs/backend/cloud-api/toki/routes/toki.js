@@ -69,7 +69,7 @@ const insertStudyRecord = async (student, course, word, word_id, records) => {
   const studyRecord = {
     student: student,
     course: course,
-    date:new Date(),
+    date: new Date(),
     records: JSON.stringify({'records': records}),
     word: word,
     word_id: word_id
@@ -84,6 +84,70 @@ const insertStudyRecord = async (student, course, word, word_id, records) => {
   const res = await queryDB(conn, query)
   return res
 }
+
+const insertEndStudy = async (student, course) => {
+  const studyRecord = {
+    student: student,
+    course: course,
+    date: new Date(),
+    comments: 'End Study Round'
+  }
+  const query = {
+    text: `INSERT INTO public.study_records(
+          student, course, date, comments)
+          VALUES($1, $2, $3, $4)`,
+    values: Object.values(studyRecord)
+  }
+  const conn = await connectDB()
+  const res = await queryDB(conn, query)
+  return res
+}
+
+const setTestReady = async (student, course) => {
+  const query = `UPDATE public.student_stats
+                 SET test_ready=true
+                 WHERE student='${student}' AND course='${course}'`
+ const conn = await connectDB()
+ const res = await queryDB(conn, query)
+ return res
+}
+
+const getAllLearnWords = async (student, course) => {
+  const query = `SELECT COUNT(*) FROM public.wordbank
+                 WHERE student='${student}' AND course='${course}'`
+ const conn = await connectDB()
+ const res = await queryDB(conn, query)
+ return res[0].count
+}
+
+const getAllMasteredWords = async (student, course) => {
+  const query = `SELECT COUNT(*) FROM public.wordbank
+                 WHERE student='${student}' AND course='${course}' AND mastery > 75`
+ const conn = await connectDB()
+ const res = await queryDB(conn, query)
+ return res[0].count
+}
+
+const updateAfterStudy = async (student, course) => {
+  const allWords = await getAllLearnWords(student, course)
+  const query = `UPDATE public.student_stats
+                 SET words_learning=${allWords}, test_ready=true
+                 WHERE student='${student}' AND course='${course}'`
+  const conn = await connectDB()
+  const res = await queryDB(conn, query)
+  return res
+}
+
+router.post('/endstudy', asyncHandler(async (req, res) => {
+  const id = req.apiGateway.event.requestContext.identity.cognitoIdentityId
+  const queryData = req.body
+  const course = req.body.course
+
+  await insertEndStudy(id, course)
+  await updateAfterStudy(id, course)
+
+  res.json({ status: 200 })
+}))
 
 const insertTestRecord = async (student, course, word, word_id, records) => {
   const testRecord = {
@@ -120,6 +184,7 @@ router.get('/gettestwords', asyncHandler(async (req, res) => {
 router.get('/getnewwords', asyncHandler(async (req, res) => {
   const id = req.apiGateway.event.requestContext.identity.cognitoIdentityId
   const course_id = req.apiGateway.event.queryStringParameters.course_id
+  console.log(course_id)
   if (course_id === '') {
     res.json({ status: 'error', message: 'No test found' })
   }
@@ -192,4 +257,27 @@ router.post('/testrecords', asyncHandler(async (req, res) => {
 //  const record = await insertStudyRecord (id, queryData.course, queryData.word, queryData.word_id, queryData.records)
   res.json(result)
 }));
+
+router.get('/mystats', asyncHandler(async (req, res) => {
+  const id = req.apiGateway.event.requestContext.identity.cognitoIdentityId
+  const course = req.apiGateway.event.queryStringParameters.course
+  const query = `SELECT * FROM public.student_stats
+                 WHERE student='${id}' AND course='${course}'`
+  const conn = await connectDB()
+  const result = await queryDB(conn, query)
+  res.json(result)
+}))
+
+router.get('/mystudyhistory', asyncHandler(async (req, res) => {
+  const id = req.apiGateway.event.requestContext.identity.cognitoIdentityId
+  const course = req.apiGateway.event.queryStringParameters.course
+  const query = `SELECT sr.date, sr.records, sr.word, sr.word_id, wb.duration, wb.mastery, wb.date_created, wb.date_updated
+                 FROM public.study_records sr INNER JOIN public.wordbank wb
+                 ON sr.word_id = wb.word_id
+                 WHERE student='${id}' AND course='${course}'
+                 ORDER BY sr.id`
+  const conn = await connectDB()
+  const result = await queryDB(conn, query)
+  res.json(result)
+}))
 module.exports = router

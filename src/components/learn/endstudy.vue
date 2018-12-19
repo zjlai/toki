@@ -10,8 +10,9 @@
             <div class="col-auto">
               <img svg-inline src="../../assets/tokido.svg" class="toki-bot logo-yellow" />
             </div>
-            <div class="col toki-speech">
+            <div class="col toki-speech text-center">
               <h3>Well done you have completed this round of study!</h3>
+              <h3>You are ready to take the next challenge!</h3>
             </div>
           </div>
         </q-card-main>
@@ -42,6 +43,7 @@ export default {
   },
   methods: {
     back () {
+      this.$emit('back')
     }
   }
 }

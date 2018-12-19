@@ -3,7 +3,7 @@
     <q-card-title class="title-bar">
       <div class="row justify-between">
         <h1>TOKI TEST</h1>
-        <course-select @changecourse="changeCourse" :course="course" :key="course" />
+        <course-select @changecourse="changeCourse" :course="course" :key="course.course_id" />
       </div>
     </q-card-title>
     <q-card-main class="col tk-container-sub-inner">
@@ -129,8 +129,8 @@ import Timer from '../common/timer'
 import CourseSelect from '../common/selectcourse'
 import { API } from 'aws-amplify'
 
-const API_PATH_TOKI = '/toki'
-const API_NAME_TOKI = 'toki'
+// const API_PATH_TOKI = '/toki'
+// const API_NAME_TOKI = 'toki'
 const API_PATH_COURSES = '/courses'
 const API_NAME_STUDENT = 'students'
 
@@ -155,21 +155,26 @@ export default {
     }
   },
   methods: {
-    changeCourse (courseId) {
-      console.log('Change Course', courseId)
-    },
     async getCourse () {
       const init = {
         queryStringParameters: {
           course: this.$route.query.course
         }
       }
-      const res = await API.get(API_NAME_STUDENT, API_PATH_COURSES + '/mycourses', init)
+      const res = await API.get(API_NAME_STUDENT, API_PATH_COURSES + '/mycourse', init)
       this.course = res[0]
-      this.words = await API.get(API_NAME_TOKI, API_PATH_TOKI + '/getnewwords', { queryStringParameters: { course_id: this.course.course_id } })
+      console.log(this.course)
+      // this.words = await API.get(API_NAME_TOKI, API_PATH_TOKI + '/getnewwords', { queryStringParameters: { course_id: this.course.course_id } })
     },
     beginTest () {
       this.$router.push({ path: 'test/testing', query: { course: this.course.course_id } })
+    },
+    changeCourse (course) {
+      console.log('Change Course', course)
+      this.$router.push({ path: '/learn', query: { course: course.course } })
+      this.reset()
+      this.current = 0
+      this.currStep = 1
     }
   }
 }

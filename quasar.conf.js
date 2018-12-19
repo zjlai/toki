@@ -95,7 +95,12 @@ module.exports = function (ctx) {
         'QSpinnerFacebook',
         'QUploader',
         'QProgress',
-        'QPopover'
+        'QPopover',
+        'QTable',
+        'QTh',
+        'QTr',
+        'QTd',
+        'QTableColumns'
       ],
       directives: [
         'Ripple'

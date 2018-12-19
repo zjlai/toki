@@ -29,11 +29,7 @@ export default {
     }
   },
   async mounted () {
-    const init = {
-      queryStringParameters: { course: '' }
-    }
-    const res = await API.get(API_NAME, API_PATH + '/mycourses', init)
-    console.log(res)
+    const res = await API.get(API_NAME, API_PATH + '/mycourses')
     res.forEach((course) => {
       this.options.push({
         label: course.name,
@@ -41,9 +37,10 @@ export default {
       })
     })
     if (this.course) {
-      this.selectedCourse = this.course.name || 'No Course'
+      this.selectedCourse = this.course.name
     } else {
-      this.selectedCourse = 'No Course'
+      this.selectedCourse = this.options[0].name
+      this.$emit('changecourse', { course: this.options[0].value })
     }
   },
   methods: {

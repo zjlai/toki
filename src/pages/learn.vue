@@ -5,7 +5,7 @@
         <q-card-title class="title-bar">
           <div class="row justify-between">
             <h1>TOKILEARN</h1>
-            <course-select @changecourse="changeCourse" :course="course.course_id" />
+            <course-select @changecourse="changeCourse" :course="course" :key="course.course_id" />
           </div>
         </q-card-title>
         <q-progress
@@ -129,15 +129,16 @@ export default {
       studyRecords: [],
       wordMap: [],
       end: false,
-      course: {}
+      course: {},
+      courses: []
     }
   },
   async mounted () {
     if (this.$route.query.hasOwnProperty('course')) {
       this.getCourse()
     } else {
-      const courses = await API.get(API_NAME_STUDENT, API_PATH_COURSES + '/mycourses', { queryStringParameters: { course: '' } })
-      this.$router.replace({ query: { course: courses[0].course_id } })
+      this.courses = await API.get(API_NAME_STUDENT, API_PATH_COURSES + '/mycourses')
+      this.$router.replace({ query: { course: this.courses[0].course_id } })
       this.getCourse()
     }
   },
@@ -153,9 +154,13 @@ export default {
           course: this.$route.query.course
         }
       }
-      const res = await API.get(API_NAME_STUDENT, API_PATH_COURSES + '/mycourses', init)
+      const res = await API.get(API_NAME_STUDENT, API_PATH_COURSES + '/mycourse', init)
+      console.log(res)
       this.course = res[0]
       this.words = await API.get(API_NAME_TOKI, API_PATH_TOKI + '/getnewwords', { queryStringParameters: { course_id: this.course.course_id } })
+      if (this.words.length === 0) {
+        this.end = true
+      }
     },
     async record () {
       const params = {
@@ -207,11 +212,21 @@ export default {
       this.current += 1
       this.currStep = 1
     },
-    back () {
-      console.log('go back to dash')
+    async back () {
+      const params = {
+        body: {
+          course: this.course.course_id
+        }
+      }
+      await await API.post(API_NAME_TOKI, API_PATH_TOKI + '/endstudy', params)
+      this.$router.push({ path: '/dashboard', query: { course: this.course.course_id } })
     },
-    changeCourse (courseId) {
-      console.log('Change Course', courseId)
+    changeCourse (course) {
+      console.log('Change Course', course)
+      this.$router.push({ path: '/learn', query: { course: course.course } })
+      this.reset()
+      this.current = 0
+      this.currStep = 1
     }
   }
 }

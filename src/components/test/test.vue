@@ -146,10 +146,19 @@ export default {
       const res = await API.get(API_NAME_STUDENT, API_PATH_COURSES + '/mycourses', init)
       this.course = res[0]
       this.words = await API.get(API_NAME_TOKI, API_PATH_TOKI + '/gettestwords', { queryStringParameters: { course_id: this.course.course_id } })
+      await this.recordStart()
+    },
+    async recordStart () {
+      const init = {
+        queryStringParameters: {
+          course: this.$route.query.course
+        }
+      }
+      await API.get(API_NAME_TOKI, API_PATH_TOKI + '/recordstarttest', init)
     },
     async recordAns (data) {
-      console.log(data)
-      console.log(this.words[this.current])
+      this.words[this.current].answer = data.answer.toLowerCase()
+      this.words[this.current].result = data.result
       const params = {
         body: {
           course: this.course.course_id,
@@ -188,6 +197,22 @@ export default {
       console.log(this.testDuration)
       this.$refs.timer.resetTimer()
     },
+    async recordEndTest () {
+      const params = {
+        body: {
+          course: this.course.course_id,
+          records: this.testRecords,
+          duration: this.testDuration,
+          words: this.words,
+          result: this.words.filter(v => v.result).length
+        }
+      }
+      await API.post(API_NAME_TOKI, API_PATH_TOKI + '/recordendtest', params)
+    },
+    async endTest () {
+      this.recordEndTest()
+      this.$router.push({ name: 'summary', query: { course: this.course.course_id }, params: { words: this.words, duration: this.testDuration } })
+    },
     async nextWord (log) {
       this.$q.loading.show()
 
@@ -196,7 +221,7 @@ export default {
         await this.lockin(log)
         this.end = true
         this.$q.loading.hide()
-        this.$router.push({ name: 'summary', query: { course: this.course.course_id }, params: { words: this.words, duration: this.testDuration } })
+        this.endTest()
         return
       }
       await this.lockin(log)

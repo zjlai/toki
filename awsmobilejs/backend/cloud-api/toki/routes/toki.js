@@ -148,27 +148,6 @@ router.post('/endstudy', asyncHandler(async (req, res) => {
 
   res.json({ status: 200 })
 }))
-
-const insertTestRecord = async (student, course, word, word_id, records) => {
-  const testRecord = {
-    student: student,
-    course: course,
-    date:new Date(),
-    records: JSON.stringify({'records': records}),
-    word: word,
-    word_id: word_id
-  }
-  const query = {
-    text: `INSERT INTO public.test_records(
-          student, course, date, records, word, word_id)
-          VALUES($1, $2, $3, $4, $5, $6)`,
-    values: Object.values(testRecord)
-  }
-  const conn = await connectDB()
-  const res = await queryDB(conn, query)
-  return res
-}
-
 router.get('/gettestwords', asyncHandler(async (req, res) => {
   const id = req.apiGateway.event.requestContext.identity.cognitoIdentityId
   const course_id = req.apiGateway.event.queryStringParameters.course_id
@@ -229,32 +208,109 @@ router.post('/wordbank', asyncHandler(async (req, res) => {
   res.json(result)
 }));
 
-router.post('/testrecords', asyncHandler(async (req, res) => {
-  const id = req.apiGateway.event.requestContext.identity.cognitoIdentityId
-  const queryData = req.body
+const getTestCycle = async (student, course) => {
+  const query = `SELECT test_cycle FROM public.student_stats
+                 WHERE student='${student}' AND course='${course}'`
+  const conn = await connectDB()
+  const res = await queryDB(conn, query)
+  return res[0].test_cycle
+
+}
+
+const insertTestRecord = async (student, course, word, word_id, answer, result, duration, section) => {
+  const cycle = await getTestCycle(student, course)
   const record = {
-    student: id,
-    course : queryData.course,
+    student: student,
+    course : course,
     date: new Date(),
-    word: queryData.word,
-    word_id: queryData.word_id,
-    answer: queryData.answer,
-    result: queryData.result,
-    duration: queryData.duration,
-    section: queryData.section
+    word: word,
+    word_id: word_id,
+    answer: answer,
+    result: result,
+    duration: duration,
+    section: section,
+    test_cycle: cycle
     // records: queryData.records || '{}'
   }
   const query = {
     text: `INSERT INTO public.test_records(
-          student, course, date, word, word_id, answer, result, duration, section)
-          VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9)`,
+          student, course, date, word, word_id, answer, result, duration, section, test_cycle)
+          VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`,
+    values: Object.values(record)
+  }
+  const conn = await connectDB()
+  const res = await queryDB(conn, query)
+  return res
+}
+
+const insertTestRecordComments = async (student, course, comments) => {
+  const cycle = await getTestCycle(student, course)
+  const record = {
+    student: student,
+    course: course,
+    date: new Date(),
+    test_cycle: cycle,
+    comments: `${comments} ${cycle}`
+  }
+  const query = {
+    text: `INSERT INTO public.test_records(student, course, date, test_cycle, comments)
+           VALUES($1, $2, $3, $4, $5)`,
     values: Object.values(record)
   }
 
   const conn = await connectDB()
-  const result = await queryDB(conn, query)
-//  const wordmap = await insertWordMap(id, queryData.course, queryData.word, queryData.word_id, queryData.wordmap)
-//  const record = await insertStudyRecord (id, queryData.course, queryData.word, queryData.word_id, queryData.records)
+  const res = await queryDB(conn, query)
+  return res
+}
+
+const insertTestResult = async (student, course, records, duration, words, results) => {
+  const cycle = await getTestCycle(student, course)
+  const record = {
+    student: student,
+    course: course,
+    date: new Date(),
+    results: JSON.stringify(words),
+    duration: duration,
+    summary: JSON.stringify(records),
+    test_cycle: cycle,
+    score: results
+  }
+  const query = {
+    text: `INSERT INTO public.test_results(student, course, date, results, duration, summary, test_cycle, score)
+           VALUES($1, $2, $3, $4, $5, $6, $7, $8)`,
+    values: Object.values(record)
+  }
+
+  const conn = await connectDB()
+  const res = await queryDB(conn, query)
+  return res
+}
+
+router.post('/recordstarttest', asyncHandler(async (req, res) => {
+  const id = req.apiGateway.event.requestContext.identity.cognitoIdentityId
+  const data = req.body
+
+  const comments = `Started Test Cycle`
+  const result = await insertTestRecordComments(id, data.course, comments)
+
+  res.json(result)
+}));
+
+router.post('/testrecords', asyncHandler(async (req, res) => {
+  const id = req.apiGateway.event.requestContext.identity.cognitoIdentityId
+  const queryData = req.body
+
+  const result = await insertTestRecord(id, queryData.course, queryData.word, queryData.word_id, queryData.answer, queryData.result, queryData.duration, queryData.section)
+
+  res.json(result)
+}));
+
+router.post('/recordendtest', asyncHandler(async (req, res) => {
+  const id = req.apiGateway.event.requestContext.identity.cognitoIdentityId
+  const data = req.body
+  const comments = `Ended Test Cycle`
+  await insertTestRecordComments(id, data.course, comments)
+  const result = await insertTestResult(id, data.course, data.records, data.duration, data.words, data.result)
   res.json(result)
 }));
 
@@ -279,5 +335,6 @@ router.get('/mystudyhistory', asyncHandler(async (req, res) => {
   const conn = await connectDB()
   const result = await queryDB(conn, query)
   res.json(result)
-}))
+}));
+
 module.exports = router

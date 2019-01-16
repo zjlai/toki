@@ -7,7 +7,8 @@
       </div>
     </q-card-title>
     <q-card-main class="col tk-container-sub-inner">
-      <div class="col">
+      <no-test v-if="notest" />
+      <div class="col" v-if="!notest">
         <div class="row">
           <div class="col-2">
             <q-card class="tk-container-sub collapse">
@@ -127,10 +128,11 @@
 <script>
 import Timer from '../common/timer'
 import CourseSelect from '../common/selectcourse'
+import NoTest from './noneavailable'
 import { API } from 'aws-amplify'
 
-// const API_PATH_TOKI = '/toki'
-// const API_NAME_TOKI = 'toki'
+const API_PATH_TOKI = '/toki'
+const API_NAME_TOKI = 'toki'
 const API_PATH_COURSES = '/courses'
 const API_NAME_STUDENT = 'students'
 
@@ -138,11 +140,13 @@ export default {
   name: 'TestInstructionComponent',
   components: {
     Timer,
-    CourseSelect
+    CourseSelect,
+    NoTest
   },
   data () {
     return {
-      course: {}
+      course: {},
+      notest: false
     }
   },
   async mounted () {
@@ -163,18 +167,19 @@ export default {
       }
       const res = await API.get(API_NAME_STUDENT, API_PATH_COURSES + '/mycourse', init)
       this.course = res[0]
-      console.log(this.course)
-      // this.words = await API.get(API_NAME_TOKI, API_PATH_TOKI + '/getnewwords', { queryStringParameters: { course_id: this.course.course_id } })
+      this.words = await API.get(API_NAME_TOKI, API_PATH_TOKI + '/gettestwords', { queryStringParameters: { course_id: this.course.course_id } })
+      if (this.words.length === 0) {
+        this.notest = true
+      }
     },
     beginTest () {
       this.$router.push({ path: 'test/testing', query: { course: this.course.course_id } })
     },
     changeCourse (course) {
       console.log('Change Course', course)
-      this.$router.push({ path: '/learn', query: { course: course.course } })
-      this.reset()
-      this.current = 0
-      this.currStep = 1
+      this.$router.push({ path: '/learn', query: { course: course.course } }, () => {
+        this.$route.go()
+      })
     }
   }
 }

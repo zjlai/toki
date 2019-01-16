@@ -26,7 +26,7 @@
                   </div>
                   <div class="col text-center">
                     <h6 class="sub-title-blue">TEACHER</h6>
-                    <h5 class="font-primary">{{course.teacher_id}}</h5>
+                    <h5 class="font-primary">{{course.last_name}} {{course.first_name}}</h5>
                   </div>
                 </div>
                 <hr />
@@ -63,7 +63,7 @@
                   </div>
                   <div class="col text-center">
                     <h6 class="sub-title-blue">AVG. WORDS PER WEEK</h6>
-                    <h5 class="font-primary">{{course.ave_words || 'NA'}}</h5>
+                    <h5 class="font-primary">{{aveWords}}</h5>
                   </div>
                 </div>
               </div>
@@ -125,12 +125,14 @@ export default {
   },
   data () {
     return {
-      course: {}
+      course: {},
+      aveWords: 0
     }
   },
   mounted () {
     console.log(this.$route.params)
     this.course = this.$route.params.course
+    this.aveWords = this.averageWords()
     this.course.start_date = date.formatDate(this.course.start_date, 'DD MMM YYYY')
     this.course.end_date = date.formatDate(this.course.end_date, 'DD MMM YYYY')
   },
@@ -138,6 +140,16 @@ export default {
     async join () {
       const res = await API.post(API_NAME, API_PATH + '/join', {body: { course_id: this.course.course_id }})
       console.log(res)
+      this.$q.notify('Enrolled!')
+      this.$router.push('/courses')
+    },
+    averageWords () {
+      const weeks = Math.round(this.course.duration) / 7 - 2
+      if (weeks > 0) {
+        return Math.round(this.course.wordcount / weeks)
+      } else {
+        return this.course.wordcount
+      }
     }
   }
 }

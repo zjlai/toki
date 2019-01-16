@@ -12,7 +12,7 @@
           <div class="col">
             <div class="row items-start">
               <div class="col-10">
-                <toki-message />
+                <toki-message :course="course" :key="course.course" />
               </div>
               <div class="col-2">
                 <q-card class="tk-container-sub collapse" style="margin-top:0; margin-bottom: 0;">
@@ -29,7 +29,7 @@
                     <hr>
                     <div class="col">
                       <h6 class="sub-title-blue">COURSE CODE</h6>
-                      <h5 class="font-primary">{{course.classcode}}</h5>
+                      <h5 class="font-primary">{{course.code}}</h5>
                     </div>
                     <hr>
                     <div class="col">
@@ -49,7 +49,7 @@
         </q-card-title>
         <q-card-main class="col tk-container-sub-inner">
           <div class="col">
-            <course-details />
+            <course-details :course="course" :key="course.course" />
           </div>
         </q-card-main>
       </q-card>
@@ -64,8 +64,8 @@ import CourseDetails from '../components/dashboard/coursedetails'
 import CourseSelect from '../components/common/selectcourse'
 import { API } from 'aws-amplify'
 
-const API_PATH_TOKI = '/toki'
-const API_NAME_TOKI = 'toki'
+// const API_PATH_TOKI = '/toki'
+// const API_NAME_TOKI = 'toki'
 const API_PATH_COURSES = '/courses'
 const API_NAME_STUDENT = 'students'
 
@@ -79,22 +79,24 @@ export default {
   },
   data () {
     return {
-      course: ''
+      course: {}
     }
   },
   async mounted () {
     if (this.$route.query.hasOwnProperty('course')) {
       this.getCourse()
     } else {
-      const courses = await API.get(API_NAME_STUDENT, API_PATH_COURSES + '/mycourses', { queryStringParameters: { course: '' } })
-      this.$router.replace({ query: { course: courses[0].course_id } })
+      this.courses = await API.get(API_NAME_STUDENT, API_PATH_COURSES + '/mycourses')
+      this.$router.replace({ query: { course: this.courses[0].course_id } })
       this.getCourse()
     }
-    console.log(this.$auth)
   },
   methods: {
     changeCourse (course) {
-      console.log(course)
+      console.log('Change Course', course)
+      this.$router.push({ path: '/dashboard', query: { course: course.course } }, () => {
+        this.$router.go()
+      })
     },
     async getCourse () {
       const init = {
@@ -102,9 +104,9 @@ export default {
           course: this.$route.query.course
         }
       }
-      const res = await API.get(API_NAME_STUDENT, API_PATH_COURSES + '/mycourses', init)
+      const res = await API.get(API_NAME_STUDENT, API_PATH_COURSES + '/mycourse', init)
+      console.log(res)
       this.course = res[0]
-      this.words = await API.get(API_NAME_TOKI, API_PATH_TOKI + '/gettestwords', { queryStringParameters: { course_id: this.course.course_id } })
     }
   }
 }

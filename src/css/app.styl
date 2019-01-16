@@ -162,7 +162,8 @@ input:checked + .switch::before{ background:#ffffff; transform:translateX(30px);
 .toki-speech h6{color:$tk-grey-1}
 
 .dash_links{padding:10px 0; border-bottom:1px solid #dddddd;}
-.dash_links a{color:$tk-grey-full; position:relative}
-.dash_links a:hover{color:$tk-blue}
+.dash_links > div {padding:10px 0;}
+.dash_links a, .dash_links > div > span{color:$tk-grey-full; position:relative}
+.dash_links:hover > div > span{color:$tk-blue}
 .dash_links a:active, .active{color:$tk-blue !important}
 .active::before {display: inline-block; position:relative; content:''; -webkit-border-radius:$tk-corner-radius-full; border-radius:$tk-corner-radius; height:6px; width:6px; left:-15px; top: 0; background-color:$tk-blue;}

@@ -10,7 +10,6 @@
             <div class="row justify-center items-center">
               <div class="col text-center q-py-xl">
               <h1 class="font-primary q-display-3 text-white text-bold">{{word}}</h1>
-              <h3 class="font-primary text-bold text-secondary">({{category}})</h3>
               </div>
             </div>
           </q-card-main>
@@ -35,12 +34,6 @@
           </q-card-title>
           <q-card-main class="tk-container-sub-inner">
             <div class="row items-center">
-              <div class="col text-center border-right">
-                <h6 class="sub-title-blue">Breakdown</h6>
-                <h5 class="font-primary">
-                  {{breakdown}}
-                </h5>
-              </div>
               <div class="col text-center">
                 <h6 class="sub-title-blue">Pronunciation</h6>
                 <h5 class="font-primary">
@@ -70,18 +63,27 @@
 
 <script>
 export default {
-  name: 'BasicLearn01',
-  props: ['word', 'category', 'breakdown', 'phonetics'],
+  name: 'OxDictLearn',
+  props: ['oxdata'],
   data () {
     return {
-      startTime: 0
+      startTime: 0,
+      word: '',
+      phonetics: ''
     }
   },
   mounted () {
+    this.word = this.oxdata.word
+    this.phonetics = this.oxdata.phonetics
+
+    this.startTime = Date.now()
     this.utterance = new SpeechSynthesisUtterance(this.word)
+    this.utterance.rate = 0.9
     this.utterance.lang = 'en-GB'
     this.$tts.speak(this.utterance)
-    this.startTime = Date.now()
+  },
+  computed: {
+
   },
   methods: {
     speak () {
@@ -91,7 +93,7 @@ export default {
       const currTime = Date.now()
       const sectionTime = currTime - this.startTime
       this.$tts.cancel()
-      this.$emit('nextstep', { section: 'learnBasicOne', duration: sectionTime })
+      this.$emit('nextstep', { section: 'oxDictLearn', duration: sectionTime })
     }
   }
 }

@@ -46,7 +46,7 @@
       <hr />
       <div class="col q-mt-md">
         <h6 class="sub-title-blue">DESCRIPTION</h6>
-        <p class="text-bold q-pt-sm">
+        <p class="text-bold q-pt-sm truncate">
           {{course.description}}
         </p>
       </div>
@@ -94,7 +94,7 @@ export default {
   },
   methods: {
     toDash () {
-      this.$router.push({ path: `/dashboard/${this.course.course_id}` })
+      this.$router.push({ path: `/dashboard?course={this.course.course_id}` })
     }
   }
 }
@@ -102,6 +102,11 @@ export default {
 
 <style lang="stylus">
 @import '~variables'
+.truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 .coursecard {
   width: 30%;
   border-radius: 10px;

@@ -21,7 +21,7 @@
       <hr />
       <div class="col q-mt-md">
         <h6 class="sub-title-blue">DESCRIPTION</h6>
-        <p class="text-bold q-pt-sm">
+        <p class="text-bold q-pt-sm truncate">
           {{course.description}}
         </p>
       </div>
@@ -70,6 +70,11 @@ export default {
 .coursecard {
   width: 30%;
   border-radius: 10px;
+}
+.truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .description
   margin-top 10px

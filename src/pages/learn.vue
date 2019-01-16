@@ -80,6 +80,16 @@
                   @nextword="nextWord"
                   @wordmap="wordMap"
                 />
+                <ox-dict-learn
+                  :oxdata="words[current].oxdictdata"
+                  @nextstep="nextStep"
+                  v-if="steppers[currStep - 1].component === 'OxDictLearn' && !end"
+                />
+                <ox-dict-meaning
+                  :oxdata="words[current].oxdictdata"
+                  @nextstep="nextStep"
+                  v-if="steppers[currStep - 1].component === 'OxDictMeaning' && !end"
+                />
                 <end-study
                   @back="back"
                   v-if="end"
@@ -98,6 +108,8 @@ import WordAssociation from '../components/learn/wordassociation'
 import LearnOne from '../components/learn/learnBasicOne'
 import MeaningOne from '../components/learn/meaningBasicOne'
 import EndStudy from '../components/learn/endstudy'
+import OxDictLearn from '../components/learn/oxdictlearn'
+import OxDictMeaning from '../components/learn/oxdictMeaning'
 import CourseSelect from '../components/common/selectcourse'
 import { API } from 'aws-amplify'
 
@@ -112,16 +124,14 @@ export default {
     LearnOne,
     MeaningOne,
     EndStudy,
-    CourseSelect
+    CourseSelect,
+    OxDictLearn,
+    OxDictMeaning
   },
   data () {
     return {
       current: 0,
-      steppers: [
-        { step: 1, label: 'Word', component: 'LearnOne' },
-        { step: 2, label: 'Meaning', component: 'MeaningOne' },
-        { step: 3, label: 'Association', component: 'WordAssociation' }
-      ],
+      steppers: [],
       currStep: 1,
       words: [],
       images: [],
@@ -144,7 +154,10 @@ export default {
   },
   computed: {
     progress () {
-      return (this.current + 1) / this.words.length * 100
+      if (this.current === this.words.length) {
+        return 100
+      }
+      return (this.current) / this.words.length * 100
     }
   },
   methods: {
@@ -157,9 +170,13 @@ export default {
       const res = await API.get(API_NAME_STUDENT, API_PATH_COURSES + '/mycourse', init)
       console.log(res)
       this.course = res[0]
+      this.steppers = this.course.learning_order
       this.words = await API.get(API_NAME_TOKI, API_PATH_TOKI + '/getnewwords', { queryStringParameters: { course_id: this.course.course_id } })
+      console.log(this.words)
       if (this.words.length === 0) {
         this.end = true
+      } else {
+        this.end = false
       }
     },
     async record () {
@@ -223,10 +240,14 @@ export default {
     },
     changeCourse (course) {
       console.log('Change Course', course)
-      this.$router.push({ path: '/learn', query: { course: course.course } })
-      this.reset()
-      this.current = 0
-      this.currStep = 1
+      this.$router.push({ path: '/learn', query: { course: course.course } }, () => {
+        this.$router.go()
+      })
+      // this.getCourse()
+      // this.reset()
+      // this.current = 0
+      // this.end = false
+      // this.currStep = 1
     }
   }
 }

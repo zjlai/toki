@@ -4,7 +4,7 @@
       <h1>Course Sign Up</h1>
     </q-card-title>
     <q-card-main class="col tk-container-sub-inner">
-      <div id="search-filter" class="q-px-lg">
+      <!--<div id="search-filter" class="q-px-lg">
         <q-search v-model="terms" hide-underline class="round-search inset-shadow q-py-md">
           <q-autocomplete
             separator
@@ -31,7 +31,7 @@
             />
           </q-field>
         </div>
-      </div>
+      </div>-->
       <!-- List of courses -->
       <div class="q-pa-lg">
         <course-card
@@ -39,7 +39,8 @@
           :key="course.code"
           :course="course"
           :color="index % 2 === 0 ? 'primary': 'secondary'"
-          details="true" />
+          details="true"
+         />
       </div>
     </q-card-main>
 </q-card>

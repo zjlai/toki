@@ -35,7 +35,7 @@
         </q-card-title>
         <q-card-main class="tk-container-sub-inner">
           <div class="col q-my-md">
-            <q-input ref="input" v-model="ans" align="center" upper-case autofocus hide-underline class="biginput text-black text-bold q-display-3 q-my-xl" />
+            <q-input @keyup.enter="nextStep" ref="input" v-model="ans" align="center" upper-case autofocus hide-underline class="biginput text-black text-bold q-display-3 q-my-xl" />
           </div>
         </q-card-main>
       </q-card>
@@ -70,6 +70,7 @@ export default {
   mounted () {
     this.utterance = new SpeechSynthesisUtterance(this.word)
     this.utterance.lang = 'en-GB'
+    this.utterance.rate = 0.9
     this.startTime = Date.now()
     this.speak()
     this.$emit('mounted')

@@ -1,6 +1,7 @@
 <template>
   <div class="col">
-    <div class="row">
+    Pending Data
+    <!--<div class="row">
       <div class="col-2">
         <q-card class="tk-container-sub collapse">
           <q-card-title class="title-bar-blue">
@@ -146,13 +147,18 @@
           </q-card-main>
         </q-card>
       </div>
-    </div>
+    </div>-->
   </div>
 </template>
 
 <script>
 import Timer from '../common/timer'
 import MasteryKnob from '../common/masteryknob'
+import { API } from 'aws-amplify'
+import { date } from 'quasar'
+
+const API_PATH_TOKI = '/toki'
+const API_NAME_TOKI = 'toki'
 
 export default {
   name: 'CourseDetailsDashboard',
@@ -160,12 +166,28 @@ export default {
     Timer,
     MasteryKnob
   },
+  props: ['course'],
   data () {
     return {
       newwords: ['Antartic', 'Deteriorate', 'Onomatopoeia', 'long list', 'longer list'],
       hardestwords: ['Antartic', 'Deteriorate', 'Onomatopoeia'],
       easiestwords: ['Antartic', 'Deteriorate', 'Onomatopoeia'],
       mastery: 25
+    }
+  },
+  async mounted () {
+    console.log(this.course)
+    this.getNextTest()
+  },
+  methods: {
+    async getNextTest () {
+      const nextTest = await API.get(API_NAME_TOKI, API_PATH_TOKI + '/nextcycle', { queryStringParameters: { course: this.course.course_id } })
+      console.log(nextTest)
+      this.nextTestString = date.formatDate(nextTest, 'ddd, D MMM HH:MM')
+      const currentTs = new Date()
+      const timeToTest = date.getDateDiff(currentTs, nextTest, 'hours')
+      console.log(timeToTest)
+      console.log(this.nextTestString)
     }
   }
 }

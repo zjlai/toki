@@ -15,7 +15,7 @@
       <br>
       <div class="col">
         <h5>
-          GOOD DAY {{name}},
+          GOOD DAY,
         </h5>
         <h1>
           {{message}}
@@ -37,21 +37,36 @@
 </template>
 
 <script>
+// import { date } from 'quasar'
+import { API } from 'aws-amplify'
+
+const API_PATH_TOKI = '/toki'
+const API_NAME_TOKI = 'toki'
+
 export default {
   name: 'TokiMessage',
+  props: ['course'],
   data () {
     const d = new Date()
     const longdate = d.toLocaleDateString('en-SG', { day: 'numeric', month: 'short', year: 'numeric' })
     const day = d.toLocaleDateString('en-SG', { weekday: 'short' })
     const time = d.toLocaleTimeString('en-SG', { hour: '2-digit', minute: '2-digit' })
     return {
-      name: 'Zack',
-      message: `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.`,
+      name: '',
+      message: '',
       longdate,
       day,
-      time
+      time,
+      words: []
+    }
+  },
+  async mounted () {
+    this.words = await API.get(API_NAME_TOKI, API_PATH_TOKI + '/getnewwords', { queryStringParameters: { course_id: this.$route.query.course } })
+    console.log(this.words)
+    if (this.words.length > 0) {
+      this.message = `You have ${this.words.length} new words to learn! Go to the learning tab to begin!`
+    } else {
+      this.message = `You have no words to learn. Go to the Tests tabs to see if you have a test ready for you.`
     }
   }
 }

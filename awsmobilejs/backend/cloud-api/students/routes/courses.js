@@ -49,9 +49,29 @@ const getOneCourse = async (student) => {
   return { 'count': courses[0].count, 'course': courses[0].course }
 }
 
+const getSubscribed = async (student) => {
+  const query = `
+                  SELECT sub.course FROM public.subscriptions sub
+                  INNER JOIN public.students stud
+                  ON sub.student = stud.student_id OR sub.classcode = stud.classcode
+                  WHERE stud.student_id='${student}'
+                `
+  const conn = await connectDB()
+  const courses = await queryDB(conn, query)
+  return courses
+}
+
 router.get('/', asyncHandler(async (req, res) => {
-  const id = req.apiGateway.event.requestContext.identity.cognitoIdentityId
-  const query = `SELECT * FROM public.courses`
+  const student = req.apiGateway.event.requestContext.identity.cognitoIdentityId
+  const query = `
+                SELECT *, tc.first_name, tc.last_name FROM public.courses cs
+                JOIN public.teachers tc ON cs.teacher_id = tc.teacher_id
+                WHERE course_id NOT IN (
+                SELECT sub.course FROM public.subscriptions sub
+            	  INNER JOIN public.students stud
+            	  ON sub.student = stud.student_id OR sub.classcode = stud.classcode
+            	  WHERE stud.student_id='${student}')
+                `
   const conn = await connectDB()
   const result = await queryDB(conn, query)
   res.json(result)
@@ -72,7 +92,7 @@ router.get('/mycourse', asyncHandler(async (req, res) => {
   if (check === 0) {
     res.json({msg: 'Not Subscribed'})
   }
-  query = `SELECT course.course_id, course.code, sub.classcode, ctnum, course.name, description, end_date, wordcount, teacher.first_name, teacher.last_name, next_cycle
+  query = `SELECT course.course_id, course.code, sub.classcode, ctnum, course.name, description, end_date, wordcount, teacher.first_name, teacher.last_name, course.learning_order, next_cycle
             FROM public.subscriptions sub INNER JOIN public.students stud on sub.student = stud.student_id OR sub.classcode = stud.classcode
             INNER JOIN public.courses course on sub.course = course.course_id
             INNER JOIN public.teachers teacher on course.teacher_id = teacher.teacher_id
@@ -102,7 +122,6 @@ router.get('/mycourses', asyncHandler(async (req, res) => {
 }));
 
 router.post('/join', asyncHandler(async (req, res) => {
-  console.log(req)
   const id = req.apiGateway.event.requestContext.identity.cognitoIdentityId
   const courseid = req.body.course_id
   let query = `SELECT row_id FROM public.subscriptions where student='${id}' AND course='${courseid}'`
@@ -123,15 +142,12 @@ router.post('/join', asyncHandler(async (req, res) => {
             VALUES($1, $2, $3)`,
       values: Object.values(subscription)
     }
-    console.log(query)
     conn = await connectDB()
     result = await queryDB(conn, query)
-    console.log(result)
     query = `UPDATE public.courses SET studentcount = studentcount + 1
             WHERE course_id='${courseid}'`
     conn = await connectDB()
     result = await queryDB(conn, query)
-    console.log(result)
     res.json(({ status: 'success', message: 'Enrolled!'}))
   }
 }));

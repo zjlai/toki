@@ -120,7 +120,7 @@ export default {
   },
   methods: {
     backToDash () {
-      this.$router.push({ path: '/dashboard', query: { course: this.course_id } })
+      this.$router.push({ path: '/dashboard', query: { course: this.$route.query.course } })
     }
   }
 }

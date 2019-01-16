@@ -61,34 +61,34 @@
         </div>
       </div>
       <q-list no-border link class="q-px-md font-primary">
-        <q-item to="/dashboard" @click.native="routeChange('dashboard')">
+        <q-item @click.native="routeChange('dashboard')" class="dash_links">
           <q-item-main
-            class="text-center text-grey-full dash_links"
+            class="text-center text-grey-full"
           >
             <span class="q-body-2 text-bold" :class="{ active: active === 'dashboard' }">DASHBOARD</span>
           </q-item-main>
         </q-item>
-        <q-item to="/learn" @click.native="routeChange('learn')">
+        <q-item @click.native="routeChange('learn')" class="dash_links">
           <q-item-main
-            class="text-center text-grey-full dash_links">
+            class="text-center text-grey-full">
             <span class="q-body-2 text-bold" :class="{ active: active === 'learn' }">LEARN</span>
           </q-item-main>
         </q-item>
-        <q-item to="/test" @click.native="routeChange('test')">
+        <q-item @click.native="routeChange('test')" class="dash_links">
           <q-item-main
-            class="text-center text-grey-full dash_links">
+            class="text-center text-grey-full">
             <span class="q-body-2 text-bold" :class="{ active: active === 'test' }">TESTS</span>
           </q-item-main>
         </q-item>
-        <q-item to="/wordbank" @click.native="routeChange('wordbank')">
+        <!--<q-item to="/wordbank" @click.native="routeChange('wordbank')" class="dash_links">
           <q-item-main
-            class="text-center text-grey-full dash_links">
+            class="text-center text-grey-full">
             <span class="q-body-2 text-bold" :class="{ active: active === 'wordbank' }">WORDBANK</span>
           </q-item-main>
-        </q-item>
-        <q-item to="/courses" @click.native="routeChange('courses')">
+        </q-item>-->
+        <q-item @click.native="routeChange('courses')" class="dash_links">
           <q-item-main
-            class="text-center text-grey-full dash_links">
+            class="text-center text-grey-full">
             <span class="q-body-2 text-bold" :class="{ active: active.startsWith('courses') }">MY COURSES</span>
           </q-item-main>
         </q-item>
@@ -115,7 +115,7 @@ export default {
       leftDrawer: true,
       min: 0,
       max: 100,
-      mastery: 25,
+      mastery: 100,
       name: '',
       ctnum: '',
       active: ''
@@ -141,6 +141,8 @@ export default {
   methods: {
     routeChange (route) {
       this.active = route
+      console.log(this.$route.query)
+      this.$router.push({ path: `/${route}`, query: this.$route.query })
     }
   }
 }

@@ -12,7 +12,7 @@
                 <p class="font-primary text-bold text-white q-title">
                   Based on the word presented to you,
                   associate as many words with that word within
-                  <span class="text-secondary">3 minutes</span>.
+                  <span class="text-secondary">1 minute</span>.
                   Be Creative!
                 </p>
               </div>
@@ -137,7 +137,7 @@
 import Timer from '../common/timer'
 import Mapper from '../learn/wordmapper'
 
-const timerDuration = 180
+const timerDuration = 60
 
 export default {
   name: 'WordAssociationComponent',

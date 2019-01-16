@@ -108,7 +108,7 @@ export default {
     if (this.$route.query.hasOwnProperty('course')) {
       this.getCourse()
     } else {
-      const courses = await API.get(API_NAME_STUDENT, API_PATH_COURSES + '/mycourses', { queryStringParameters: { course: '' } })
+      const courses = await API.get(API_NAME_STUDENT, API_PATH_COURSES + '/mycourses')
       this.$router.replace({ query: { course: courses[0].course_id } })
       this.getCourse()
     }
@@ -143,10 +143,12 @@ export default {
           course: this.$route.query.course
         }
       }
-      const res = await API.get(API_NAME_STUDENT, API_PATH_COURSES + '/mycourses', init)
+      const res = await API.get(API_NAME_STUDENT, API_PATH_COURSES + '/mycourse', init)
       this.course = res[0]
       this.words = await API.get(API_NAME_TOKI, API_PATH_TOKI + '/gettestwords', { queryStringParameters: { course_id: this.course.course_id } })
-      await this.recordStart()
+      if (this.words.length > 0) {
+        await this.recordStart()
+      }
     },
     async recordStart () {
       const init = {
@@ -209,8 +211,17 @@ export default {
       }
       await API.post(API_NAME_TOKI, API_PATH_TOKI + '/recordendtest', params)
     },
+    async submitTest () {
+      const params = {
+        body: {
+          course: this.course.course_id
+        }
+      }
+      await API.post(API_NAME_TOKI, API_PATH_TOKI + '/processtest', params)
+    },
     async endTest () {
       this.recordEndTest()
+      this.submitTest()
       this.$router.push({ name: 'summary', query: { course: this.course.course_id }, params: { words: this.words, duration: this.testDuration } })
     },
     async nextWord (log) {

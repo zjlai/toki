@@ -8,13 +8,13 @@
       color="primary"
       readonly
       line-width="6px"
-      size="150px"
+      :size="screenSize"
       class="countdown"
       :disabled="disabled"
     >
-      <span v-if="range==='mins'" class="text-black">{{rangeMins(duration)}}</span>
+      <span v-if="range==='mins'" class="text-black" :class="fontSize">{{rangeMins(duration)}}</span>
       <div v-else-if="range==='days'" class="text-black text-center">
-        <div class="q-display-1 text-weight-bolder">{{rangeDays(duration)}}</div>
+        <h1 class="text-weight-bolder">{{rangeDays(duration)}}</h1>
         <div class="text-primary text-weight-medium q-subheading">{{units}}</div>
       </div>
     </q-knob>
@@ -42,10 +42,17 @@ export default {
   },
   mounted () {
     this.duration = this.max
+    this.$q.screen.setSizes({ xl: 1400 })
   },
   computed: {
     timer () {
       return this.max - this.duration
+    },
+    screenSize () {
+      return this.$q.screen.lt.xl ? '90px' : '150px'
+    },
+    fontSize () {
+      return this.$q.screen.lt.xl ? 'h3' : 'h1'
     }
   },
   methods: {

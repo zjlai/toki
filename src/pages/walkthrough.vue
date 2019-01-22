@@ -8,24 +8,32 @@
     >
       <div class="col q-pl-xl" v-if="page===1" id="page1">
         <div class="row items-center q-pb-lg">
-          <img svg-inline src="../assets/tokido.svg" class="toki" />
-          <h2 class="text-secondary text-bold font-secondary q-display-2">
-            Hi {{name || email}}!
-          </h2>
+          <div class="col-1">
+            <img svg-inline src="../assets/tokido.svg" class="toki" />
+          </div>
+          <div class="col-11">
+            <h1 class="text-secondary font-primary">
+              Hi {{name || email}}!
+            </h1>
+          </div>
         </div>
-        <p class="text-white q-display-1">
+        <h2 class="text-white font-primary">
           My name is Toki! I am an A.I. designed to help you learn better naturally!
-        </p>
-        <p class="text-white q-display-1">
+        </h2>
+        <h2 class="text-white font-primary">
           First things first, could you answer a few questions for me? So I get to know you better!
-        </p>
+        </h2>
         <q-field>
-          <div class="row name text-white q-my-xl justify-start">
-            <p class="q-display-3 text-weight-bold q-ma-none q-mr-xl text-secondary">What's your name?</p>
-            <q-input
-              v-model="name"
-              class="q-display-3 text-bold input-lg"
-            />
+          <div class="row name text-white q-my-md justify-center items-center">
+            <div class="col-auto">
+              <h2 class="text-weight-bold q-ma-none q-mr-xl text-secondary font-primary">What's your name?</h2>
+            </div>
+            <div class="col text-bold text-black font-primary">
+              <q-input
+                v-model="name"
+                class="h1"
+              />
+            </div>
           </div>
         </q-field>
         <div class="row items-center" v-show="name.length > 3">
@@ -36,26 +44,22 @@
             @click.native="page=2"
           >
             <span class="q-px-lg q-py-sm q-title font-secondary text-bold text-black">Thanks! Next</span>
-
-            <!--<i class="material-icons q-title text-black text-weight-bold">arrow_forward</i>-->
             <i class="material-icons q-caption text-black">lens</i>
           </q-btn>
           <img svg-inline src="../assets/tokido.svg" class="toki-btn" />
-          <!--<div class="beak rotate-30 self-end z-top"></div>
-          <div class="rotate-30 self-end shadow"></div>-->
         </div>
       </div>
       <div class="col q-pl-xl" v-if="page===2" id="page2">
-        <div class="row items-start justify-between">
-          <div class="col q-mx-md">
-            <img svg-inline src="../assets/tokido.svg" class="toki" />
-            <div class="q-pr-md q-mt-xl">
-              <p class="text-white text-bold q-display-1 q-ma-none">
+        <div class="row items-start">
+          <div class="col">
+            <img svg-inline src="../assets/tokido.svg" class="toki" style="width:60px"/>
+            <div class="q-my-md q-pr-md">
+              <h2 class="text-white text-bold font-primary">
                 Just a couple more details <span class="text-secondary">{{name}}</span>! This information will help me to understand you better!
                 Rest assured, all your information is kept top secret!
-              </p>
+              </h2>
             </div>
-            <div class="row q-mt-xl">
+            <div class="row q-mt-lg">
               <div class="col">
                 <div class="row justify-start">
                   <q-btn
@@ -64,13 +68,13 @@
                     class="text-bold font-secondary"
                     @click.native="page=1"
                   >
-                    <i class="material-icons q-title text-black text-weight-bold">arrow_back</i>
-                    <span class="q-pl-sm q-pr-sm q-py-sm q-title text-black">Back</span>
+                    <i class="material-icons q-title text-black">arrow_back</i>
+                    <span class="q-pl-sm q-pr-sm q-py-sm q-title text-bold text-black">Back</span>
                   </q-btn>
                 </div>
               </div>
-              <div class="col">
-                <div class="row justify-end" v-if="!$v.$invalid">
+              <div class="row">
+                <div class="row justify-end items-center" v-if="!$v.$invalid">
                   <q-btn
                     rounded
                     color="secondary"
@@ -88,19 +92,19 @@
           <div class="col-6 q-mx-md self-end">
             <q-card class="bg-white rounded q-pa-md">
               <q-card-title class="text-primary">
-                <span class="text-weight-bold q-headline">Your Profile</span>
+                <h1>Your Profile</h1>
               </q-card-title>
               <q-card-main>
                 <div class="row items-center q-my-lg">
                   <div class="col-3 q-mr-md">
-                    <span class="text-weight-bold q-title label" required>Gender</span>
+                    <h3 class="label font-primary" required>Gender</h3>
                   </div>
                   <div class="col-auto">
                     <q-btn
                       flat
                       color="grey-8"
                       align="center"
-                      size="xl"
+                      size="lg"
                       :class="{ pushed: gender === 'male' }"
                       class="full-width q-px-xl"
                       @click.native="gender= 'male'"
@@ -112,7 +116,7 @@
                     <q-btn
                       flat
                       color="grey-8"
-                      size="xl"
+                      size="lg"
                       class="full-width q-px-xl"
                       align="center"
                       :class="{ pushed: gender === 'female' }"
@@ -123,8 +127,8 @@
                   </div>
                 </div>
                 <div class="row items-center q-my-lg offsetbot">
-                  <div class="col-3 q-mr-md">
-                    <span class="text-weight-bold q-title label" required>Date of Birth</span>
+                  <div class="col-auto q-pr-md">
+                    <h3 class="font-primary label" required>Date of Birth</h3>
                   </div>
                   <div class="col-auto">
                     <q-field
@@ -141,9 +145,9 @@
                     </q-field>
                   </div>
                 </div>
-                <div class="row items-center q-mt-lg">
-                  <div class="col-3 q-mr-md">
-                    <span class="text-weight-bold q-title label" required>Contact Number</span>
+                <div class="row items-center">
+                  <div class="col-auto q-pr-md">
+                    <h3 class="font-primary label" required>Contact Number</h3>
                   </div>
                   <div class="col-auto">
                     <q-field
@@ -152,15 +156,15 @@
                     >
                       <q-input
                         v-model="contact"
-                        class="text-weight-bold q-title"
+                        class="text-weight-bold h3"
                         @blur="$v.contact.$touch"
                       />
                     </q-field>
                   </div>
                 </div>
-                <div class="row items-center q-my-lg">
-                  <div class="col-3 q-mr-md">
-                    <span class="text-weight-bold q-title label" required>Race/Ethnicity</span>
+                <div class="row items-center">
+                  <div class="col-auto q-pr-md">
+                    <h3 class="font-primary label" required>Race/Ethnicity</h3>
                   </div>
                   <div class="col">
                     <q-field
@@ -169,24 +173,23 @@
                     >
                       <q-input
                         v-model="race"
-                        upper-case
                         color="black"
-                        class="text-weight-bold q-title"
+                        class="text-weight-bold h6"
                         @blur="$v.race.$touch"
                       />
                     </q-field>
                   </div>
                 </div>
-                <div class="row items-center q-my-lg label" required>
-                  <div class="col-3 q-mr-md">
-                    <span class="text-weight-bold q-title label" required>Nationality</span>
+                <div class="row items-center label" required>
+                  <div class="col-auto q-pr-md">
+                    <h3 class="font-primary label" required>Nationality</h3>
                   </div>
                   <div class="col">
                     <q-field
                       :error="$v.country.$error"
                       error-label="Required Field"
                     >
-                      <q-input v-model="country" class="text-weight-bold q-title">
+                      <q-input v-model="country" class="h6 text-bold">
                         <q-autocomplete
                           :static-data="{field: 'value', list: countries}"
                           @selected="selected" @blur="$v.country.$touch"
@@ -202,16 +205,20 @@
       </div>
       <div class="col" v-if="page===3" id="page3">
         <div class="row items-start justify-between">
-          <div class="col q-mx-md">
-            <div class="row items-center q-mb-lg">
-              <img svg-inline src="../assets/tokido.svg" class="toki" />
-              <h2 class="text-secondary text-weight-bold q-display-2">
-                Great Job {{name}}!
-              </h2>
+          <div class="col">
+            <div class="row items-center q-my-md q-pr-md">
+              <div class="col-auto q-mr-md">
+                <img svg-inline src="../assets/tokido.svg" class="toki" style="max-width:60px" />
+              </div>
+              <div class="col-auto">
+                <h1 class="text-secondary">
+                  Great Job {{name}}!
+                </h1>
+              </div>
             </div>
-            <p class="text-white q-display-1">
+            <h2 class="text-white font-primary">
               We are almost done! Let's set up your languages and we are good to go :)
-            </p>
+            </h2>
             <div class="row justify-center q-mt-xl">
               <div class="col">
                 <div class="row justify-start">
@@ -243,11 +250,11 @@
           <div class="col q-mx-md">
             <q-card class="bg-white rounded q-pa-md">
               <q-card-main>
-                <div class="text-weight-bold q-headline text-primary">Student Data</div>
+                <h1 class="text-primary">Student Data</h1>
                 <div class="row items-center q-mt-sm">
                   <div class="col">
                     <div class="items-center row">
-                      <span class="label text-weight-bold q-title q-mr-md" required> CT Number</span>
+                      <h3 class="label text-weight-bold q-mr-md" required> CT Number</h3>
                       <q-input
                         placeholder="CT12345678"
                         color="primary"
@@ -259,7 +266,7 @@
                   </div>
                   <div class="col">
                     <div class="items-center row">
-                      <span class="text-weight-bold q-title q-mr-md">Class Code</span>
+                      <h3 class="text-weight-bold q-mr-md">Class Code</h3>
                       <q-input
                         placeholder="Class123"
                         color="primary"
@@ -270,104 +277,104 @@
                     </div>
                   </div>
                 </div>
-                <div class="text-weight-bold q-headline text-primary q-mt-md">Languages you know!</div>
-                <q-chips-input v-model="languages" color="primary" class="text-bold" placeholder="Type your language">
+                <h1 class="text-primary q-my-md">Languages you know!</h1>
+                <q-chips-input v-model="languages" color="primary" class="text-bold h3" placeholder="Type your language">
                   <q-autocomplete
                     class="text-bold"
                     :static-data="{field: 'value', list: languagesList}"
                     @selected="selected" />
                 </q-chips-input>
                 <div class="col">
-                  <div class="text-weight-bold q-headline text-primary q-mt-lg">Proficiency Test Scores</div>
-                  <div class="row justify-start items-start q-mt-lg">
+                  <h1 class="text-primary q-mt-md">Proficiency Test Scores</h1>
+                  <div class="row justify-start items-start q-mt-md">
                     <div class="col">
-                      <q-toggle v-model="ielts" label="IELTS" color="secondary" class="text-weight-bold q-title" />
+                      <q-toggle v-model="ielts" label="IELTS" color="secondary" class="text-weight-bold h3" />
                     </div>
-                    <div class="col text-weight-regular q-title" v-if="ielts">
+                    <div class="col text-weight-regular h4 font-primary" v-if="ielts">
                       <div class="row items-center q-mb-sm">
-                        <div class="col text-center">
+                        <div class="col text-left font-primary">
                           Listening
                         </div>
-                        <div class="col-auto">
+                        <div class="col">
                           <q-input type="number" :decimals="1" v-model="ieltsScore.listening" suffix="/ 9.0"  class="q-py-none" />
                         </div>
                       </div>
                       <div class="row items-center q-mb-sm">
-                        <div class="col text-center">
+                        <div class="col text-left font-primary">
                           Reading
                         </div>
-                        <div class="col-auto">
+                        <div class="col">
                           <q-input type="number" :decimals="1" v-model="ieltsScore.reading" suffix="/ 9.0"  class="q-py-none" />
                         </div>
                       </div>
                       <div class="row items-center q-mb-sm">
-                        <div class="col text-center">
+                        <div class="col text-left font-primary">
                           Writing
                         </div>
-                        <div class="col-auto">
+                        <div class="col">
                           <q-input type="number" :decimals="1" v-model="ieltsScore.writing" suffix="/ 9.0"  class="q-py-none" />
                         </div>
                       </div>
                       <div class="row items-center q-mb-sm">
-                        <div class="col text-center">
+                        <div class="col text-left font-primary">
                           Speaking
                         </div>
-                        <div class="col-auto">
+                        <div class="col">
                           <q-input type="number" :decimals="1" v-model="ieltsScore.speaking" suffix="/ 9.0"  class="q-py-none" />
                         </div>
                       </div>
                       <div class="row items-center q-mb-sm">
-                        <div class="col text-center">
+                        <div class="col text-left font-primary">
                           Average
                         </div>
-                        <div class="col-auto">
+                        <div class="col">
                           <q-input type="number" :decimals="1" v-model="ieltsScore.average" suffix="/ 9.0"  class="q-py-none" />
                         </div>
                       </div>
                     </div>
                   </div>
-                  <div class="row justify-start items-start q-mt-lg">
+                  <div class="row justify-start items-start q-mt-md">
                     <div class="col">
-                      <q-toggle v-model="toefl" label="TOEFL" color="secondary" class="text-weight-bold q-title" />
+                      <q-toggle v-model="toefl" label="TOEFL" color="secondary" class="text-weight-bold h3" />
                     </div>
-                    <div class="coltext-weight-regular q-title" v-if="toefl">
+                    <div class="col text-weight-regular h4" v-if="toefl">
                       <div class="row items-center q-mb-sm">
-                        <div class="col text-center">
+                        <div class="col text-left font-primary">
                           Listening
                         </div>
-                        <div class="col-auto">
+                        <div class="col">
                           <q-input type="number" :decimals="0" v-model="toeflScore.listening" suffix="/ 30"  class="q-py-none" />
                         </div>
                       </div>
                       <div class="row items-center q-mb-sm">
-                        <div class="col text-center">
+                        <div class="col text-left font-primary">
                           Reading
                         </div>
-                        <div class="col-auto">
+                        <div class="col">
                           <q-input type="number" :decimals="0" v-model="toeflScore.reading" suffix="/ 30"  class="q-py-none" />
                         </div>
                       </div>
                       <div class="row items-center q-mb-sm">
-                        <div class="col text-center">
+                        <div class="col text-left font-primary">
                           Writing
                         </div>
-                        <div class="col-auto">
+                        <div class="col">
                           <q-input type="number" :decimals="0" v-model="toeflScore.writing" suffix="/ 30"  class="q-py-none" />
                         </div>
                       </div>
                       <div class="row items-center q-mb-sm">
-                        <div class="col text-center">
+                        <div class="col text-left font-primary">
                           Speaking
                         </div>
-                        <div class="col-auto">
+                        <div class="col">
                           <q-input type="number" :decimals="0" v-model="toeflScore.speaking" suffix="/ 30"  class="q-py-none" />
                         </div>
                       </div>
                       <div class="row items-center q-mb-sm">
-                        <div class="col text-center">
+                        <div class="col text-left font-primary">
                           Average
                         </div>
-                        <div class="col-auto">
+                        <div class="col">
                           <q-input type="number" :decimals="0" v-model="toeflScore.total" suffix="/ 120"  class="q-py-none" />
                         </div>
                       </div>
@@ -498,9 +505,9 @@ export default {
 .rounded
   border-radius 20px
 .toki
-  width 100px
+  width 100%
+  max-height 60px
   fill $tk-yellow
-  margin-right 20px
 .toki-btn
   height 46px
   left -46px
@@ -536,4 +543,6 @@ export default {
   color $primary !important
 .offsetbot
   margin-bottom -20px
+.label
+  text-transform none
 </style>

@@ -5,10 +5,10 @@
     </q-card-title>
     <q-card-main class="tk-container-sub-inner">
       <div class="col">
-        <h1 class="font-primary q-display-3 text-primary text-bold text-center q-py-md">
+        <h1 class="font-primary text-primary text-bold text-center q-py-md" :class="fontSizeLarge">
           {{word}}
         </h1>
-        <div class="font-primary q-py-md">
+        <div class="font-primary" :class="paddingSize">
           <q-input
             v-model.trim="text"
             upper-case
@@ -16,12 +16,13 @@
             hide-underline
             :disable="disabled"
             autofocus
-            :class="{'disabled-map': disabled}"
             ref="input"
             @keyup.enter="addWord"
-            class="text-bold q-display-2 map-input q-py-md q-mx-md" />
+            class="text-bold q-py-md q-mx-md"
+            :class="assocInputStyle()"
+          />
         </div>
-        <hr class="q-my-md" />
+        <hr :class="margin-size" />
         <h5 class="text-grey text-center">
           WORDS ENTERED ({{wordCount}})
         </h5>
@@ -63,6 +64,21 @@ export default {
   computed: {
     wordCount () {
       return this.mapped.length
+    },
+    fontSizeTitle () {
+      return this.$q.screen.lt.xl ? 'h4' : 'h3'
+    },
+    fontSizeBody () {
+      return this.$q.screen.lt.xl ? 'q-headline' : 'q-display-1'
+    },
+    fontSizeLarge () {
+      return this.$q.screen.lt.xl ? 'q-display-1' : 'q-display-3'
+    },
+    paddingSize () {
+      return this.$q.screen.lt.xl ? 'q-pa-sm' : 'q-pa-md'
+    },
+    marginSize () {
+      return this.$q.screen.lt.xl ? 'q-my-sm' : 'q-my-md'
     }
   },
   methods: {
@@ -89,6 +105,13 @@ export default {
     },
     getWords () {
       return this.mapped
+    },
+    assocInputStyle () {
+      let disabledClass = ''
+      if (this.disbled) {
+        disabledClass = 'disabled-map'
+      }
+      return this.$q.screen.lt.xl ? `map-input-sm ${disabledClass}` : `${disabledClass} map-input`
     }
   }
 }
@@ -99,6 +122,11 @@ export default {
 
 .map-input input{
   height: 54px;
+  font-size: 46px;
+}
+.map-input-sm input{
+  height: 40px;
+  font-size: 32px
 }
 .caps {
   text-transform: uppercase;

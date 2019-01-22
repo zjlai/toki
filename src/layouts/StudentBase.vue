@@ -15,9 +15,9 @@
           <q-toolbar-title>
             <div class="row justify-start items-center">
               <img svg-inline src="../assets/tokido.svg" class="logo" />
-              <h1 class="text-white">
+              <h4 class="text-white">
                 TOK<span class="font-primary">I</span>DO
-              </h1>
+              </h4>
             </div>
           </q-toolbar-title>
         </div>
@@ -65,31 +65,31 @@
           <q-item-main
             class="text-center text-grey-full"
           >
-            <span class="q-body-2 text-bold" :class="{ active: active === 'dashboard' }">DASHBOARD</span>
+            <span class="h6 text-bold" :class="{ active: active === 'dashboard' }">DASHBOARD</span>
           </q-item-main>
         </q-item>
         <q-item @click.native="routeChange('learn')" class="dash_links">
           <q-item-main
             class="text-center text-grey-full">
-            <span class="q-body-2 text-bold" :class="{ active: active === 'learn' }">LEARN</span>
+            <span class="h6 text-bold" :class="{ active: active === 'learn' }">LEARN</span>
           </q-item-main>
         </q-item>
         <q-item @click.native="routeChange('test')" class="dash_links">
           <q-item-main
             class="text-center text-grey-full">
-            <span class="q-body-2 text-bold" :class="{ active: active === 'test' }">TESTS</span>
+            <span class="h6 text-bold" :class="{ active: active === 'test' }">TESTS</span>
           </q-item-main>
         </q-item>
         <!--<q-item to="/wordbank" @click.native="routeChange('wordbank')" class="dash_links">
           <q-item-main
             class="text-center text-grey-full">
-            <span class="q-body-2 text-bold" :class="{ active: active === 'wordbank' }">WORDBANK</span>
+            <span class="h6 text-bold" :class="{ active: active === 'wordbank' }">WORDBANK</span>
           </q-item-main>
         </q-item>-->
         <q-item @click.native="routeChange('courses')" class="dash_links">
           <q-item-main
             class="text-center text-grey-full">
-            <span class="q-body-2 text-bold" :class="{ active: active.startsWith('courses') }">MY COURSES</span>
+            <span class="h6 text-bold" :class="{ active: active.startsWith('courses') }">MY COURSES</span>
           </q-item-main>
         </q-item>
       </q-list>
@@ -132,6 +132,7 @@ export default {
     const res = await API.get(API_NAME, API_PATH)
     this.name = res[0].name
     this.ctnum = res[0].ctnum
+    this.$q.screen.setSizes({ xl: 1400 })
   },
   computed: {
     initials () {

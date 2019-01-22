@@ -1,9 +1,9 @@
 <template>
-  <div class="row items-end">
-    <div class="col-1">
+  <div class="row inline items-end full-width">
+    <div class="col-auto q-pr-xl">
       <img svg-inline src="../../assets/tokido.svg" class="toki-bot logo-blue" />
     </div>
-    <div class="col toki-speech">
+    <div class="col inline toki-speech">
       <div class="row justify-between">
         <h6>
           {{longdate}}, {{day}}
@@ -14,12 +14,12 @@
       </div>
       <br>
       <div class="col">
-        <h5>
+        <h5 class="text-bold text-primary">
           GOOD DAY,
         </h5>
-        <h1>
+        <p class="h4 text-bold font-primary">
           {{message}}
-        </h1>
+        </p>
       </div>
       <!--<div class="q-my-md">
         <q-btn
@@ -76,7 +76,8 @@ export default {
 @import '~variables'
 
 .logo-blue
-  height: 100%;
+  height 100%
+  width 60px
   fill $primary
 
 .caps {

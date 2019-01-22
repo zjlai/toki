@@ -26,7 +26,7 @@
         @click.native="back"
       >
         <span class="q-title">
-          Back to Dashboard
+          Go to Test!
           <i class="material-icons">arrow_forward</i>
         </span>
       </q-btn>

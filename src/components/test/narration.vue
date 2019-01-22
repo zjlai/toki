@@ -7,9 +7,9 @@
             <h4>INSTRUCTIONS</h4>
           </q-card-title>
           <q-card-main class="tk-container-sub-inner bg-primary">
-            <h1 class="font-primary text-white text-bold q-pa-lg">
+            <div class="font-primary text-white no-transform" :class="paddingSize">
               Listen to the word that is played and type out your answer below
-            </h1>
+            </div>
           </q-card-main>
         </q-card>
       </div>
@@ -20,8 +20,8 @@
           </q-card-title>
           <q-card-main class="tk-container-sub-inner">
             <div class="col">
-              <div class="row justify-center items-center q-py-lg">
-                <q-btn round size="xl" color="primary" text-color="white" icon="volume_up" @click.native="speak"/>
+              <div class="row justify-center items-center" :class="paddingSize">
+                <q-btn round :size="speakerSize" color="primary" text-color="white" icon="volume_up" @click.native="speak"/>
               </div>
             </div>
           </q-card-main>
@@ -35,7 +35,7 @@
         </q-card-title>
         <q-card-main class="tk-container-sub-inner">
           <div class="col q-my-md">
-            <q-input @keyup.enter="nextStep" ref="input" v-model="ans" align="center" upper-case autofocus hide-underline class="biginput text-black text-bold q-display-3 q-my-xl" />
+            <q-input @keyup.enter="nextStep" ref="input" v-model="ans" align="center" upper-case autofocus hide-underline class="text-black text-bold" :class="inputSize" />
           </div>
         </q-card-main>
       </q-card>
@@ -75,6 +75,17 @@ export default {
     this.speak()
     this.$emit('mounted')
   },
+  computed: {
+    paddingSize () {
+      return this.$q.screen.lt.xl ? 'q-py-sm h3' : 'q-py-lg h1'
+    },
+    speakerSize () {
+      return this.$q.screen.lt.xl ? 'lg' : 'xl'
+    },
+    inputSize () {
+      return this.$q.screen.lt.xl ? 'q-display-1 mdinput q-my-sm' : 'q-display-2 biginput q-my-lg'
+    }
+  },
   methods: {
     speak () {
       this.$tts.speak(this.utterance)
@@ -110,4 +121,11 @@ export default {
 
 .biginput input
   height 60px
+
+.mdinput
+  line-height 48px
+  height 48px
+
+.mdinput input
+  height 48px
 </style>

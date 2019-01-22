@@ -6,13 +6,13 @@
     <q-carousel-slide>
       <div class="row full-height q-pa-lg">
         <div class="col full-height q-pa-lg">
-          <h1 class="text-secondary q-pb-lg">
+          <h3 class="text-secondary q-pb-lg">
             FORGOT PASSWORD
-          </h1>
+          </h3>
           <div>
-            <h3 class="text-black">
+            <h4 class="text-black">
               REGISTERED EMAIL
-            </h3>
+            </h4>
             <q-field
               :error="$v.email.$error"
               error-label="Enter a valid email">

@@ -32,13 +32,14 @@ const getNotConfidentBracketCount = async (student, course) => {
 const getTestWords = async (student, course) => {
 
   //Get Test words that need to be tested and returns list of words and count
-
+  const pace = await getPace(student,course)
   //Get Words from student wordbank
   const wordbankQuery = `
                         SELECT wb.word, wb.word_id, wb.mastery, wb.next_test, wb.bracket, ss.test_ready FROM public.wordbank wb
                         JOIN public.student_stats ss ON ss.student = wb.student AND ss.course=wb.course
                         WHERE wb.student='${student}' AND wb.course='${course}' AND ss.test_ready = true
                         AND ((wb.mastery <= 75 AND wb.next_test < current_timestamp) OR wb.bracket = 'None')
+                        ORDER BY wb.next_test LIMIT ${pace}
                         `
   const conn = await connectDB()
   const words = await queryDB(conn, wordbankQuery)
@@ -142,9 +143,10 @@ const setTestReady = async (student, course) => {
   const query = `UPDATE public.student_stats
                  SET test_ready=true
                  WHERE student='${student}' AND course='${course}'`
- const conn = await connectDB()
- const res = await queryDB(conn, query)
- return res
+  console.log(query)
+  const conn = await connectDB()
+  const res = await queryDB(conn, query)
+  return res
 }
 
 const getAllLearnWords = async (student, course) => {
@@ -219,13 +221,16 @@ router.get('/getnewwords', asyncHandler(async (req, res) => {
   const limit = await getbracketlimit(id, course_id)
   const notConfidentCount = await getNotConfidentBracketCount(id, course_id)
   let newWords = await getNewWords(id, course_id)
-  console.log(pace, words, limit, notConfidentCount, newWords)
-  if (notConfidentCount > limit.limit + limit.buffer) {
+  console.log(pace, words, limit, notConfidentCount, newWords.length)
+  if (parseInt(notConfidentCount) > limit.limit + limit.buffer) {
+    await setTestReady(id, course_id)
     res.json([])
   } else {
-    const maxNewWords = limit.limit + limit.buffer - notConfidentCount
-    const newWordsCount = Math.min(maxNewWords, pace - notConfidentCount - words.length)
-    if (newWordsCount < limit.buffer) {
+    const maxNewWords = limit.limit + limit.buffer - parseInt(notConfidentCount)
+    const newWordsCount = Math.min(maxNewWords, pace - parseInt(notConfidentCount) - words.length)
+    console.log(newWordsCount)
+    if (newWordsCount <= limit.buffer) {
+      await setTestReady(id, course_id)
       res.json([])
       return
     } else {
@@ -337,6 +342,11 @@ const insertTestResult = async (student, course, records, duration, words, resul
 
 const updateStudentStats = async (student, course, data) => {
   const ts = new Date()
+  const testWords = await getTestWords()
+  let testReady = false
+  if (testWords.length >= 5) {
+      testReady = true
+  }
   const query = `
                   UPDATE public.student_stats SET
                     mastery = ${data.mastery},
@@ -344,8 +354,9 @@ const updateStudentStats = async (student, course, data) => {
                     next_cycle = '${data.next_cycle}',
                     test_cycle = '${data.test_cycle}',
                     updated = '${ts}'
-                    test_ready = false
+                    test_ready = ${testReady}
                 `
+  console.log(query)
   const conn = await connectDB()
   const result = await queryDB(conn, query)
   res.json(result)
@@ -427,7 +438,7 @@ const computeWordMastery = async (student, course) => {
         // Student is familiar with word
         if (currentBracket === 'Confident') {
           bracket = 'Mastered'
-          nextTest = NULL
+          nextTest = null
         } else {
           bracket  = 'Confident'
           nextTest.setDate(nextTest.getDate() + 7)
@@ -435,7 +446,7 @@ const computeWordMastery = async (student, course) => {
       } else if (wordSpeed > lowerSpeedLimit && wordSpeed <= upperSpeedLimit) {
         if (currentBracket === 'Confident') {
           bracket = 'Mastered'
-          nextTest = NULL
+          nextTest = null
         } else if (currentBracket === 'Learning') {
           bracket = 'Confident'
           nextTest.setDate(nextTest.getDate() + 7)
@@ -467,7 +478,11 @@ const computeWordMastery = async (student, course) => {
     } else if (bracket === 'Not Confident') {
       word.mastery = 25
     }
-    word.nextTest = `${nextTest.getUTCFullYear()}-${(nextTest.getUTCMonth() + 1).toString().padStart(2, '0')}-${nextTest.getUTCDate().toString().padStart(2, '0')} ${nextTest.getUTCHours().toString().padStart(2, '0')}:${nextTest.getUTCMinutes().toString().padStart(2, '0')}:${nextTest.getUTCSeconds().toString().padStart(2, '0')}.${nextTest.getUTCMilliseconds()}`
+    if (nextTest != null) {
+      word.nextTest = `${nextTest.getUTCFullYear()}-${(nextTest.getUTCMonth() + 1).toString().padStart(2, '0')}-${nextTest.getUTCDate().toString().padStart(2, '0')} ${nextTest.getUTCHours().toString().padStart(2, '0')}:${nextTest.getUTCMinutes().toString().padStart(2, '0')}:${nextTest.getUTCSeconds().toString().padStart(2, '0')}.${nextTest.getUTCMilliseconds()}`
+    } else {
+      word.nextTest = nextTest
+    }
     word.cycle = testCycle
     word.updated = `${currentDT.getUTCFullYear()}-${(currentDT.getUTCMonth() + 1).toString().padStart(2, '0')}-${currentDT.getUTCDate().toString().padStart(2, '0')} ${currentDT.getUTCHours().toString().padStart(2, '0')}:${currentDT.getUTCMinutes().toString().padStart(2, '0')}:${currentDT.getUTCSeconds().toString().padStart(2, '0')}.${currentDT.getUTCMilliseconds()}`
   })
@@ -653,8 +668,9 @@ router.post('/processtest', asyncHandler(async (req, res) => {
   const id = req.apiGateway.event.requestContext.identity.cognitoIdentityId
   const course = req.body.course
   const nextCycle = await processTestResults(id, course)
+  console.log(nextCycle)
   const update = await updateStudentStatsPostTest(id, course, nextCycle)
-  //console.log(status)
+  console.log(update)
   res.json({'status': update})
 }))
 
@@ -664,6 +680,14 @@ router.get('/nextcycle', asyncHandler(async (req, res) => {
 
   const nextCycle = await getNextCycleDate(student, course)
   res.json(nextCycle)
+}))
+
+router.get('/gettestready', asyncHandler(async (req, res) => {
+  const student = req.apiGateway.event.requestContext.identity.cognitoIdentityId
+  const course = req.apiGateway.event.queryStringParameters.course
+
+  const testReady = await getTestReady(student, course)
+  res.json(testReady)
 }))
 
 router.get('/mystats', asyncHandler(async (req, res) => {

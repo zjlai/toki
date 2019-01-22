@@ -10,7 +10,7 @@
       <no-test v-if="notest" />
       <div class="col" v-if="!notest">
         <div class="row">
-          <div class="col-2">
+          <!--<div class="col-2">
             <q-card class="tk-container-sub collapse">
               <q-card-title class="title-bar-grey text-center">
                 <h4>NEXT TEST</h4>
@@ -25,8 +25,8 @@
                 />
               </q-card-main>
             </q-card>
-          </div>
-          <div class="col-10">
+          </div> -->
+          <div class="col">
             <q-card class="tk-container-sub collapse">
               <q-card-title class="title-bar-yellow text-center">
                 <h4>TEST INSTRUCTIONS</h4>
@@ -45,9 +45,9 @@
                         <span class="q-title">1</span>
                       </q-btn>
                     </div>
-                    <div class="col-auto">
+                    <div class="col inline">
                       You will be given
-                      <span class="text-primary">3 Minutes</span>
+                      <span class="text-primary">30 seconds</span>
                       per question.
                     </div>
                   </div>
@@ -63,10 +63,10 @@
                         <span class="q-title">2</span>
                       </q-btn>
                     </div>
-                    <div class="col-auto">
-                      Each question will begin with a
-                      <span class="text-primary">narration test</span>
-                      and followed by an <span class="text-primary">MCQ</span>
+                    <div class="col inline">
+                      This is a standard
+                      <span class="text-primary">spelling test</span>
+                      <!--and followed by an <span class="text-primary">MCQ</span>-->
                     </div>
                   </div>
                   <div class="row q-my-lg items-center">
@@ -81,7 +81,7 @@
                         <span class="q-title">3</span>
                       </q-btn>
                     </div>
-                    <div class="col-auto">
+                    <div class="col inline">
                       You will <span class="text-primary">not be allowed</span>
                       to go back to the previous question
                     </div>
@@ -98,7 +98,7 @@
                         <span class="q-title">4</span>
                       </q-btn>
                     </div>
-                    <div class="col-auto">
+                    <div class="col inline">
                       If you have answered before the time limit, you can move on the the next question.
                     </div>
                   </div>

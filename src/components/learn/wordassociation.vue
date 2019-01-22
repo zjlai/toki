@@ -8,8 +8,8 @@
           </q-card-title>
           <q-card-main class="tk-container-sub-inner bg-primary">
             <div class="row justify-center items-center">
-              <div class="col q-py-xl">
-                <p class="font-primary text-bold text-white q-title">
+              <div class="col" :class="paddingSize">
+                <p class="font-primary text-bold text-white" :class="fontSizeTitle">
                   Based on the word presented to you,
                   associate as many words with that word within
                   <span class="text-secondary">1 minute</span>.
@@ -86,17 +86,17 @@
           <div class="col">
             <div class="row">
               <div class="col q-pa-md border-right">
-                <h6 class="sub-title-blue q-mb-md">WORD</h6>
-                <h4 class="primary-font text-bold q-display-2">{{word}}</h4>
+                <div class="sub-title-blue q-mb-md text-bold" :class="fontSizeTitle">WORD</div>
+                <div class="primary-font text-bold" :class="fontSizeBody">{{word}}</div>
               </div>
               <div class="col q-pa-md border-right">
-                <h6 class="sub-title-blue q-mb-md">Associations</h6>
-                <h4 class="primary-font text-bold q-display-2">{{associations}}</h4>
+                <div class="sub-title-blue q-mb-md text-bold" :class="fontSizeTitle">Associations</div>
+                <div class="primary-font text-bold" :class="fontSizeBody">{{associations}}</div>
               </div>
-              <div class="col q-pa-md border-right">
-                <h6 class="sub-title-blue q-mb-md">Avg Time per association</h6>
-                <h4 class="primary-font text-bold q-display-2">{{assocTime.toFixed(2)}}<span class="lowercase">s</span></h4>
-              </div>
+              <!--<div class="col q-pa-md border-right">
+                <div class="sub-title-blue q-mb-md text-bold" :class="fontSizeTitle">Avg Time per association</div>
+                <div class="primary-font text-bold" :class="fontSizeBody">{{assocTime.toFixed(2)}}<span class="lowercase">s</span></div>
+              </div>-->
             </div>
             <div class="row q-py-md">
               <div class="col-1">
@@ -105,7 +105,8 @@
                 <q-chip v-for="assoc in associatedWords" :key="assoc.association"
                   color="secondary"
                   text-color="black"
-                  class="mapped-chip mapped-large caps text-bold q-mr-sm q-mb-md q-title font-secondary"
+                  class="mapped-chip caps text-bold q-mr-sm q-mb-md font-secondary"
+                  :class="chipSize"
                 >
                   {{assoc.association}}
                 </q-chip>
@@ -165,6 +166,20 @@ export default {
   mounted () {
     this.startTime = Date.now()
   },
+  computed: {
+    fontSizeTitle () {
+      return this.$q.screen.lt.xl ? 'h4' : 'h3'
+    },
+    fontSizeBody () {
+      return this.$q.screen.lt.xl ? 'q-headline' : 'q-display-1'
+    },
+    paddingSize () {
+      return this.$q.screen.lt.xl ? 'q-pa-sm' : 'q-pa-md'
+    },
+    chipSize () {
+      return this.$q.screen.lt.xl ? 'q-subheading mapped-sm' : 'q-title mapped-lg'
+    }
+  },
   methods: {
     beginMapping () {
       this.begin = true
@@ -185,7 +200,7 @@ export default {
       this.assocTime = this.timeElapsed / this.associations
     },
     progress (duration) {
-      if (duration === this.duration / 2) {
+      if (duration === this.duration / 4 * 3) {
         this.endEnable = true
       }
       this.timeElapsed = this.duration - duration
@@ -222,7 +237,10 @@ export default {
 .caps {
   text-transform: uppercase;
 }
-.mapped-large {
+.mapped-lg {
   padding: 10px 40px;
+}
+.mapped-sm {
+  padding: 5px 30px;
 }
 </style>

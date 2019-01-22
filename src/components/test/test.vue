@@ -41,10 +41,10 @@
           </div>
           <div class="col-3 row justify-center items-center">
             <div class="text-center">
-              <h6 class="text-primary text-bold q-pb-sm q-subheading">
+              <div class="text-primary text-bold q-pb-sm" :class="fontSizeTitle">
                 WORDS TESTED
-              </h6>
-              <h1 class="text-black font-primary text-bold q-display-1">
+              </div>
+              <h1 class="text-black font-primary text-bold" :class="fontSizeBody">
                 {{current + 1}} / {{this.words.length}}
               </h1>
             </div>
@@ -134,6 +134,12 @@ export default {
   computed: {
     lastWord () {
       return this.current === this.words.length - 1
+    },
+    fontSizeTitle () {
+      return this.$q.screen.lt.xl ? 'h4' : 'h3'
+    },
+    fontSizeBody () {
+      return this.$q.screen.lt.xl ? 'q-headline' : 'q-display-1'
     }
   },
   methods: {

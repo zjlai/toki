@@ -4,17 +4,17 @@
       <q-card class="tk-container-sub collapse full-height">
         <q-card-title class="title-bar">
           <div class="row justify-between items-center">
-            <h1>COURSE DASHBOARD</h1>
+            <h4>COURSE DASHBOARD</h4>
             <course-select @changecourse="changeCourse" :course="course" :key="course.course_id" />
           </div>
         </q-card-title>
         <q-card-main class="col tk-container-sub-inner bg-yellow">
           <div class="col">
-            <div class="row items-start">
-              <div class="col-10">
+            <div class="row items-start justify-between">
+              <div class="col inline">
                 <toki-message :course="course" :key="course.course" />
               </div>
-              <div class="col-2">
+              <div class="col-auto inline">
                 <q-card class="tk-container-sub collapse" style="margin-top:0; margin-bottom: 0;">
                   <q-card-title class="title-bar-blue">
                     <h4>

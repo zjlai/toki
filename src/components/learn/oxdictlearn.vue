@@ -8,8 +8,8 @@
           </q-card-title>
           <q-card-main class="tk-container-sub-inner bg-primary">
             <div class="row justify-center items-center">
-              <div class="col text-center q-py-xl">
-              <h1 class="font-primary q-display-3 text-white text-bold">{{word}}</h1>
+              <div class="col text-center" :class="paddingSizeLarge">
+              <h1 class="font-primary text-white text-bold" :class="fontSizeLarge">{{word}}</h1>
               </div>
             </div>
           </q-card-main>
@@ -83,7 +83,27 @@ export default {
     this.$tts.speak(this.utterance)
   },
   computed: {
-
+    wordCount () {
+      return this.mapped.length
+    },
+    fontSizeTitle () {
+      return this.$q.screen.lt.xl ? 'h4' : 'h3'
+    },
+    fontSizeBody () {
+      return this.$q.screen.lt.xl ? 'q-headline' : 'q-display-1'
+    },
+    fontSizeLarge () {
+      return this.$q.screen.lt.xl ? 'q-display-1' : 'q-display-3'
+    },
+    paddingSize () {
+      return this.$q.screen.lt.xl ? 'q-pa-sm' : 'q-pa-md'
+    },
+    paddingSizeLarge () {
+      return this.$q.screen.lt.xl ? 'q-pa-lg' : 'q-pa-xl'
+    },
+    marginSize () {
+      return this.$q.screen.lt.xl ? 'q-my-sm' : 'q-my-md'
+    }
   },
   methods: {
     speak () {

@@ -16,9 +16,9 @@
         <q-card-main class="col tk-container-sub-inner">
           <div class="col">
             <div class="row q-mb-md">
-              <div class="col-4">
+              <div class="col-3">
               </div>
-              <div class="col-4 row justify-center">
+              <div class="col-6 row justify-center">
                 <div class="row items-center self-center full-height q-pb-md">
                   <div class="row" v-for="(step, index) in steppers" :key="step.step" :class="{last: index === steppers.length -1, 'active-step': currStep >= step.step, current: currStep === step.step }">
                     <div class="col text-center relative-position">
@@ -26,6 +26,7 @@
                         round
                         align="center"
                         class="stepper-button"
+                        :class="stepSize"
                         @click="currStep = index + 1"
                       >
                        {{step.step}}
@@ -41,7 +42,7 @@
                   </div>
                 </div>
               </div>
-              <div class="col-4 row justify-end items-center">
+              <div class="col-3 row justify-end items-center">
                 <div class="text-right q-pr-lg">
                   <h6 class="font-primary text-bold q-pb-sm">
                     WORDS TO LEARN
@@ -158,6 +159,9 @@ export default {
         return 100
       }
       return (this.current) / this.words.length * 100
+    },
+    stepSize () {
+      return this.$q.screen.lt.xl ? 'stepper-button-sm' : 'stepper-button'
     }
   },
   methods: {
@@ -236,7 +240,7 @@ export default {
         }
       }
       await await API.post(API_NAME_TOKI, API_PATH_TOKI + '/endstudy', params)
-      this.$router.push({ path: '/dashboard', query: { course: this.course.course_id } })
+      this.$router.push({ path: '/test', query: { course: this.course.course_id } })
     },
     changeCourse (course) {
       console.log('Change Course', course)
@@ -262,22 +266,34 @@ export default {
   font-weight bold
   font-size 16px
 
-div.active-step .stepper-button
+div.active-step .stepper-button, div.active-step .stepper-button-sm
   background-color $tk-yellow
   color $white
   border 4px solid $tk-yellow
   opacity 1 !important
+  z-index 99
 
-div.active-step.current .stepper-button
+div.active-step.current .stepper-button, div.active-step.current .stepper-button-sm
   background-color $tk-yellow
   color white
   border none
   opacity 1 !important
 
-.stepper-button .q-btn-inner
+.stepper-button .q-btn-inner, .stepper-button-sm .q-btn-inner
   font-size 24px
 
+.q-btn.stepper-button
+  background-color white
+
 .step-connector
+  background-color $grey-4
+  height 8px
+  width 100px
+  margin-left -10px
+  margin-right -10px
+  margin-top 12px
+
+.step-connector-sm
   background-color $grey-4
   height 8px
   width 140px

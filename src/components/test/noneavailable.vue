@@ -50,8 +50,8 @@ export default {
   },
   async mounted () {
     const nextTime = await API.get(API_NAME_TOKI, API_PATH_TOKI + '/nextcycle', { queryStringParameters: { course: this.$route.query.course } })
-    const nextTimeTZ = date.subtractFromDate(nextTime, { minutes: new Date().getTimezoneOffset() })
-    this.timeToNextTest = date.formatDate(nextTimeTZ, 'DD-MM-YYYY h:mm A')
+    // const nextTimeTZ = date.subtractFromDate(nextTime, { minutes: new Date().getTimezoneOffset() })
+    this.timeToNextTest = date.formatDate(nextTime, 'DD-MM-YYYY h:mm A')
   },
   methods: {
     back () {

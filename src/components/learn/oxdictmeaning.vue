@@ -16,9 +16,9 @@
             >
               <q-carousel-slide v-for="def in definitions" :key=def.definition>
                 <div class="row justify-center items-center">
-                  <div class="col text-center q-py-xl">
-                    <h3 class="font-primary q-display-1 text-bold text-secondary q-pb-md">{{word}}</h3>
-                    <h1 class="font-primary q-title text-white text-bold">
+                  <div class="col text-center" :class="paddingSizeLarge">
+                    <h3 class="font-primary text-bold text-secondary q-pb-md" :class="fontSizeLarge">{{word}}</h3>
+                    <h1 class="font-primary text-white text-bold" :class="fontSizeTitle">
                       <span class="text-secondary">({{def.category}})</span>
                       {{def.def}}
                     </h1>
@@ -43,10 +43,10 @@
             <h4>Examples</h4>
           </q-card-title>
           <q-card-main class="tk-container-sub-inner row items-center">
-            <i class="material-icons text-grey-full flip-horizontal q-display-3 self-start">format_quote</i>
-            <h5 class="font-primary" v-for="ex in definitions[currentStep].examples" :key="ex">
+            <!--<i class="material-icons text-grey-full flip-horizontal q-display-3 self-start">format_quote</i>-->
+            <p class="font-primary text-bold" v-for="ex in definitions[currentStep].examples" :key="ex">
               {{ex}}
-            </h5>
+            </p>
           </q-card-main>
         </q-card>
       </div>
@@ -84,17 +84,46 @@ export default {
     this.oxdata.definitions.forEach(def => {
       let cat = def.category
       def.definitions.forEach(subdef => {
-        console.log(subdef)
+        console.log(typeof subdef.example)
+        let example = []
+        if (typeof subdef.example === 'string') {
+          example.push(subdef.example)
+        } else {
+          example = subdef.example
+        }
         this.definitions.push({
           category: cat,
           def: subdef.definition,
           synonyms: subdef.synonyms,
-          examples: subdef.example
+          examples: example
         })
       })
     })
     console.log(this.definitions)
     this.startTime = Date.now()
+  },
+  computed: {
+    wordCount () {
+      return this.mapped.length
+    },
+    fontSizeTitle () {
+      return this.$q.screen.lt.xl ? 'h4' : 'h3'
+    },
+    fontSizeBody () {
+      return this.$q.screen.lt.xl ? 'q-headline' : 'q-display-1'
+    },
+    fontSizeLarge () {
+      return this.$q.screen.lt.xl ? 'q-display-1' : 'q-display-3'
+    },
+    paddingSize () {
+      return this.$q.screen.lt.xl ? 'q-pa-sm' : 'q-pa-md'
+    },
+    paddingSizeLarge () {
+      return this.$q.screen.lt.xl ? 'q-pa-lg' : 'q-pa-xl'
+    },
+    marginSize () {
+      return this.$q.screen.lt.xl ? 'q-my-sm' : 'q-my-md'
+    }
   },
   methods: {
     nextStep () {

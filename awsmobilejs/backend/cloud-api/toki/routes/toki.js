@@ -438,7 +438,7 @@ const computeWordMastery = async (student, course) => {
         // Student is familiar with word
         if (currentBracket === 'Confident') {
           bracket = 'Mastered'
-          nextTest = null
+          nextTest = currentDT
         } else {
           bracket  = 'Confident'
           nextTest.setDate(nextTest.getDate() + 7)
@@ -446,7 +446,7 @@ const computeWordMastery = async (student, course) => {
       } else if (wordSpeed > lowerSpeedLimit && wordSpeed <= upperSpeedLimit) {
         if (currentBracket === 'Confident') {
           bracket = 'Mastered'
-          nextTest = null
+          nextTest = currentDT
         } else if (currentBracket === 'Learning') {
           bracket = 'Confident'
           nextTest.setDate(nextTest.getDate() + 7)
@@ -471,7 +471,9 @@ const computeWordMastery = async (student, course) => {
       }
     }
     word.bracket = bracket
-    if (bracket === 'Confident') {
+    if (bracket === 'Mastered') {
+      word.mastery = 100
+    } else if (bracket === 'Confident') {
       word.mastery = 75
     } else if (bracket === 'Learning') {
       word.mastery = 50
@@ -682,6 +684,14 @@ router.get('/nextcycle', asyncHandler(async (req, res) => {
   res.json(nextCycle)
 }))
 
+router.get('/currentcycle', asyncHandler(async (req, res) => {
+  const student = req.apiGateway.event.requestContext.identity.cognitoIdentityId
+  const course = req.apiGateway.event.queryStringParameters.course
+
+  const cycle = await getCurrentTestCycle(student, course)
+  res.json(cycle)
+}))
+
 router.get('/gettestready', asyncHandler(async (req, res) => {
   const student = req.apiGateway.event.requestContext.identity.cognitoIdentityId
   const course = req.apiGateway.event.queryStringParameters.course
@@ -713,4 +723,35 @@ router.get('/mystudyhistory', asyncHandler(async (req, res) => {
   res.json(result)
 }));
 
+const getMyWords = async (student, course) => {
+  const query = `SELECT * FROM public.wordbank
+                 WHERE student='${student}' AND course='${course}'`
+ const conn = await connectDB()
+ const res = await queryDB(conn, query)
+ return res
+}
+
+router.get('/mywords', asyncHandler(async (req, res) => {
+  const student = req.apiGateway.event.requestContext.identity.cognitoIdentityId
+  const course = req.apiGateway.event.queryStringParameters.course
+  const query = `SELECT wordcount FROM public.courses WHERE course_id='${course}'`
+  const words = await getMyWords(student, course)
+  const conn = await connectDB()
+  const wordcount = await queryDB(conn, query)
+  res.json({ words: words, total: wordcount[0].wordcount })
+}));
+
+const getTestResults = async (student, course) => {
+  const query = `SELECT date, duration, test_cycle, results, score FROM public.test_results
+                 WHERE student='${student}' AND course='${course}'`
+ const conn = await connectDB()
+ const res = await queryDB(conn, query)
+ return res
+}
+router.get('/mytestresults', asyncHandler(async (req, res) => {
+  const student = req.apiGateway.event.requestContext.identity.cognitoIdentityId
+  const course = req.apiGateway.event.queryStringParameters.course
+  const results = await getTestResults(student, course)
+  res.json(results)
+}));
 module.exports = router

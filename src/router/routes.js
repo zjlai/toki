@@ -28,6 +28,11 @@ const AuthFilter = async (to, from, next) => {
             next()
           }
         })
+      if (to.name.startsWith('user')) {
+        next({ replace: true, name: 'dashboard' })
+      } else {
+        next()
+      }
     })
     .catch(err => {
       console.log('...no user', err)
@@ -131,6 +136,10 @@ const routes = [
   },
   {
     path: '/',
+    redirect: {name: 'user.signin'}
+  },
+  {
+    path: '*',
     redirect: {name: 'user.signin'}
   }
 ]

@@ -44,9 +44,11 @@
           </q-card-title>
           <q-card-main class="tk-container-sub-inner row items-center">
             <!--<i class="material-icons text-grey-full flip-horizontal q-display-3 self-start">format_quote</i>-->
-            <p class="font-primary text-bold" v-for="ex in definitions[currentStep].examples" :key="ex">
-              {{ex}}
-            </p>
+            <div class="column full-width">
+              <p class="font-primary text-bold capitalize-first" v-for="ex in definitions[currentStep].examples" :key="ex">
+                {{ex}}
+              </p>
+            </div>
           </q-card-main>
         </q-card>
       </div>
@@ -141,4 +143,7 @@ export default {
 
 <style lang="stylus">
 @import '~variables'
+
+.capitalize-first:first-letter
+  text-transform capitalize
 </style>

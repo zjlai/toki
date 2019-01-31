@@ -158,11 +158,11 @@ export default {
     },
     async recordStart () {
       const init = {
-        queryStringParameters: {
-          course: this.$route.query.course
+        body: {
+          course: this.course
         }
       }
-      await API.get(API_NAME_TOKI, API_PATH_TOKI + '/recordstarttest', init)
+      await API.post(API_NAME_TOKI, API_PATH_TOKI + '/recordstarttest', init)
     },
     async recordAns (data) {
       this.words[this.current].answer = data.answer.toLowerCase()

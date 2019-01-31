@@ -1,4 +1,6 @@
 --- !com.amazonaws.mobilehub.v0.Project 
+apps:
+  web: !com.amazonaws.mobilehub.v0.AppDO {}
 features:
   cloudlogic: !com.amazonaws.mobilehub.v0.CloudLogic 
     components:
@@ -9,7 +11,7 @@ features:
           sdk-generation-stage-name: Development
         paths:
           /courses: !com.amazonaws.mobilehub.v0.Function 
-            codeFilename: uploads/students-20190123021612.zip
+            codeFilename: uploads/students-20190126005541.zip
             description: 'Handler for calls to resource path : /students/{proxy+}'
             enableCORS: true
             environment:
@@ -19,18 +21,18 @@ features:
               RDS_PORT: '5432'
               RDS_USERNAME: traqxion
             handler: lambda.handler
-            hashcode: t7HzRVXnsYSF2jCrCymh7YExLEnz6gawcMsVDzuIDxo=
+            hashcode: DkjXFK6mv4R1V38+WP+eLa5y5yoIKqLg60A+AV/l7Js=
             memorySize: '128'
-            modified: '2019-01-22T18:31:06.622+0000'
+            modified: '2019-01-28T07:42:48.317+0000'
             name: students
             runtime: nodejs8.10
             securityGroups: sg-36748d4f
             subnetIds: 'subnet-a1a2c3e8,subnet-77595f31,subnet-dc83f2bb'
             timeout: '5'
-            version: n0fssi7KQCpH8O3T.twrtJvjiLs.oj8P
+            version: t5R9s16iv35tYREC_9yOIZGbo5R2kVhW
             vpcId: vpc-a69439c1
           '/courses/{proxy+}': !com.amazonaws.mobilehub.v0.Function 
-            codeFilename: uploads/students-20190123021612.zip
+            codeFilename: uploads/students-20190126005541.zip
             description: 'Handler for calls to resource path : /students/{proxy+}'
             enableCORS: true
             environment:
@@ -40,18 +42,18 @@ features:
               RDS_PORT: '5432'
               RDS_USERNAME: traqxion
             handler: lambda.handler
-            hashcode: t7HzRVXnsYSF2jCrCymh7YExLEnz6gawcMsVDzuIDxo=
+            hashcode: DkjXFK6mv4R1V38+WP+eLa5y5yoIKqLg60A+AV/l7Js=
             memorySize: '128'
-            modified: '2019-01-22T18:31:06.622+0000'
+            modified: '2019-01-28T07:42:48.317+0000'
             name: students
             runtime: nodejs8.10
             securityGroups: sg-36748d4f
             subnetIds: 'subnet-a1a2c3e8,subnet-77595f31,subnet-dc83f2bb'
             timeout: '5'
-            version: WpP5dSsHj53SOjB7VzWvE_9.xB3B_BEs
+            version: 7WpXnFcKD_p2AZpFRMmY2tCGJxPDxyIY
             vpcId: vpc-a69439c1
           /students: !com.amazonaws.mobilehub.v0.Function 
-            codeFilename: uploads/students-20190123021612.zip
+            codeFilename: uploads/students-20190126005541.zip
             description: 'Handler for calls to resource path : /students/{proxy+}'
             enableCORS: true
             environment:
@@ -61,18 +63,18 @@ features:
               RDS_PORT: '5432'
               RDS_USERNAME: traqxion
             handler: lambda.handler
-            hashcode: t7HzRVXnsYSF2jCrCymh7YExLEnz6gawcMsVDzuIDxo=
+            hashcode: DkjXFK6mv4R1V38+WP+eLa5y5yoIKqLg60A+AV/l7Js=
             memorySize: '128'
-            modified: '2019-01-22T18:31:06.622+0000'
+            modified: '2019-01-28T07:42:48.317+0000'
             name: students
             runtime: nodejs8.10
             securityGroups: sg-36748d4f
             subnetIds: 'subnet-a1a2c3e8,subnet-77595f31,subnet-dc83f2bb'
             timeout: '5'
-            version: WLMJXp6wcAf5szJdQSV55MB6am_0HuDk
+            version: miSEjIX0.IS3NwML1Za7GKMtDd3onuHw
             vpcId: vpc-a69439c1
           '/students/{proxy+}': !com.amazonaws.mobilehub.v0.Function 
-            codeFilename: uploads/students-20190123021612.zip
+            codeFilename: uploads/students-20190126005541.zip
             description: 'Handler for calls to resource path : /students/{proxy+}'
             enableCORS: true
             environment:
@@ -82,15 +84,15 @@ features:
               RDS_PORT: '5432'
               RDS_USERNAME: traqxion
             handler: lambda.handler
-            hashcode: t7HzRVXnsYSF2jCrCymh7YExLEnz6gawcMsVDzuIDxo=
+            hashcode: DkjXFK6mv4R1V38+WP+eLa5y5yoIKqLg60A+AV/l7Js=
             memorySize: '128'
-            modified: '2019-01-22T18:31:06.622+0000'
+            modified: '2019-01-28T07:42:48.317+0000'
             name: students
             runtime: nodejs8.10
             securityGroups: sg-36748d4f
             subnetIds: 'subnet-a1a2c3e8,subnet-77595f31,subnet-dc83f2bb'
             timeout: '5'
-            version: iqr9upLTWcSTkr2fPBDlhdRl9VcbCwvz
+            version: MD_uKPqNhybuNOrSA2cnLO2RaX4c.sDw
             vpcId: vpc-a69439c1
       toki: !com.amazonaws.mobilehub.v0.API 
         attributes:
@@ -99,7 +101,7 @@ features:
           sdk-generation-stage-name: Development
         paths:
           /toki: !com.amazonaws.mobilehub.v0.Function 
-            codeFilename: uploads/toki-20190123023948.zip
+            codeFilename: uploads/toki-20190131105345.zip
             description: 'Handler for calls to resource path : /toki/{proxy+}'
             enableCORS: true
             environment:
@@ -109,18 +111,18 @@ features:
               RDS_PORT: '5432'
               RDS_USERNAME: traqxion
             handler: lambda.handler
-            hashcode: XkVdLHE2RmkF2HRU04qW8zhrETqN+UAgYUlV5oGpauQ=
+            hashcode: nb0iJxNCiSn7JFYTz8z3D4diYgg1aTHOCrLCYdj5gV4=
             memorySize: '128'
-            modified: '2019-01-22T18:40:37.658+0000'
+            modified: '2019-01-30T17:06:00.240+0000'
             name: toki
             runtime: nodejs8.10
             securityGroups: sg-36748d4f
             subnetIds: 'subnet-a1a2c3e8,subnet-77595f31,subnet-dc83f2bb'
             timeout: '3'
-            version: kgRCb22Kz67bXTWOSza4kN8525gERJ1B
+            version: EmXEmz2yK0qt3cz5dTN4avG5xmaauIL8
             vpcId: vpc-a69439c1
           '/toki/{proxy+}': !com.amazonaws.mobilehub.v0.Function 
-            codeFilename: uploads/toki-20190123023948.zip
+            codeFilename: uploads/toki-20190131105345.zip
             description: 'Handler for calls to resource path : /toki/{proxy+}'
             enableCORS: true
             environment:
@@ -130,15 +132,15 @@ features:
               RDS_PORT: '5432'
               RDS_USERNAME: traqxion
             handler: lambda.handler
-            hashcode: XkVdLHE2RmkF2HRU04qW8zhrETqN+UAgYUlV5oGpauQ=
+            hashcode: nb0iJxNCiSn7JFYTz8z3D4diYgg1aTHOCrLCYdj5gV4=
             memorySize: '128'
-            modified: '2019-01-22T18:40:37.658+0000'
+            modified: '2019-01-30T17:06:00.240+0000'
             name: toki
             runtime: nodejs8.10
             securityGroups: sg-36748d4f
             subnetIds: 'subnet-a1a2c3e8,subnet-77595f31,subnet-dc83f2bb'
             timeout: '3'
-            version: BlyEe95IlTOUmbQLNtJc9edBV3vbP0mT
+            version: TF0bG1JYWAjVbBKfMZPl_B3dpL83WNuy
             vpcId: vpc-a69439c1
   content-delivery: !com.amazonaws.mobilehub.v0.ContentDelivery 
     attributes:

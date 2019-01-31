@@ -87,7 +87,7 @@
             <div class="row">
               <div class="col q-pa-md border-right">
                 <div class="sub-title-blue q-mb-md text-bold" :class="fontSizeTitle">WORD</div>
-                <div class="primary-font text-bold" :class="fontSizeBody">{{word}}</div>
+                <div class="primary-font text-bold uppercase" :class="fontSizeBody">{{word}}</div>
               </div>
               <div class="col q-pa-md border-right">
                 <div class="sub-title-blue q-mb-md text-bold" :class="fontSizeTitle">Associations</div>

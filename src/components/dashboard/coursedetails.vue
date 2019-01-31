@@ -1,52 +1,55 @@
 <template>
   <div class="col">
-    Pending Data
-    <!--<div class="row">
-      <div class="col-2">
+    <div class="row">
+      <div class="column col-auto">
         <q-card class="tk-container-sub collapse">
-          <q-card-title class="title-bar-blue">
+          <q-card-title class="title-bar-blue text-center">
             <h4>
-              NEXT TEST
+              Info
             </h4>
           </q-card-title>
-          <q-card-main class="tk-container-sub-inner">
-            <div class="col">
-              <timer
-                :min="0"
-                :max="259200"
-                :duration="172913"
-                range="days"
-              />
-              <h2 class="text-center text-bold">
-                48:00:00
-              </h2>
-            </div>
+          <q-card-main class="tk-container-sub-inner bg-blue">
+            <cycle-info class="text-white" />
           </q-card-main>
         </q-card>
       </div>
-      <div class="col-2">
+      <div class="column flex-grow">
+        <q-card class="tk-container-sub collapse">
+          <q-card-title class="title-bar-blue text-center">
+            <h4>
+              Summary Stats
+            </h4>
+          </q-card-title>
+          <q-card-main class="tk-container-sub-inner bg-blue">
+            <stats-summ class="text-white" />
+          </q-card-main>
+        </q-card>
+      </div>
+      <div class="column full-width">
         <q-card class="tk-container-sub collapse">
           <q-card-title class="title-bar-yellow">
             <h4>
-              NEW WORDS
+              WORD MASTERY
             </h4>
           </q-card-title>
           <q-card-main class="tk-container-sub-inner">
-            <div class="col">
-              <q-list
-                no-border
-              >
-                <q-item v-for="(word, index) in newwords" :key="word">
-                  <h5 class="font-primary text-bold">
-                    {{index + 1}}.  {{word}}
-                  </h5>
-                </q-item>
-              </q-list>
-            </div>
+            <words-graph class="full-width" />
           </q-card-main>
         </q-card>
       </div>
-      <div class="col-8">
+      <div class="column full-width">
+        <q-card class="tk-container-sub collapse">
+          <q-card-title class="title-bar-blue">
+            <h4>
+              Test Results
+            </h4>
+          </q-card-title>
+          <q-card-main class="tk-container-sub-inner">
+            <results-graph class="full-width" />
+          </q-card-main>
+        </q-card>
+      </div>
+      <!--<div class="col-8">
         <q-card class="tk-container-sub collapse">
           <q-card-title class="title-bar-grey">
             <h4 class="text-grey-full text-center">
@@ -146,14 +149,18 @@
             </q-list>
           </q-card-main>
         </q-card>
-      </div>
-    </div>-->
+      </div>-->
+    </div>
   </div>
 </template>
 
 <script>
 import Timer from '../common/timer'
 import MasteryKnob from '../common/masteryknob'
+import WordsGraph from '../graphs/mywords'
+import ResultsGraph from '../graphs/mytests'
+import CycleInfo from './cycleinfo'
+import StatsSumm from './summarystats'
 import { API } from 'aws-amplify'
 import { date } from 'quasar'
 
@@ -164,7 +171,11 @@ export default {
   name: 'CourseDetailsDashboard',
   components: {
     Timer,
-    MasteryKnob
+    MasteryKnob,
+    WordsGraph,
+    ResultsGraph,
+    CycleInfo,
+    StatsSumm
   },
   props: ['course'],
   data () {
@@ -181,7 +192,7 @@ export default {
   },
   methods: {
     async getNextTest () {
-      const nextTest = await API.get(API_NAME_TOKI, API_PATH_TOKI + '/nextcycle', { queryStringParameters: { course: this.course.course_id } })
+      const nextTest = await API.get(API_NAME_TOKI, API_PATH_TOKI + '/nextcycle', { queryStringParameters: { course: this.$route.query.course } })
       console.log(nextTest)
       this.nextTestString = date.formatDate(nextTest, 'ddd, D MMM HH:MM')
       const currentTs = new Date()
@@ -193,5 +204,9 @@ export default {
 }
 </script>
 
-<style>
+<style lang="stylus">
+@import '~variables'
+
+.flex-grow
+  flex-grow 1
 </style>

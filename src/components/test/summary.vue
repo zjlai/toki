@@ -42,7 +42,7 @@
                   <h6 class="sub-title-blue q-subheading text-bold text-center">
                     WORDS TESTED
                   </h6>
-                  <div class="row q-pa-md items-center justify-center">
+                  <div class="row q-pa-md items-center justify-start">
                     <div v-for="word in sortedWords" :key="word.word" class="col-6 q-mb-sm">
                       <div class="row">
                         <q-chip
